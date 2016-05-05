@@ -1,0 +1,104 @@
+/**
+  * Buttons Partial SASS
+  * This SASS file has all
+  * buttons style on the web app
+**/
+
+/* General */
+.btn-shadow {
+    @extend %btn-shadow;
+    background-color: $color-shadow;
+    &:hover {
+        background-color: $color-shadow-hover;
+    }
+}
+
+/* Menu */
+.btn_menu {
+    @include box(48px, 45px, relative);
+    @extend %overflow-cursor;
+    background: $color-footer;
+    border: none;
+    text-indent: -900em;
+    outline: none;
+    &:after {
+        @include box(68%, 5px);
+        @include position(absolute, $values: top 10px left 16%);
+        content: '';
+        background: $white;
+        box-shadow: 0 10px 0 $white,
+        0 20px 0 $white;
+    }
+    &:hover {
+        background: $menu-brown;
+    }
+}
+
+/* LOGIN */
+.btn-container {
+    width: 150px;
+    display: flex;
+    margin-left: auto;
+}
+
+
+/* SEARCH */
+.container-1 button.icon {
+    @include box(6%, 35px);
+    border: none;
+    background: transparent;
+}
+
+/* COMMENTS */
+.btn-shadow-more {
+    @extend %btn-shadow;
+    background-color: $color-shadow-more;
+    &:hover {
+    background-color: $color-shadow-hover-more;
+    color: $white;
+    }
+}
+
+
+/* Register */
+.file-upload {
+    @include border-radius(50px);
+    @include styling_wrapper_content($white, center, 26px);
+    @include transition(background .45s ease-in-out);
+    @include box(14%, null, relative);
+    @extend %overflow-cursor;
+    margin: -10px auto 5%;
+    background: $medium-orange;
+    border: 5px solid $soft-maroon;
+
+}
+.file-upload:hover{
+    background: $soft-maroon;
+}
+
+
+////Home hotel ///////
+
+.btn-publish {
+  width: 70%;
+  font-size: 22px;
+  color: $soft-orange;
+  border: 5px solid $soft-maroon;
+  padding-bottom: 35px;
+  &:hover {
+  color: $soft-maroon;
+    background-color: transparent;
+    border: 5px solid $soft-maroon;
+  }
+}
+
+.form-buttom {
+  cursor: pointer;
+  padding: 5px;
+  width: auto;
+  text-align: center;
+
+  color: $soft-maroon;
+  border: 5px solid $soft-maroon;
+  background-color: transparent;
+}

@@ -1,0 +1,424 @@
+/**
+  * Forms Partial SASS
+  * This SASS file has all
+  * forms used on the app
+**/
+
+/* Form Login */
+.form {
+  @extend %margin-center;
+  padding: 18px 20px;
+  width: 80%;
+
+}
+
+.submit {
+  @include styling_wrapper_content($brown, center, $w: bold);
+  width: auto;
+  float: right;
+  padding: 10px 25px;
+  border: none;
+  background-color: $form-buttons;
+  &:hover {
+    background: $form-buttons-hover;
+  }
+}
+
+textarea {
+  @extend %form-inputs;
+  height: 100px;
+}
+
+input {
+  @extend %form-inputs;
+  background-size: 0 2px, 100% 1px;
+  font-size: $base__font-size;
+  padding-left: 15px;
+}
+
+.field {
+  border: 0;
+  margin: 30px auto;
+  text-align: center;
+}
+
+select {
+  @extend %form-inputs;
+}
+
+/* Sign up */
+
+.adjust-input {
+  @extend %no-padding;
+  margin: 20px 0;
+}
+
+.input-left {
+  padding-left: 5%;
+}
+
+.input-right {
+  padding-right: 5%;
+}
+
+.input_photo {
+  @include position(absolute, $values: top 0 right 0);
+  @extend %no-margin;
+  padding: 20px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.submit-margin__signup {
+  margin: 10% auto 0;
+}
+
+/* hide input */
+#genre input[type=radio]:empty {
+  @extend %margin-left_out;
+}
+
+/* style label */
+input[type=radio]:empty ~ label {
+  @include position(relative, $values: left -40px);
+  float: left;
+  line-height: 2.5em;
+  margin-top: 2em;
+  cursor: pointer;
+  margin-right: 2px;
+  background-color: $form-buttons;
+}
+
+/* toggle hover */
+
+input[type=radio]:hover:not(:checked) ~ label {
+  color: $brown;
+}
+
+/* toggle on */
+
+input[type=radio]:checked ~ label {
+  color: $brown;
+  background-color: $form-buttons-hover;
+}
+
+label {
+  width: 50px;
+}
+
+#genre li {
+  @extend %margin-center;
+  width: 100%;
+}
+
+#genre {
+  @extend %list-no-style;
+}
+
+/* Hotel Search page */
+input[type="search"].input-search-hotel {
+  @include box(85%, 40px);
+  @include styling_wrapper_content($black, justify, 18px, $font-family--primary);
+  background: transparent;
+  border: none;
+  padding-left: 20px;
+  margin-left: 10px;
+}
+
+/* Custom Select (State search) */
+
+.select-hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.select {
+  @include box(55%, 40px, relative);
+  cursor: pointer;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.select-styled {
+  @include box(90%, 95%);
+  @include styling_wrapper_content($brown, justify, $size: 15px, $font: $font-family--primary);
+  @include transition(all 0.2s ease-in);
+  @extend %no-padding;
+  background-color: $color-inner-box;
+  &:after {
+    @include box(0, 0);
+    @include position(absolute, $values: top 16px right 10px);
+    content: "";
+    border: 7px solid transparent;
+    border-color: $brown transparent transparent transparent;
+    &:hover {
+      background-color: $color-transparent-search-box;
+      &:active, .active {
+        background-color: $color-transparent-search-box;
+        &:after {
+          top: 9px;
+          border-color: transparent transparent $brown transparent;
+        }
+      }
+    }
+  }
+}
+
+.select-template {
+  @include box(90%, 95%);
+  @include styling_wrapper_content($brown, justify, $size: 15px, $font: $font-family--primary);
+  @include transition(all 0.2s ease-in);
+  @extend %no-padding;
+  background-color: $color-inner-box;
+  &:after {
+
+    border-color: $brown transparent transparent transparent;
+    &:hover {
+      background-color: $color-transparent-search-box;
+      &:active, .active {
+        background-color: $color-transparent-search-box;
+        &:after {
+          top: 9px;
+          border-color: transparent transparent $brown transparent;
+        }
+      }
+    }
+  }
+}
+
+.select-template {
+  @include box(90%, 95%);
+  @include styling_wrapper_content($brown, justify, $size: 15px, $font: $font-family--primary);
+  @include transition(all 0.2s ease-in);
+  @extend %no-padding;
+  background-color: $color-inner-box;
+  &:after {
+
+    border-color: $brown transparent transparent transparent;
+    &:hover {
+      background-color: $color-transparent-search-box;
+      &:active, .active {
+        background-color: $color-transparent-search-box;
+        &:after {
+          top: 9px;
+          border-color: transparent transparent $brown transparent;
+        }
+      }
+    }
+  }
+}
+
+.select-options {
+  @include position(absolute, $values: top 100% right 0 left 0);
+  @include box(null, $height: 150px, $z-index: 999, $display: none);
+  @extend %no-margin, %no-padding;
+  list-style: none;
+  background-color: $color-inner-box;
+  overflow-y: scroll;
+  li {
+    @include transition(all 0.15s ease-in);
+    @extend %no-margin;
+    padding: 5px 0;
+    font-size: 12px;
+    text-indent: 15px;
+    color: $brown;
+    border-top: 1px solid $transparent-brown;
+    &:hover {
+      color: $brown;
+      background: $white;
+    }
+    &[rel="hide"] {
+      display: none;
+    }
+  }
+}
+
+.select-box {
+  @include position(absolute, true, 0);
+  @include transition(all 0.2s ease-in);
+  background-color: $color-inner-box;
+  padding: 8px 15px;
+}
+
+/* Custom Range bar */
+
+// We have different features for each
+// vendor prefix, because range bar CSS is
+// on prototyping phase
+.range-slider .input-range {
+  @include box(80%, 25px);
+  @extend %margin-center;
+  -webkit-appearance: none;
+  background: $blue-black;
+  outline: none;
+  overflow: hidden;
+  /*fix for FF unable to apply focus style bug */
+  border: 1px solid white;
+  &::-webkit-slider-thumb {
+    @include box(25px, 25px);
+    @include transition(background .15s ease-in-out);
+    @include border-radius(100%);
+    -webkit-appearance: none;
+    background: url('../img/closest_town/carrito.png') no-repeat center;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  &:active {
+    &::-webkit-slider-thumb {
+      @extend %gradient_range;
+    }
+    &::-moz-range-thumb {
+      @extend %gradient_range;
+    }
+  }
+
+  &::-moz-range-thumb {
+    @include box(25px, 25px);
+    @include transition(background .15s ease-in-out);
+    @include border-radius(0.21875em);
+    -webkit-appearance: none;
+    border: none;
+    border: 0;
+    background: url('../img/closest_town/carrito.png') no-repeat center;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+}
+
+.range-slider .input-range::-moz-range-thumb:hover, .range-slider .input-range::-webkit-slider-thumb:hover {
+  background: linear-gradient(rgba(2, 0, 220, 0.45), transparent 70%),
+  linear-gradient(0deg, #556cff, transparent), #6b6bff url('../img/closest_town/carrito.png') no-repeat center;
+  background-size: cover;
+}
+
+// Custom features on input range
+// each engine have needs different requirements
+// so we need to use vendor prefix
+
+input[type='range'] {
+  // Mozilla
+  &::-moz-range-track {
+    @extend %radius_range_box;
+    background: transparent;
+  }
+  // Internet explorer
+  &::-ms-track {
+    height: 25px;
+    background: rgb(37, 170, 225);
+    @extend %radius_range;
+  }
+  // Mozilla
+  &::-moz-range-progress {
+    @extend %radius_range;
+    height: 25px;
+    background: rgb(37, 170, 225);
+  }
+  // Internet explorer
+  &::-ms-fill-lower {
+    height: 25px;
+    background: rgb(37, 170, 225);
+    @extend %radius_range;
+  }
+  // Chrome
+  &::-webkit-slider-thumb {
+    @include box(18px, 10px, relative, 2);
+    @extend %radius_range;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-color: transparent;
+    &:after {
+      @include box(700px, 25px, absolute, 1);
+      background: rgb(37, 170, 225);
+      content: "";
+      left: -700px;
+    }
+  }
+  // Mozilla
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+}
+
+/* Rating for Town */
+.star-rating input {
+  @include box(20%, 100%, relative, 2, inline-block);
+  @extend %no-padding, %no-margin;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  &:hover + i, &:checked + i {
+    opacity: 1;
+  }
+}
+
+/////Booking ////
+.label-width {
+  label {
+    width: 200px;
+  }
+}
+
+.form-group-modified-input {
+
+  border: none;
+  background-color: $gray-material;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  margin-bottom: 5%;
+  width: 100%;
+}
+
+.input-inline {
+  display: inline-flex;
+  p {
+    display: inline-table;
+    margin-right: 5%;
+    width: auto;
+  }
+  input {
+    margin-right: 5%;
+    margin-bottom: 5%;
+  }
+}
+
+// Comments area
+.center-btn {
+  @extend %margin-center;
+  width: 60%;
+  text-align: center;
+}
+
+.comments {
+  width: 50%;
+  margin: 20px auto;
+}
+
+.form_comments {
+  @extend %margin-center;
+  margin-top: 5%;
+  width: 90%;
+  border-bottom: 1px solid $gold;
+  .comment_box {
+    width: 100%;
+    margin: 5px auto;
+  }
+  .choice {
+    padding: 20px;
+    display: block;
+  }
+}
+
+// Team form //
+#type li {
+  width: 100px;
+}

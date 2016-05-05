@@ -1,0 +1,478 @@
+/**
+  * Media queries Partial SASS
+  * This SASS file has the break points
+  * for each media query used on the app
+  * !Important Sass extend cannot be used
+  * on media queries, just include and functions
+**/
+/*Media Queries*/
+// (max-width: 1600px)
+@include mq($brk-xxlg) {
+  /* State Search page */
+  .img_map {
+    height: 500px;
+  }
+}
+
+@include mq($brk-xxlg) {
+  /* Dynamic Town */
+  .modalDialog > div {
+    width: 70%;
+  }
+}
+
+// (max-width: 1200px)
+@include mq($brk-lg) {
+  /* Index */
+  .optImg {
+    height: 400px;
+  }
+
+  /* Search box Mini */
+  .container-left-search {
+    display: block;
+  }
+  .box_top_search_mini {
+    width: 100%;
+    margin: 10px auto;
+  }
+  .box_mini {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Contact page */
+  .title h1 {
+    font-size: 30px;
+  }
+
+  /* Sign up */
+  .card {
+    width: 90%;
+  }
+
+  /* Hotel Dynamic Home */
+  .inner_wrapper h1 {
+    font-size: 50px;
+  }
+}
+
+// (max-width: 992px)
+@include mq($brk-md) {
+  .pos-absolute {
+    position: relative;
+  }
+  /* Index Carousel */
+  .carouselImg {
+    height: 600px;
+  }
+  /* Box Index*/
+  .box {
+    width: 70%;
+  }
+  /* Modal Dialog */
+  .dialog {
+    width: 60%;
+  }
+
+  /* Contact page */
+  .logo_contact {
+    width: 80%;
+  }
+  .title h1 {
+    font-size: 26px;
+  }
+  .info h2 {
+    font-size: 25px;
+  }
+
+  /* Sign up */
+  .input-left {
+    padding-left: 0;
+  }
+  .input-right {
+    padding-right: 0;
+  }
+
+  /* State search */
+  .img_map {
+    height: 400px;
+  }
+
+  /* Closest town */
+  .map_closest {
+    height: 400px;
+    margin: 30px auto;
+  }
+
+  /* Hotel Dynamic Home */
+  .first_photo_hotel {
+    width: 100%;
+  }
+  .grid_photos_hotel {
+    width: 100%;
+  }
+  .wrapper {
+    width: 75%;
+  }
+  .inner_wrapper h1 {
+    font-size: 40px;
+    white-space: normal;
+  }
+  .model-responsive {
+    width: 80%;
+  }
+  .desc_facilities {
+    width: 95%;
+  }
+  .no-display {
+    display: none;
+  }
+  .text-right {
+    text-align: center;
+  }
+  .text-left {
+    text-align: center;
+  }
+
+  /* Dynamic Template Town */
+  .no-phone {
+    display: none;
+  }
+  .cd-tabs-navigation {
+    height: 75px;
+  }
+  .img_nav {
+    @include box(60px, 60px);
+  }
+  .img_tabs {
+    width: 60%;
+  }
+  .form_comments {
+    width: 100%;
+  }
+  .form {
+    margin: 0 auto;
+    padding: 18px 20px;
+    width: 100%;
+  }
+  .modalDialog > div {
+    width: 90%;
+  }
+
+}
+
+// (max-width: 800px)
+@include mq($brk-md-low) {
+  /* Sign up */
+  .file-upload {
+    @include box(30%, 40px);
+  }
+  #genre li {
+    width: 80%;
+  }
+  .profile_photo {
+    @include box(150px, 150px);
+  }
+
+  /* Closes town */
+  .list_closest {
+    @include box(85%, 350px);
+  }
+  .range-slider .input-range {
+    width: 90%;
+  }
+
+  /* Dynamic Template Town */
+  .comment_box {
+    width: 90%;
+  }
+  .comments {
+    width: 70%;
+  }
+}
+
+// (max-width: 768px)
+@include mq($brk-sm-medium) {
+  .disappear {
+    display: none;
+  }
+  /* Horizontal logo */
+  .logo_hor {
+    margin-left: -15%;
+  }
+  /* Search mini container */
+  .container-left-search {
+    width: 100%;
+    display: flex;
+  }
+  .box_top_search_mini {
+    width: 60%;
+    margin-left: 0;
+  }
+
+  /* Contact page */
+  .logo_contact {
+    width: 36%;
+    margin: 2% 20px;
+  }
+  .info h2 {
+    font-size: 20px;
+  }
+  // Filters
+  .box-filters {
+    .inner-box {
+      .disappear {
+        display: none;
+      }
+    }
+  }
+  .dialog_booking {
+    background: none;
+    .calendar-message {
+
+    }
+  }
+  .calendar-manager {
+
+    .header {
+
+      h2 {
+
+      }
+      i {
+
+        &.fa-angle-left {
+
+        }
+        &.fa-angle-right {
+
+        }
+      }
+    }
+    .week {
+
+      span {
+        &.day {
+
+          height: 48px;
+          &.unavailable {
+
+          }
+          &.closed-room {
+
+          }
+          &.booked-room {
+
+          }
+          &.keep {
+
+          }
+        }
+        p {
+          display: none;
+        }
+      }
+      &.names {
+
+      }
+    }
+  }
+
+}
+
+// (max-width: 768px) and landscape
+@include mq($brk-sm-medium__landscape) {
+  .footerContact {
+    position: relative;
+  }
+  .inner-box {
+
+    .select-box {
+      display: none;
+    }
+
+  }
+}
+
+// (max-width: 600px)
+@include mq($brk-sm) {
+  /* Horizontal logo */
+  .logo_hor {
+    @include box(150px, 50px);
+  }
+  /* Box Index*/
+  .box {
+    width: 90%;
+  }
+  /* Modal Dialog */
+  .dialog {
+    width: 80%;
+  }
+
+  /* Search Box */
+  input[type="search"] {
+    width: 80%;
+  }
+  .container-1 button.icon {
+    width: 8%;
+  }
+  .icon-map {
+    @include icon_background(17px, 17px, 17px, null);
+  }
+
+  /* Footer */
+  .contact-foot {
+    font-size: 10px;
+    word-wrap: break-word;
+  }
+
+  /* Signup */
+  #genre li {
+    width: 100%;
+  }
+
+  /* Hotel Search Page */
+  .box_search_hotel {
+    width: 93%;
+  }
+  input[type="search"].input-search-hotel {
+    width: 75%;
+    height: 40px;
+  }
+  .top_hotel_search {
+    height: 600px;
+  }
+
+  /* State search page */
+  .img_map {
+    height: 280px;
+  }
+  .box-states {
+    @include box(100%, 300px);
+  }
+  .select {
+    width: 90%;
+    font-size: 10px;
+  }
+  .listbox_towns h4 {
+    font-size: 10px;
+  }
+
+  /* Closest town */
+  .map_closest {
+    height: 300px;
+  }
+  .list_closest ul {
+    width: 100%;
+  }
+
+  /* Hotel Dynamic Home */
+  .top_homeH {
+    height: 450px;
+  }
+  .grid_photos_hotel {
+    display: none;
+  }
+  .inner_wrapper h1 {
+    font-size: 30px;
+  }
+  .wrapper {
+    margin-top: 100px;
+  }
+
+  //Form team-traviarre
+  .modalTeam {
+
+    h2 {
+      font-size: em(22px);
+    }
+    .dialog {
+      width: 85%;
+    }
+
+  }
+  .advisement-align {
+    h3 {
+      font-size: em(19px);
+    }
+  }
+  .see-container {
+
+    img {
+      margin-right: 25%;
+      width: 40%;
+    }
+  }
+  .advisement-pyramid {
+    .see-container {
+      height: 200px;
+    }
+  }
+  .advisement-church {
+    .see-container {
+      height: 200px;
+    }
+  }
+  .style-middle {
+    margin-top: 25%;
+  }
+  .modalDialog_booking .dialog_confirm {
+    width: 90%;
+  }
+}
+
+// (max-width: 500px)
+@include mq($brk-xsm) {
+  /* Dynamic Template Town */
+  .img_topT {
+    height: 400px;
+  }
+  .modalDialog > div {
+    width: 95%;
+    padding: 20px 20px 30px;
+  }
+  .cd-tabs-navigation {
+    height: 60px;
+  }
+  .img_nav {
+    @include box(45px, 45px);
+  }
+  .no-padding {
+    padding: 0;
+  }
+
+  .modalTeam {
+    .dialog {
+      width: 95%;
+
+    }
+  }
+  .container-footer {
+    width: 100%;
+  }
+
+  // Filters
+  .box-filters {
+    .inner-box {
+      .select-styled {
+        width: 100%;
+        margin-top: 0;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+// (max-width: 400px)
+@include mq($brk-xxsm) {
+  /* Hotel Search Page */
+  .container-white {
+    width: 85%;
+  }
+  .box_search_hotel {
+    width: 88%;
+  }
+}

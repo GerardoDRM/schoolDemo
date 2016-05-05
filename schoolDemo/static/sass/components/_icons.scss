@@ -1,0 +1,144 @@
+/**
+  * Icons Partial SASS
+  * This SASS file has most of the icons
+  * used on the app
+**/
+
+/* These are general rules for logos */
+/* Logo */
+.logo_hor {
+  @include box(200px, 66px);
+  text-align: center;
+  margin-left: 20%;
+}
+
+// Icon Login
+.icons-login {
+  margin: 50px auto 15px;
+  width: 85%;
+}
+
+.icon-facebook-login {
+  background: url('../img/social/facebook_blue.svg') center no-repeat;
+
+  @include icon_background(50px, 50px, 50px, inline-block);
+
+}
+
+/* These icons are related with Footer */
+// Icons footer simple
+.icons-social {
+  width: 100%;
+  text-align: center;
+}
+
+.twitterF {
+  background: url('../img/social/twitter.svg') center no-repeat;
+  margin-left: 60px;
+  background-size: 100% 100%;
+  @extend %icons-footer--simple;
+}
+
+.facebookF {
+  background: url('../img/social/facebook.svg') center no-repeat;
+  background-size: 100% 100%;
+  @extend %icons-footer--simple;
+}
+
+.instagramF {
+  background: url('../img/social/instagram.svg') center no-repeat;
+  margin-left: 60px;
+  background-size: 100% 100%;
+  @extend %icons-footer--simple;
+}
+
+// Register - Contact
+.icon-twitterC {
+  margin-left: 40px;
+  background: url('../img/social/twitterW.svg') center no-repeat;
+  background-size: 100% 100%;
+  @extend %icons-footer--alter;
+}
+
+.icon-facebookC {
+  background: url('../img/social/facebookW.svg') center no-repeat;
+  background-size: 100% 100%;
+  @extend %icons-footer--alter;
+}
+
+.icon-instagramC {
+  margin-left: 40px;
+  background: url('../img/social/instragramW.svg') center no-repeat;
+  background-size: 100% 100%;
+  @extend %icons-footer--alter;
+
+}
+
+// Home Hotel
+.icons_services {
+  @include icon_background(55px, 55px, null, inline);
+  margin: 8px;
+}
+
+.icons_hotel {
+  @include icon_background(45px, 45px, null, inline);
+  margin: 5px;
+}
+
+// Search box
+.icon-map {
+  background: url('../img/index/search.svg') center no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px;
+  display: inline-block;
+}
+
+.icon-map_mini {
+  background: url('../img/index/search.svg') center no-repeat;
+  @include icon_background(14px, 14px, 14px);
+
+}
+
+.divisor_search {
+  @include styling_wrapper_content($black, center, 28px, null, null, 100);
+  width: 5%;
+  margin: -5px auto 0;
+}
+
+.divisor_search_mini {
+  @include styling_wrapper_content($black, center, 17px, null, null, 100);
+  width: 8%;
+  margin: -5px auto 0;
+}
+
+// Stars rating
+.star-rating {
+  @include box(165px, 33px, relative, $display: inline-block);
+  font-size: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+  i {
+    @include position(absolute, $values: left 0 top 0);
+    @include box(20%, 100%, $z-index: 1);
+    opacity: 0;
+    background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+    background-size: contain;
+    & ~ i {
+      width: 40%;
+      & ~ i {
+        width: 60%;
+        & ~ i {
+          width: 80%;
+          & ~ i {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+}
+

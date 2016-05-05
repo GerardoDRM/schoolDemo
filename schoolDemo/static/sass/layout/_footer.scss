@@ -1,0 +1,38 @@
+/**
+  * Footer Partial SASS
+  * This SASS file has all footers style
+**/
+
+/*Footer*/
+footer {
+  width: 100%;
+  background: $color-footer;
+  height: 200px;
+  justify-content: center;
+  display: flex;
+  .contact-foot {
+    @include styling_wrapper_content($white, center, 16px, $font-family--primary);
+    margin: 2% 0;
+    opacity: 0.7;
+    span {
+      color: $soft-maroon;
+      float: right;
+      font-size: em(18px);
+    }
+  }
+}
+
+/* Contact and Register */
+.footer-transparent {
+  @include styling_wrapper_content($white, center, 16px, $font-family--secondary);
+  @include position(absolute, false, bottom 20px left 0);
+  width: 100%;
+  margin: 5px 0;
+  background: transparent;
+}
+
+.container-footer {
+  width: 50%;
+  margin: 0 auto;
+  align-self: center;
+}

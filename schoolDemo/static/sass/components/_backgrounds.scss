@@ -1,0 +1,40 @@
+/**
+  * Backgrounds Partial SASS
+  * This SASS file create
+  * multiple backgrounds (colors/img)
+**/
+
+/* Index */
+@each $name, $image in ("towns", '/static/img/index/pueblos-magicos.jpg'),
+        ("hotel", '/static/img/index/hoteles.jpg'),
+        ("nearTowns", '/static/img/index/cerca-de-ti.jpg') {
+
+  .#{$name} {
+    background-image: url($image);
+  }
+}
+
+/* Top ten */
+@each $name, $color in ("filter_marron", rgba($maroon, 0.6)),
+        ("filter_blue", rgba($blue, 0.6)),
+        ("filter_pink", rgba($mexican-pink, 0.6)),
+        ("filter_orange", rgba($medium-orange, 0.6)),
+        ("filter_green", rgba($green, 0.6)) {
+
+  .#{$name} {
+    background-color: $color;
+    @extend %filer_wrapper;
+  }
+}
+
+.square_user {
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+}
+
+.square-user--comment {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+}
