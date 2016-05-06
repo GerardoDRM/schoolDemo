@@ -1,0 +1,76 @@
+<md-dialog aria-label="Crea un nuevo quiz" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Crea un nuevo quiz /</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout="column">
+      <div class="md-dialog-content">
+        <div layout="column">
+          <md-input-container class="md-block" flex>
+            <label>Titulo del quiz</label>
+            <input ng-model="qz.title">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Descripcion</label>
+            <input ng-model="qz.description">
+          </md-input-container>
+          <md-datepicker ng-model="qz.submissionDate" md-placeholder="Fecha de evaluacion">
+          </md-datepicker>
+          <md-input-container class="md-block" flex>
+            <label>Hora inicio</label>
+            <input ng-model="qz.start">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Hora de finalizacion</label>
+            <input ng-model="qz.end">
+          </md-input-container>
+        </div>
+      </div>
+      <div class="md-dialog-content">
+        <md-menu>
+          <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            Agregar pregunta
+          </md-button>
+          <md-menu-content width="4">
+            <md-menu-item>
+              <md-button ng-click="createQuestion()">
+                Pregunta abierta
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="createQuestion()">
+                Opcion Multiple
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="createQuestion()">
+                Relacionar
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="createQuestion()">
+                Adjuntar archivos
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        <div layout="column" id="qt-content"></div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancelar
+      </md-button>
+      <md-button ng-click="createQz()" style="margin-right:20px;">
+        Crear
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

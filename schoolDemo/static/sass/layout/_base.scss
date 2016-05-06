@@ -15,12 +15,6 @@ html {
   @extend %no-padding;
 }
 
-a {
-  &:hover,&:link,&:visited,&:active {
-    text-decoration: none;
-    color: white;
-  }
-}
 
 .logoIndex {
     height: 400px;

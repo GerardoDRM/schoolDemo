@@ -1,0 +1,42 @@
+<md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Crea una tarea / actividad</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout="column">
+      <div class="md-dialog-content">
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Titulo de la actividad</label>
+            <input ng-model="hw.title">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Descripcion de la actividad</label>
+            <input ng-model="hw.description">
+          </md-input-container>
+          <md-datepicker ng-model="hw.submissionDate" md-placeholder="Enter date">
+          </md-datepicker>
+          <div class="preview-glyphs">
+        <md-icon class="material-icons step" aria-label="attachment">
+        </md-icon>
+      </div>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancelar
+      </md-button>
+      <md-button ng-click="createHw()" style="margin-right:20px;">
+        Crear
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
