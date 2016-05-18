@@ -2,21 +2,21 @@
 
 {% block content %}
 
-<div layout="row" layout-align="center center">
-  <div class="login" flex="40">
+<div layout="row" layout-align="center center" style="height:100%;">
+  <div class="login" flex="40" style="height:100%;">
 
   </div>
-  <div flex="60">
-    <form method="POST" action="" class="form" style="text-align:center;">
-      <h1> Colegio lorem-ipsum </h1>
-      <div layout-gt-sm="row">
+  <div flex="60" style="height:100%;">
+    <form method="POST" action="" class="form" style="text-align:center; width:50%;">
+      <h1> Colegio Lorem </h1>
+      <div layout-gt-sm="column">
        <md-input-container class="md-block" flex-gt-sm>
-         <label>First name</label>
+         <label>Id</label>
          <input ng-model="user.firstName">
        </md-input-container>
        <md-input-container class="md-block" flex-gt-sm>
-         <label>Last Name</label>
-         <input ng-model="theMax">
+         <label>Password</label>
+         <input ng-model="theMax" type="password">
        </md-input-container>
      </div>
         <md-button class="md-raised"><a href="{{ url_for('teacher') }}">Login</a></md-button>

@@ -1,8 +1,8 @@
-<md-dialog aria-label="Crea un nuevo quiz" ng-cloak>
+<md-dialog aria-label="Crea un nuevo quiz" ng-cloak style="width:50%;">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Crea un nuevo quiz /</h2>
+        <h2>Crea un nuevo quiz</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -34,7 +34,7 @@
       </div>
       <div class="md-dialog-content">
         <md-menu>
-          <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+          <md-button aria-label="Open phone interactions menu"  ng-click="openMenu($mdOpenMenu, $event)">
             Agregar pregunta
           </md-button>
           <md-menu-content width="4">
