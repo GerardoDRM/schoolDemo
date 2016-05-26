@@ -190,10 +190,16 @@
 .profile_photo {
   @include box(200px, 200px);
   @include border-radius(100px);
-  background: url("../img/icon-profile.svg") no-repeat;
+  background: url("../images/icon-profile.svg") no-repeat;
   margin: -130px auto 0;
   border: 5px solid $form-buttons-hover;
   background-size: cover;
+}
+
+.student-profile{
+  background: url("../images/castle.jpg") no-repeat;
+  background-size: cover;
+  height: 600px;
 }
 
 .form_reg {

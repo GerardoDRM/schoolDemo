@@ -1403,10 +1403,15 @@ input[type='range']::-moz-focus-inner {
   -moz-border-radius: 100px;
   -ms-border-radius: 100px;
   border-radius: 100px;
-  background: url("../img/icon-profile.svg") no-repeat;
+  background: url("../images/icon-profile.svg") no-repeat;
   margin: -130px auto 0;
   border: 5px solid #BCBCBC;
   background-size: cover; }
+
+.student-profile {
+  background: url("../images/castle.jpg") no-repeat;
+  background-size: cover;
+  height: 600px; }
 
 .form_reg {
   margin: 5% auto;
