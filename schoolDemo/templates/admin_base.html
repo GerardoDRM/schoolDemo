@@ -4,6 +4,100 @@
   <md-content>
     <md-tabs md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
       <md-tab label="Informacion General">
+        <div class="container">
+          <md-card>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="student-profile">
+
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-sm-6">
+
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Nombre del responsable</label>
+                        <input ng-model="user.firstName">
+                      </md-input-container>
+
+
+                    </div>
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Nombre de la escuela</label>
+                        <input ng-model="user.firstName">
+                      </md-input-container>
+
+
+                    </div>
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block">
+                        <label>Acerca de la escuela</label>
+                        <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                      </md-input-container>
+
+
+                    </div>
+
+
+
+                  </div>
+
+                  <div class="col-sm-6">
+
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Correo</label>
+                        <input ng-model="user.firstName">
+                      </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Teléfono</label>
+                        <input ng-model="user.firstName">
+                      </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Dirección</label>
+                        <input ng-model="user.firstName">
+                      </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                      <h3> Áreas </h3>
+                    </div>
+
+                    <div>
+
+
+
+                      <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
+                        Licenciatura: {{ data.cb1 }}
+                      </md-checkbox>
+                      <md-checkbox ng-model="data.cb2" aria-label="Checkbox 1">
+                        Bachillerato: {{ data.cb1 }}
+                      </md-checkbox>
+                      <md-checkbox ng-model="data.cb3" aria-label="Checkbox 1">
+                        Secundaria: {{ data.cb1 }}
+                      </md-checkbox>
+                      <md-checkbox ng-model="data.cb4" aria-label="Checkbox 1">
+                        Primaria: {{ data.cb1 }}
+                      </md-checkbox>
+                    </div>
+
+                  </div>
+
+
+                </div>
+
+
+              </div>
+            </div>
+          </md-card>
+        </div>
       </md-tab>
       <md-tab label="Profesores">
       </md-tab>
@@ -16,104 +110,6 @@
 
 
 </div>
-<div class="container">
-  <md-card>
 
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="student-profile">
-
-        </div>
-      </div>
-      <div class="col-sm-8">
-        <div class="row">
-          <div class="col-sm-6">
-
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Nombre del responsable</label>
-                <input ng-model="user.firstName">
-              </md-input-container>
-
-
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Nombre de la escuela</label>
-                <input ng-model="user.firstName">
-              </md-input-container>
-
-
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block">
-                <label>Acerca de la escuela</label>
-                <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-              </md-input-container>
-
-
-            </div>
-
-
-
-          </div>
-
-          <div class="col-sm-6">
-
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Correo</label>
-                <input ng-model="user.firstName">
-              </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Teléfono</label>
-                <input ng-model="user.firstName">
-              </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Dirección</label>
-                <input ng-model="user.firstName">
-              </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-              <h3> Áreas </h3>
-            </div>
-
-            <div>
-
-
-
-              <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-                Licenciatura: {{ data.cb1 }}
-              </md-checkbox>
-              <md-checkbox ng-model="data.cb2" aria-label="Checkbox 1">
-              Bachillerato: {{ data.cb1 }}
-              </md-checkbox>
-              <md-checkbox ng-model="data.cb3" aria-label="Checkbox 1">
-                Secundaria: {{ data.cb1 }}
-              </md-checkbox>
-              <md-checkbox ng-model="data.cb4" aria-label="Checkbox 1">
-                Primaria: {{ data.cb1 }}
-              </md-checkbox>
-            </div>
-
-          </div>
-
-
-        </div>
-
-
-      </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</md-card>
 
 {% endblock %}
