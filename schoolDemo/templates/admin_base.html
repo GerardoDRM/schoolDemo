@@ -3,7 +3,7 @@
 <div layout="row" layout-align="center center">
   <md-content>
     <md-tabs md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
-      <md-tab label="Informacion General">
+      <md-tab label="Institución">
         <div class="container">
           <md-card>
 
@@ -19,7 +19,7 @@
 
                     <div layout-gt-sm="row">
                       <md-input-container class="md-block" flex-gt-sm>
-                        <label>Nombre del responsable</label>
+                        <label>Nombre</label>
                         <input ng-model="user.firstName">
                       </md-input-container>
 
@@ -27,7 +27,7 @@
                     </div>
                     <div layout-gt-sm="row">
                       <md-input-container class="md-block" flex-gt-sm>
-                        <label>Nombre de la escuela</label>
+                        <label>Nombre del responsable</label>
                         <input ng-model="user.firstName">
                       </md-input-container>
 
@@ -35,7 +35,7 @@
                     </div>
                     <div layout-gt-sm="row">
                       <md-input-container class="md-block">
-                        <label>Acerca de la escuela</label>
+                        <label>Descripción</label>
                         <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
                       </md-input-container>
 
@@ -67,10 +67,10 @@
                       </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
-                      <h3> Áreas </h3>
+                      <h3> Niveles </h3>
                     </div>
 
-                    <div>
+                    <div style="margin-bottom: 40px;">
 
 
 
@@ -86,8 +86,10 @@
                       <md-checkbox ng-model="data.cb4" aria-label="Checkbox 1">
                         Primaria: {{ data.cb1 }}
                       </md-checkbox>
-                    </div>
 
+
+                    </div>
+                       <md-button class="md-accent md-raised md-hue-1">Guardar</md-button>
                   </div>
 
 
@@ -104,6 +106,19 @@
       <md-tab label="Cursos">
       </md-tab>
       <md-tab label="Avisos">
+          <md-content class="md-padding">
+            <div ng-controller="Avisos" ng-cloak>
+              <div layout="column" layout-align="center center">
+                <div>
+                  <md-button md-no-ink class="md-primary" ng-click="showAdvancedAviso($event)">+Agregar aviso</md-button>
+                </div>
+                <div id="quiz-content" style="width:50%;">
+
+                </div>
+              </div>
+            </div>
+          </md-content>
+
       </md-tab>
     </md-tabs>
   </md-content>
