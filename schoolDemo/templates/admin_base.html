@@ -4,123 +4,18 @@
   <md-content>
     <md-tabs md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
       <md-tab label="Institución">
-        <div class="container">
-          <md-card>
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="student-profile">
-
-                </div>
-              </div>
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-6">
-
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block" flex-gt-sm>
-                        <label>Nombre</label>
-                        <input ng-model="user.firstName">
-                      </md-input-container>
-
-
-                    </div>
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block" flex-gt-sm>
-                        <label>Nombre del responsable</label>
-                        <input ng-model="user.firstName">
-                      </md-input-container>
-
-
-                    </div>
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block">
-                        <label>Descripción</label>
-                        <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-                      </md-input-container>
-
-
-                    </div>
-
-
-
-                  </div>
-
-                  <div class="col-sm-6">
-
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block" flex-gt-sm>
-                        <label>Correo</label>
-                        <input ng-model="user.firstName">
-                      </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block" flex-gt-sm>
-                        <label>Teléfono</label>
-                        <input ng-model="user.firstName">
-                      </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row">
-                      <md-input-container class="md-block" flex-gt-sm>
-                        <label>Dirección</label>
-                        <input ng-model="user.firstName">
-                      </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row">
-                      <h3> Niveles </h3>
-                    </div>
-
-                    <div style="margin-bottom: 40px;">
-
-
-
-                      <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-                        Licenciatura: {{ data.cb1 }}
-                      </md-checkbox>
-                      <md-checkbox ng-model="data.cb2" aria-label="Checkbox 1">
-                        Bachillerato: {{ data.cb1 }}
-                      </md-checkbox>
-                      <md-checkbox ng-model="data.cb3" aria-label="Checkbox 1">
-                        Secundaria: {{ data.cb1 }}
-                      </md-checkbox>
-                      <md-checkbox ng-model="data.cb4" aria-label="Checkbox 1">
-                        Primaria: {{ data.cb1 }}
-                      </md-checkbox>
-
-
-                    </div>
-                       <md-button class="md-accent md-raised md-hue-1">Guardar</md-button>
-                  </div>
-
-
-                </div>
-
-
-              </div>
-            </div>
-        </md-card>
-        </div>
+        {% include "admin_layouts/college_description.html" %}
       </md-tab>
       <md-tab label="Profesores">
+        {% include "admin_layouts/professor_layout.html" %}
       </md-tab>
       <md-tab label="Cursos">
+        {% include "admin_layouts/courses_layout.html" %}
       </md-tab>
       <md-tab label="Avisos">
-          <md-content class="md-padding">
-            <div ng-controller="Avisos" ng-cloak>
-              <div layout="column" layout-align="center center">
-                <div>
-                  <md-button md-no-ink class="md-primary" ng-click="showAdvancedAviso($event)">+Agregar aviso</md-button>
-                </div>
-                <div id="quiz-content" style="width:50%;">
-
-                </div>
-              </div>
-            </div>
-          </md-content>
-
+          {% include "admin_layouts/announcements_layout.html" %}
       </md-tab>
     </md-tabs>
-  </md-content>
+  </md-content>  <!-- Admin base -->
 </div>
 {% endblock %}

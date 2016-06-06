@@ -72,31 +72,55 @@ class SchoolAPI(Resource):
 
 
 class SchoolAnnouncements(Resource):
-    def get(self):
-        messages = mongo.db.school.find({},{'announcements':1,"_id":0})
-        return jsonify(messages = messages)
+    def get(self, id):
+        messages = mongo.db.school.find_one({"_id":ObjectId(id)},{'announcements':1,"_id":0})
+        return jsonify(messages)
 
-    def put(self):
+    def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('title', type=str, required=True)
-        parser.add_argument('content', type=str, required=True)
-        parser.add_argument('date', type=str, required=True)
-        parser.add_argument('level', type=str, required=True)
-        parser.add_argument('position', type=str, required=True)
+        parser.add_argument('title', type=str,  location='json', required=True)
+        parser.add_argument('content', type=str, location='json',required=True)
+        parser.add_argument('date', type=int, location='json',required=True)
+        parser.add_argument('level', type=list, location='json',required=True)
+        parser.add_argument('position', type=str, location='json')
         args = parser.parse_args()
 
-        # Check if user already exists
-        cursor = mongo.db.school.find_one({'announcements'})
-        if cursor is None:
-            mongo.db.school.update({}, {"name": args.name,"email":args.email,
-                                      "profile_photo":args.profile_photo, "password":password,
-                                      "address.street": args.address, "address.responsible": args.responsible,
-                                      "address.responsible_job": args.job},
-                                      {upsert: true})
+        if args.position is None:
+            mongo.db.school.update({"_id":ObjectId(id)}, {"$push":{
+            "announcements": {
+                "title": args.title,"content":args.content,
+                "publication_date":args.date, "level":args.level
+                }}})
             message = {
                 "status": 201,
                 "code": 1
             }
+        else:
+            pos = args.position
+            mongo.db.school.update({"_id":ObjectId(id)}, {"$set": {"announcements."+ pos +".title": args.title,
+            "announcements."+ pos + ".content":args.content,
+            "announcements."+ pos + ".publication_date":args.date,
+            "announcements."+ pos + ".level":args.level}})
+            message = {
+                "status": 200,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+    def delete(self, id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('date', type=int, location='json',required=True)
+        args = parser.parse_args()
+
+        mongo.db.school.update({"_id":ObjectId(id)}, {"$pull":{
+            "announcements": {"publication_date": args.date}
+        }})
+
+        message = {
+            "status": 200,
+            "code": 1
+        }
 
         return jsonify(message)
 
@@ -111,4 +135,4 @@ def create_dic(cursor):
     return k
 
 api.add_resource(SchoolAPI, '/api/v0/school/info', endpoint='school')
-api.add_resource(SchoolAnnouncements, '/api/v0/school/announcements', endpoint='schoolAnnouncements')
+api.add_resource(SchoolAnnouncements, '/api/v0/school/announcements/<id>', endpoint='schoolAnnouncements')
