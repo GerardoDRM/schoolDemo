@@ -1,5 +1,22 @@
 angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+  $scope.id = "57549fe07fc418fb0dbf1e57";
+
+  $('#announ-tab').click(function() {
+    $('#announcementCards').empty();
+    $http({
+      method: 'GET',
+      url: '/api/v0/school/announcements/' + $scope.id,
+    }).then(function successCallback(response) {
+      console.log(response.data);
+      var dataList = response.data['announcements'];
+      for(var announ in dataList) {
+        var drawAnnoun = dataList[announ];
+        drawAnnoun.levelList = drawAnnoun.level;
+        _addAnnouncement(drawAnnoun)
+      }
+    }, function errorCallback(response) {});
+  });
 
   $scope.addAnnouncement = function(ev) {
     // Show dialog
@@ -25,10 +42,11 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
    * It's using same global variables from parent AnnouncementContoller
    * @closeDialog - Close Dialog
    * @createAnnouncement - Call private function _addAnnouncement
-  */
+   */
   function DialogController($scope, $mdDialog, $compile) {
     $scope.announ = {};
     $scope.announ.levelList = [];
+    $scope.id = "57549fe07fc418fb0dbf1e57";
 
     $scope.closeDialog = function() {
       $mdDialog.cancel();
@@ -39,14 +57,27 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       // Add level keys on array to
       // indentify which levels are included
       var l = $scope.announ.level;
-      for(var level in l) {
+      for (var level in l) {
         if (l[level]) {
           $scope.announ.levelList.push(level);
         }
       }
-      _addAnnouncement($scope.announ);
-      // Clean announ object
-      $scope.announ = {};
+
+      var updated = {
+        "title": $scope.announ.title,
+        "content": $scope.announ.content,
+        "date": moment().unix(),
+        "level": $scope.announ.levelList
+      }
+      $http({
+        method: 'PUT',
+        url: '/api/v0/school/announcements/' + $scope.id,
+        data: updated
+      }).then(function successCallback(response) {
+        _addAnnouncement($scope.announ);
+        // Clean announ object
+        $scope.announ = {};
+      }, function errorCallback(response) {});
       // Close dialog
       $mdDialog.cancel();
     }
@@ -56,10 +87,10 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
    * This function compile javascript template
    * in order to generate an announcement on the DOM
    * @params -
-  */
+   */
   function _addAnnouncement(announ) {
     var levels = "";
-    for(var i in announ.levelList)
+    for (var i in announ.levelList)
       levels += announ.levelList[i] + " ";
     // Compile to DOM
     angular.element(document.getElementById('announcementCards')).append($compile(

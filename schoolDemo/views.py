@@ -39,43 +39,61 @@ def admin():
 ###################################################
 api = Api(app)
 
+# This class manage the school info API
+# @Path <id> - school id
+# return JSON
 class SchoolAPI(Resource):
-    def get(self):
-        school = mongo.db.school.find_one({},{'_id':0})
+    # Get general school info
+    def get(self, id):
+        school = mongo.db.school.find_one({"_id": ObjectId(id)},{'_id':0, 'announcements':0})
         return jsonify(school)
 
-    def put(self):
+    # Update general info
+    def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str)
-        parser.add_argument('email', type=str)
-        parser.add_argument('password', type=str)
-        parser.add_argument('profile_photo', type=str)
-        parser.add_argument('address', type=str)
-        parser.add_argument('responsible', type=str)
-        parser.add_argument('job', type=str)
+        parser.add_argument('name', type=str, location='json', required=True)
+        parser.add_argument('email', type=str, location='json', required=True)
+        parser.add_argument('description', type=str, location='json')
+        parser.add_argument('password', type=str, location='json')
+        parser.add_argument('profile_photo', type=str,location='json', required=True)
+        parser.add_argument('address', type=str, location='json', required=True)
+        parser.add_argument('phone', type=str, location='json')
+        parser.add_argument('in_charge', type=str, location='json', required=True)
+        parser.add_argument('in_charge_job', type=str, location='json', required=True)
         args = parser.parse_args()
 
         # Check if user already exists
-        cursor = mongo.db.school.find_one({})
-        if cursor is None:
-            mongo.db.school.update({}, {"name": args.name,"email":args.email,
-                                      "profile_photo":args.profile_photo, "password":password,
-                                      "address.street": args.address, "address.responsible": args.responsible,
-                                      "address.responsible_job": args.job},
-                                      {upsert: true})
+        cursor = mongo.db.school.find_one({"_id": ObjectId(id)})
+        if cursor is not None:
+            mongo.db.school.update({"_id": ObjectId(id)}, {"$set": {"name": args.name,"email":args.email,
+                                      "profile_photo":args.profile_photo, "password": "", "description": args.description,
+                                      "address.street": args.address, "address.in_charge": args.in_charge,
+                                      "address.in_charge_job": args.in_charge_job, "address.phone": args.phone}})
             message = {
                 "status": 201,
                 "code": 1
+            }
+        else:
+            message = {
+                "status": 500,
+                "code": 2
             }
 
         return jsonify(message)
 
 
+# Announcements made by school administrator
+# this class has CRUD operatios in order to
+# manage school announcements
+# @Path <id> - school id
+# return JSON
 class SchoolAnnouncements(Resource):
+    # Get all announcements
     def get(self, id):
         messages = mongo.db.school.find_one({"_id":ObjectId(id)},{'announcements':1,"_id":0})
         return jsonify(messages)
 
+    # Create or update one announcement
     def put(self, id):
         parser = reqparse.RequestParser()
         parser.add_argument('title', type=str,  location='json', required=True)
@@ -108,6 +126,7 @@ class SchoolAnnouncements(Resource):
 
         return jsonify(message)
 
+    # Delete specific announcement on array by date
     def delete(self, id):
         parser = reqparse.RequestParser()
         parser.add_argument('date', type=int, location='json',required=True)
@@ -126,13 +145,11 @@ class SchoolAnnouncements(Resource):
 
 
 
-
-
 def create_dic(cursor):
     k = []
     for doc in cursor:
         k.append({key:(str(value) if key == "_id" else value) for key, value in doc.items()})
     return k
 
-api.add_resource(SchoolAPI, '/api/v0/school/info', endpoint='school')
+api.add_resource(SchoolAPI, '/api/v0/school/info/<id>', endpoint='schoolInfo')
 api.add_resource(SchoolAnnouncements, '/api/v0/school/announcements/<id>', endpoint='schoolAnnouncements')

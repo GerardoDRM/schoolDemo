@@ -3,56 +3,44 @@
   * This SASS file create
   * multiple backgrounds (colors/img)
 **/
-.head-img {
-  background-image: url(http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg);
-  position: relative;
-  width: 100%;
-  height: 0;
-  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
-  padding-bottom: 15.25%;
-  overflow: hidden;
-  background-size: 160%;
-  /* You can override this value if your picture has a weird ratio */
-  background-position: 50% 50%;
-  h1 {
-    text-align: center;
-    margin-top: 5%;
+.profile-photo {
+  background: $black;
+  height: 500px;
+  .default-photo {
+    background: $gray;
+    background-size: cover;
+    @include transition(opacity ease-in-out .2s);
+  }
+  input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
   }
 }
-
-.login {
-  background-image: url(http://www.ox.ac.uk/sites/files/oxford/styles/ow_medium_feature/public/field/field_image_main/NasirHamid03%20blue4_7.jpg?itok=9aRLl0oe);
+.profile-preview {
+  @extend %no-margin;
+  height: 200px;
   width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-
-.md-tabs-centered-wrapper{
-  display:flex;
-  justify-content:center;
-  height:4.8rem;
-  margin:auto;
-  md-tabs[md-stretch-tabs]{
-    max-width:50% !important; /* or any */
+  display: none;
+  .inner-filter {
+    @extend %complete-dimension;
+    background: linear-gradient(0deg, transparent, rgba(29, 17, 17, 0.6)), linear-gradient(transparent, transparent 50%);
   }
-
-}
-
-.publish {
-  width: 50%;
-}
-
-.top-header {
-  background-image: url(http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg);
-  position: relative;
-  width: 100%;
-  height: 0;
-  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
-  padding-bottom: 62.25%;
-  overflow: hidden;
-  background-size: 160%;
-  /* You can override this value if your picture has a weird ratio */
-  background-position: 50% 50%;
+  a {
+    background-image: url("../images/ic_cancel_white.png");
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    &:hover {
+      padding: 18px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      cursor: pointer;
+    }
+  }
 }

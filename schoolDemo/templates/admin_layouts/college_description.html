@@ -1,89 +1,94 @@
-<div class="container">
-  <md-card>
-
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="student-profile">
-
+<div class="container" ng-controller="ProfileController">
+  <div class="row">
+    <div class="col-sm-4">
+      <md-card>
+        <div class="middle-image profile-photo" id="profilePhoto">
+          <div class="default-photo full-wrapper">
+            <img alt="..." class="photo-icon" src="/static/images/photo.png">
+          </div>
+          <input fileread type="file"/>
         </div>
-      </div>
-      <div class="col-sm-8">
+        <div class="profile-preview">
+          <div class="inner-filter">
+            <a ng-click="deletePhoto($event)"></a>
+          </div>
+        </div>
+      </md-card>
+    </div>
+    <!-- Photo Col -->
+    <div class="col-sm-8">
+      <md-card>
         <div class="row">
           <div class="col-sm-6">
-
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Nombre</label>
-                <input ng-model="user.firstName">
+                <input ng-model="school.name">
               </md-input-container>
-
-
             </div>
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Nombre del responsable</label>
-                <input ng-model="user.firstName">
+                <input ng-model="school.in_charge">
               </md-input-container>
-
-
+            </div>
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Cargo del responsable</label>
+                <input ng-model="school.in_charge_job">
+              </md-input-container>
             </div>
             <div layout-gt-sm="row">
               <md-input-container class="md-block">
                 <label>Descripción</label>
-                <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                <textarea ng-model="school.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
               </md-input-container>
-
-
             </div>
 
           </div>
-
+          <!-- First Column -->
           <div class="col-sm-6">
-
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Correo</label>
-                <input ng-model="user.firstName">
+                <input ng-model="school.email">
               </md-input-container>
             </div>
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Teléfono</label>
-                <input ng-model="user.firstName">
+                <input ng-model="school.phone">
               </md-input-container>
             </div>
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Dirección</label>
-                <input ng-model="user.firstName">
+                <input ng-model="school.address">
               </md-input-container>
             </div>
             <div layout-gt-sm="row">
               <h3> Niveles </h3>
             </div>
-
             <div style="margin-bottom: 40px;">
-              <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-                Licenciatura: {{ data.cb1 }}
+              <md-checkbox ng-disabled="true" ng-model="school.level.c4" aria-label="Bachelor">
+                Licenciatura
               </md-checkbox>
-              <md-checkbox ng-model="data.cb2" aria-label="Checkbox 1">
-                Bachillerato: {{ data.cb1 }}
+              <md-checkbox ng-disabled="true" ng-model="school.level.c3" aria-label="HighSchool">
+                Bachillerato
               </md-checkbox>
-              <md-checkbox ng-model="data.cb3" aria-label="Checkbox 1">
-                Secundaria: {{ data.cb1 }}
+              <md-checkbox ng-disabled="true" ng-model="school.level.c2" aria-label="MiddleSchool">
+                Secundaria
               </md-checkbox>
-              <md-checkbox ng-model="data.cb4" aria-label="Checkbox 1">
-                Primaria: {{ data.cb1 }}
+              <md-checkbox ng-disabled="true" ng-model="school.level.c1" aria-label="ElementarySchool">
+                Primaria
               </md-checkbox>
             </div>
-            <md-button class="md-accent md-raised md-hue-1">Guardar</md-button>
+            <md-button class="md-accent md-raised md-hue-1" ng-click="storeData()">Guardar</md-button>
           </div>
-
-
+          <!-- Second Column -->
         </div>
-
-
-      </div>
+        <!-- Info Col -->
+      </md-card>
     </div>
-  </md-card>
+  </div>
 </div>
