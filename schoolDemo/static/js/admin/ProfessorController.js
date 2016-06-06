@@ -1,12 +1,12 @@
-angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
+angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-  $scope.addAnnouncement = function(ev) {
+  $scope.addProfessor = function(ev) {
     // Show dialog
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/templates/dialogAnnouncement.html',
+      templateUrl: '/static/templates/dialogProfessor.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose: true,
@@ -27,26 +27,26 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
    * @createAnnouncement - Call private function _addAnnouncement
   */
   function DialogController($scope, $mdDialog, $compile) {
-    $scope.announ = {};
-    $scope.announ.levelList = [];
+    $scope.prof = {};
+    $scope.prof.levelList = [];
 
     $scope.closeDialog = function() {
       $mdDialog.cancel();
     }
 
-    $scope.createAnnouncement = function() {
-      // Create Announcement
+    $scope.createProfessor = function() {
+      // Create Professor
       // Add level keys on array to
       // indentify which levels are included
-      var l = $scope.announ.level;
+      var l = $scope.prof.level;
       for(var level in l) {
         if (l[level]) {
-          $scope.announ.levelList.push(level);
+          $scope.prof.levelList.push(level);
         }
       }
-      _addAnnouncement($scope.announ);
+      _addProfessor($scope.prof);
       // Clean announ object
-      $scope.announ = {};
+      $scope.prof = {};
       // Close dialog
       $mdDialog.cancel();
     }
@@ -59,16 +59,16 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
   */
   function _addAnnouncement(announ) {
     var levels = "";
-    for(var i in announ.levelList)
-      levels += announ.levelList[i] + " ";
+    for(var i in prof.levelList)
+      levels += prof.levelList[i] + " ";
     // Compile to DOM
-    angular.element(document.getElementById('announcementCards')).append($compile(
+    angular.element(document.getElementById('ProfessorCards')).append($compile(
       '<md-card class="card-anoun">' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
       '<div class="col-sm-6">' +
-      '<span class="md-headline"> ' + announ.title + ' </span>' +
+      '<span class="md-headline"> ' + prof.title + ' </span>' +
       '</div>' +
       '<div class="col-sm-6" style="height: 22;">' +
       '<img  alt="." src="/static/images/calendar.svg">' +
@@ -76,7 +76,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       '</p>' +
       '</div>' +
       '</div>' +
-      '<span class="md-subhead"> ' + announ.content + '</span>' +
+      '<span class="md-subhead"> ' + prof.content + '</span>' +
       '<span class="md-subhead"> ' + levels + '</span>' +
       '</md-card-title-text> ' +
       '<md-button class="md-raised button-eliminate">Eliminar</md-button>' +

@@ -2164,356 +2164,142 @@ ul.sc_menu {
   width: 65px;
   margin-bottom: 5%; }
 
-.about-container {
-  color: #FFF; }
+.card-anoun {
+  background-color: white; }
 
-/**
-  * Media queries Partial SASS
-  * This SASS file has the break points
-  * for each media query used on the app
-  * !Important Sass extend cannot be used
-  * on media queries, just include and functions
-**/
+.button-eliminate {
+  margin-top: 58px; }
+
+.md-margin {
+  margin-top: 32px;
+  margin-bottom: 29px; }
+
 /*Media Queries*/
-@media (max-width: 1600px) {
-  /* State Search page */
-  .img_map {
-    height: 500px; } }
-@media (max-width: 1600px) {
-  /* Dynamic Town */
-  .modalDialog > div {
-    width: 70%; } }
-@media (max-width: 1200px) {
-  /* Index */
-  .optImg {
-    height: 400px; }
+@media (min-width: 768px) {
+  .midtern-header h1 {
+    font-size: 4em; }
+  .midtern-header p {
+    font-size: 2.5em; }
 
-  /* Search box Mini */
-  .container-left-search {
+  .dissapear {
     display: block; }
 
-  .box_top_search_mini {
-    width: 100%;
-    margin: 10px auto; }
+  .middle-body p {
+    font-size: 1.5em; }
 
-  .box_mini {
-    width: 100%;
-    margin: 0 auto; }
+  .middle-middle {
+    height: 300px; }
 
-  /* Contact page */
-  .title h1 {
-    font-size: 30px; }
+  .middle-counter {
+    height: 300px; }
 
-  /* Sign up */
-  .card {
-    width: 90%; }
+  .mision-vision {
+    height: 300px;
+    font-size: 1.5em; }
 
-  /* Hotel Dynamic Home */
-  .inner_wrapper h1 {
-    font-size: 50px; } }
-@media (max-width: 992px) {
-  .pos-absolute {
-    position: relative; }
+  .navbar-default {
+    height: 6.25em; }
 
-  /* Index Carousel */
-  .carouselImg {
-    height: 600px; }
-
-  /* Box Index*/
-  .box {
-    width: 70%; }
-
-  /* Modal Dialog */
-  .dialog {
-    width: 60%; }
-
-  /* Contact page */
-  .logo_contact {
-    width: 80%; }
-
-  .title h1 {
-    font-size: 26px; }
-
-  .info h2 {
-    font-size: 25px; }
-
-  /* Sign up */
-  .input-left {
-    padding-left: 0; }
-
-  .input-right {
-    padding-right: 0; }
-
-  /* State search */
-  .img_map {
-    height: 400px; }
-
-  /* Closest town */
-  .map_closest {
-    height: 400px;
-    margin: 30px auto; }
-
-  /* Hotel Dynamic Home */
-  .first_photo_hotel {
+  .logo {
     width: 100%; }
 
-  .grid_photos_hotel {
-    width: 100%; }
+  .carousel-images {
+    height: 500px; }
 
-  .wrapper {
-    width: 75%; }
+  .carousel-images-dos {
+    height: 500px; }
 
-  .inner_wrapper h1 {
-    font-size: 40px;
-    white-space: normal; }
+  .carousel-images-tres {
+    height: 500px; }
 
-  .model-responsive {
-    width: 80%; }
+  .form-sign .input-signup {
+    font-size: 22px; }
 
-  .desc_facilities {
-    width: 95%; }
+  .top-sign img {
+    width: 30%; }
+  .top-sign h1 {
+    font-size: 40px; }
 
-  .no-display {
-    display: none; }
-
-  .text-right {
-    text-align: center; }
-
-  .text-left {
-    text-align: center; }
-
-  /* Dynamic Template Town */
-  .no-phone {
-    display: none; }
-
-  .cd-tabs-navigation {
-    height: 75px; }
-
-  .img_nav {
-    width: 60px;
-    height: 60px; }
-
-  .img_tabs {
-    width: 60%; }
-
-  .form_comments {
-    width: 100%; }
-
-  .form {
-    margin: 0 auto;
-    padding: 18px 20px;
-    width: 100%; }
-
-  .modalDialog > div {
-    width: 90%; } }
-@media (max-width: 800px) {
-  /* Sign up */
-  .file-upload {
-    width: 30%;
-    height: 40px; }
-
-  #genre li {
-    width: 80%; }
-
-  .profile_photo {
-    width: 150px;
-    height: 150px; }
-
-  /* Closes town */
-  .list_closest {
-    width: 85%;
-    height: 350px; }
-
-  .range-slider .input-range {
-    width: 90%; }
-
-  /* Dynamic Template Town */
-  .comment_box {
-    width: 90%; }
-
-  .comments {
-    width: 70%; } }
-@media (max-width: 768px) {
-  .disappear {
-    display: none; }
-
-  /* Horizontal logo */
-  .logo_hor {
-    margin-left: -15%; }
-
-  /* Search mini container */
-  .container-left-search {
-    width: 100%;
-    display: flex; }
-
-  .box_top_search_mini {
-    width: 60%;
-    margin-left: 0; }
-
-  /* Contact page */
-  .logo_contact {
-    width: 36%;
-    margin: 2% 20px; }
-
-  .info h2 {
+  .function h1 {
+    font-size: 40px; }
+  .function h2 {
+    font-size: 40px; }
+  .function p {
     font-size: 20px; }
 
-  .box-filters .inner-box .disappear {
-    display: none; }
+  .more-info p {
+    font-size: 20px; }
 
-  .dialog_booking {
-    background: none; }
-
-  .calendar-manager .week span.day {
-    height: 48px; }
-  .calendar-manager .week span p {
-    display: none; } }
-@media (max-width: 768px) and (orientation: landscape) {
-  .footerContact {
-    position: relative; }
-
-  .inner-box .select-box {
-    display: none; } }
-@media (max-width: 600px) {
-  /* Horizontal logo */
-  .logo_hor {
-    width: 150px;
-    height: 50px; }
-
-  /* Box Index*/
-  .box {
-    width: 90%; }
-
-  /* Modal Dialog */
-  .dialog {
-    width: 80%; }
-
-  /* Search Box */
-  input[type="search"] {
-    width: 80%; }
-
-  .container-1 button.icon {
-    width: 8%; }
-
-  .icon-map {
-    width: 17px;
-    height: 17px;
-    background-size: 17px 17px; }
-
-  /* Footer */
-  .contact-foot {
-    font-size: 10px;
-    word-wrap: break-word; }
-
-  /* Signup */
-  #genre li {
-    width: 100%; }
-
-  /* Hotel Search Page */
-  .box_search_hotel {
-    width: 93%; }
-
-  input[type="search"].input-search-hotel {
-    width: 75%;
-    height: 40px; }
-
-  .top_hotel_search {
-    height: 600px; }
-
-  /* State search page */
-  .img_map {
-    height: 280px; }
-
-  .box-states {
-    width: 100%;
-    height: 300px; }
-
-  .select {
-    width: 90%;
-    font-size: 10px; }
-
-  .listbox_towns h4 {
-    font-size: 10px; }
-
-  /* Closest town */
-  .map_closest {
-    height: 300px; }
-
-  .list_closest ul {
-    width: 100%; }
-
-  /* Hotel Dynamic Home */
-  .top_homeH {
-    height: 450px; }
-
-  .grid_photos_hotel {
-    display: none; }
-
-  .inner_wrapper h1 {
+  .top-login img {
+    width: 20%; }
+  .top-login h1 {
     font-size: 30px; }
 
-  .wrapper {
-    margin-top: 100px; }
+  .form-login {
+    height: 460px;
+    width: 50%; }
+    .form-login .input-login {
+      font-size: 22px; }
 
-  .modalTeam h2 {
-    font-size: 1.375em; }
-  .modalTeam .dialog {
-    width: 85%; }
+  .select-sport {
+    font-size: 22px; }
 
-  .advisement-align h3 {
-    font-size: 1.1875em; }
+  .images-profile {
+    height: auto; }
+    .images-profile h2 {
+      color: #000;
+      margin-top: 35%; }
 
-  .see-container img {
-    margin-right: 25%;
-    width: 40%; }
+  .background-img-profile {
+    background: #e9eaed; }
 
-  .advisement-pyramid .see-container {
-    height: 200px; }
+  .buttom-member-one {
+    margin-bottom: 0; }
 
-  .advisement-church .see-container {
-    height: 200px; }
+  .left-profile h1 {
+    text-align: left; }
 
-  .style-middle {
-    margin-top: 25%; }
-
-  .modalDialog_booking .dialog_confirm {
-    width: 90%; } }
-@media (max-width: 500px) {
-  /* Dynamic Template Town */
-  .img_topT {
-    height: 400px; }
-
-  .modalDialog > div {
-    width: 95%;
-    padding: 20px 20px 30px; }
-
-  .cd-tabs-navigation {
-    height: 60px; }
-
-  .img_nav {
-    width: 45px;
-    height: 45px; }
-
-  .no-padding {
+  .recuitrers {
+    margin-top: 5%;
     padding: 0; }
 
-  .modalTeam .dialog {
-    width: 95%; }
+  .pay-organization {
+    width: 50%; }
 
-  .container-footer {
-    width: 100%; }
+  .dl-menuwrapper-admin ul {
+    height: 600px; }
 
-  .box-filters .inner-box .select-styled {
-    width: 100%;
-    margin-top: 0; }
-  .box-filters .inner-box span {
+  .cd-tabs-content {
+    height: 600px; }
+    .cd-tabs-content li {
+      height: 600px; }
+
+  .coach-container .coach-row {
+    width: 90%;
+    padding: 0 2%; }
+
+  .profile-view-container .responsive-button {
+    display: none; }
+
+  .container-team {
+    margin-top: -125px; }
+
+  .dialogSessions {
+    width: 40%; }
+    .dialogSessions h1 {
+      font-size: 2.25em; }
+
+  .feedback h3 {
+    font-size: 32px; }
+  .feedback p {
+    font-size: 22px; }
+
+  .modalChat {
+    width: 400px; }
+    .modalChat .header h2 {
+      font-size: 1.875em; }
+
+  .modalDialogBasic {
     display: none; } }
-@media (max-width: 400px) {
-  /* Hotel Search Page */
-  .container-white {
-    width: 85%; }
-
-  .box_search_hotel {
-    width: 88%; } }
 
 /*# sourceMappingURL=main.css.map */

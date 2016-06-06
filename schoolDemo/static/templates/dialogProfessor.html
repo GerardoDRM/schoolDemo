@@ -1,8 +1,8 @@
-<md-dialog aria-label="Crear un nuevo aviso">
+<md-dialog aria-label="Crear un nuevo docente">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Crea un aviso</h2>
+        <h2>Agrega un docente</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="closeDialog()">
           <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -14,12 +14,11 @@
       <div class="md-dialog-content">
         <div layout="column">
           <md-input-container class="md-block" flex>
-            <label>Titulo del aviso</label>
+            <label>Nombre de profesor</label>
             <input ng-model="announ.title">
           </md-input-container>
-
-          <md-input-container style="margin-top:22px; margin-bottom:22px;" class="md-block " flex>
-            <label>Contenido</label>
+          <md-input-container class="md-block" flex>
+            <label>Password</label>
             <input ng-model="announ.content">
           </md-input-container>
           <div>
@@ -46,7 +45,7 @@
       <md-button ng-click="closeDialog()">
         Cancelar
       </md-button>
-      <md-button ng-click="createAnnouncement()" style="margin-right:20px;">
+      <md-button ng-click="createProfessor()" style="margin-right:20px;">
         Crear
       </md-button>
     </md-dialog-actions>

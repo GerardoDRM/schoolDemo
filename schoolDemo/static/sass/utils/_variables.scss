@@ -74,7 +74,7 @@ $color-header-hotel: #A08871;
 $path-img-css: "../../img";
 
 // Media query break points
-
+$brk-less-sm: "(min-width: 768px)";
 $brk-xxlg: "(max-width: 1600px)";
 $brk-xlg: "(max-width: 1400px)";
 $brk-lg: "(max-width: 1200px)";
@@ -102,5 +102,3 @@ $font-weight--bold: 700;
 
 // Text Size
 $base__font-size: 16px;
-
-
