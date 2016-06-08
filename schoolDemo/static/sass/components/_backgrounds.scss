@@ -5,11 +5,17 @@
 **/
 .profile-photo {
   background: $black;
-  height: 500px;
+  height: 550px;
   .default-photo {
     background: $gray;
-    background-size: cover;
     @include transition(opacity ease-in-out .2s);
+    height: 100%;
+    .photo-icon {
+      width: 80px;
+      height: 80px !important;
+      margin: 0 auto;
+      @include vertical-align();
+    }
   }
   input {
     opacity: 0;

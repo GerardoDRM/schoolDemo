@@ -1,6 +1,12 @@
 angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.id = "57549fe07fc418fb0dbf1e57";
+  $scope.levelRef = {
+    "c1": "Primaria",
+    "c2": "Secundaria",
+    "c3": "Preparatoria",
+    "c4": "Licenciatura"
+  }
 
   $('#announ-tab').click(function() {
     $('#announcementCards').empty();
@@ -35,6 +41,23 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
+
+  $scope.deleteAnnouncement = function(date) {
+    $http({
+      method: 'DELETE',
+      url: '/api/v0/school/announcements/' + $scope.id,
+      data: {
+        "publication_date": parseInt(date)
+      },
+      headers: {'Content-Type': 'application/json' }
+    }).then(function successCallback(response) {
+      console.log(response);
+      // Remove from element from DOM
+      $('#' + date).remove();
+    }, function errorCallback(response) {
+      console.log(response);
+    });
+  }
 
 
   /*
@@ -90,31 +113,31 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
    */
   function _addAnnouncement(announ) {
     var levels = "";
-    for (var i in announ.levelList)
-      levels += announ.levelList[i] + " ";
+    for (var i in announ.levelList) {
+      levels += $scope.levelRef[announ.levelList[i]] + " ";
+    }
+    var pDate = moment.unix(announ.publication_date).format("DD/MM/YYYY");
+
     // Compile to DOM
     angular.element(document.getElementById('announcementCards')).append($compile(
-      '<md-card class="card-anoun">' +
+      '<md-card class="card-announ md-whiteframe-8dp" id='+ announ.publication_date +'>' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
       '<div class="col-sm-6">' +
-      '<span class="md-headline"> ' + announ.title + ' </span>' +
+      '<h1 class="md-headline no-margin"> ' + announ.title + ' </h1>' +
+      '<p class="md-subhead"> ' + announ.content + '</p>' +
+      '<p class="md-subhead"> ' + levels + '</p>' +
       '</div>' +
-      '<div class="col-sm-6" style="height: 22;">' +
-      '<img  alt="." src="/static/images/calendar.svg">' +
-      '<p> 10/02/17' +
-      '</p>' +
+      '<div class="col-sm-6"> '+
+      '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
+      '<div class="col-sm-8"><p>'+ pDate +'</p></div>' +
+      '<md-button class="md-raised button-eliminate" ng-click="deleteAnnouncement('+ announ.publication_date +')">Eliminar</md-button>' +
       '</div>' +
       '</div>' +
-      '<span class="md-subhead"> ' + announ.content + '</span>' +
-      '<span class="md-subhead"> ' + levels + '</span>' +
       '</md-card-title-text> ' +
-      '<md-button class="md-raised button-eliminate">Eliminar</md-button>' +
       '</md-card>'
     )($scope));
   }
-
-
 
 }]);

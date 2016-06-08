@@ -7,7 +7,6 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
       method: 'GET',
       url: '/api/v0/school/info/' + $scope.id,
     }).then(function successCallback(response) {
-      console.log(response.data);
       var schoolData = response.data;
       $scope.school = schoolData
       $scope.school.phone = schoolData.address.phone;

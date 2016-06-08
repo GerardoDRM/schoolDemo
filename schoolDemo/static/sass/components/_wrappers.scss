@@ -4,24 +4,23 @@
   * This file is the most important because all boxes format
   * are predefined here
 **/
-
 .border-title {
   border-top: 6px solid $white;
   width: 65px;
   margin-bottom: 5%;
 }
-
-
-.card-anoun {
+.card-announ {
   background-color: white;
-
 }
-
 .button-eliminate {
-  margin-top: 58px;
+  margin-top: 50px;
+  float: right;
 }
 
-.md-margin {
-margin-top: 32px;
-margin-bottom: 29px;
+.card {
+  background: $white;
+  padding: 25px;
+  .card-button {
+    float: right;
+  }
 }

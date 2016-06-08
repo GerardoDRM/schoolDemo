@@ -1,9 +1,9 @@
 <div class="container" ng-controller="ProfileController">
   <div class="row">
     <div class="col-sm-4">
-      <md-card>
+      <md-card class="md-whiteframe-8dp">
         <div class="middle-image profile-photo" id="profilePhoto">
-          <div class="default-photo full-wrapper">
+          <div class="default-photo">
             <img alt="..." class="photo-icon" src="/static/images/photo.png">
           </div>
           <input fileread type="file"/>
@@ -17,7 +17,7 @@
     </div>
     <!-- Photo Col -->
     <div class="col-sm-8">
-      <md-card>
+      <md-card class="md-whiteframe-8dp card">
         <div class="row">
           <div class="col-sm-6">
             <div layout-gt-sm="row">
@@ -83,7 +83,7 @@
                 Primaria
               </md-checkbox>
             </div>
-            <md-button class="md-accent md-raised md-hue-1" ng-click="storeData()">Guardar</md-button>
+            <md-button class="md-raised md-hue-1 card-button" ng-click="storeData()">Guardar</md-button>
           </div>
           <!-- Second Column -->
         </div>

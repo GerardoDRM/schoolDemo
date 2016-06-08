@@ -2,4 +2,94 @@
   <md-button md-no-ink class="md-primary" ng-click="addProfessor($event)">+ Agregar docente</md-button>
   <div id="ProfessorCards">
   </div>
+  <!-- Angular Material has problems with chips and dialogs using templates
+   instead we use a static dialog using just one controller in order to use chips
+   with a dialog -->
+  <div style="visibility: hidden">
+    <div class="md-dialog-container" id="ProfessorDialog">
+      <md-dialog aria-label="Crear un nuevo docente">
+        <form>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Agrega un docente</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+          <!-- Toolbar -->
+          <md-dialog-content layout="column">
+            <div class="md-dialog-content">
+              <div layout="column">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <md-input-container class="md-block" flex>
+                      <label>Nombre de profesor</label>
+                      <input ng-model="prof.name">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                      <label>Password</label>
+                      <input ng-model="prof.password">
+                    </md-input-container>
+                    <md-button ng-click="generatePassword()">
+                      Generar Password
+                    </md-button>
+                    <md-chips ng-model="selectedCourses" md-transform-chip="transformChip($chip)" md-require-match="autocompleteDemoRequireMatch">
+                      <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name" placeholder="Materias">
+                        <span md-highlight-text="searchText">{{item.name|angular}} :: {{item.code|angular}}-{{item.sec|angular}} </span>
+                      </md-autocomplete>
+                      <md-chip-template>
+                        <span>
+                          <strong>{{"$chip.name"|angular}}</strong>
+                          <em>({{"$chip.code"|angular}} / {{"$chip.sec"|angular}}) </em>
+                        </span>
+                      </md-chip-template>
+                    </md-chips>
+                  </div>
+                  <div class="col-sm-6">
+                    <md-input-container class="md-block" flex>
+                      <label>Email</label>
+                      <input ng-model="prof.email">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                      <label>Telefono</label>
+                      <input ng-model="prof.phone">
+                    </md-input-container>
+                    <div>
+                      <h3>Nivel</h3>
+                      <md-checkbox ng-model="prof.level.c4" aria-label="Bachelor">
+                        Licenciatura
+                      </md-checkbox>
+                      <md-checkbox ng-model="prof.level.c3" aria-label="HighSchool">
+                        Bachillerato
+                      </md-checkbox>
+                      <md-checkbox ng-model="prof.level.c2" aria-label="MiddleSchool">
+                        Secundaria
+                      </md-checkbox>
+                      <md-checkbox ng-model="prof.level.c1" aria-label="ElementarySchool">
+                        Primaria
+                      </md-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Dialog Content -->
+            </div>
+          </md-dialog-content>
+          <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="closeDialog()">
+              Cancelar
+            </md-button>
+            <md-button ng-click="createProfessor()" style="margin-right:20px;">
+              Crear
+            </md-button>
+          </md-dialog-actions>
+        </form>
+      </md-dialog>
+
+    </div>
+  </div>
+  <!-- End Dialog -->
 </div>

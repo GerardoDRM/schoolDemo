@@ -21,18 +21,3 @@ footer {
     }
   }
 }
-
-/* Contact and Register */
-.footer-transparent {
-  @include styling_wrapper_content($white, center, 16px, $font-family--secondary);
-  @include position(absolute, false, bottom 20px left 0);
-  width: 100%;
-  margin: 5px 0;
-  background: transparent;
-}
-
-.container-footer {
-  width: 50%;
-  margin: 0 auto;
-  align-self: center;
-}

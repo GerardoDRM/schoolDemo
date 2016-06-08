@@ -129,11 +129,11 @@ class SchoolAnnouncements(Resource):
     # Delete specific announcement on array by date
     def delete(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('date', type=int, location='json',required=True)
+        parser.add_argument('publication_date', type=int, location='json',required=True)
         args = parser.parse_args()
 
         mongo.db.school.update({"_id":ObjectId(id)}, {"$pull":{
-            "announcements": {"publication_date": args.date}
+            "announcements": {"publication_date": args.publication_date}
         }})
 
         message = {
