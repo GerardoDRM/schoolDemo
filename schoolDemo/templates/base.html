@@ -43,10 +43,9 @@
     angular.module('SchoolApp', ['ngMaterial']);
     angular.module('SchoolApp').directive("fileread", ['$http', function($http) {
       return {
-        scope: {
-          fileread: "="
-        },
-        link: function(scope, element, attributes) {
+        scope: true,
+        restrict: 'EA',
+        link: function(scope, element, attributes, controller) {
           element.bind("change", function(changeEvent) {
             var reader = new FileReader();
             reader.onload = function(loadEvent) {
@@ -60,12 +59,25 @@
                     var identifier = $(element).parent().prev();
                     var fd = {};
                     fd['file'] = data.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-                    scope.file = fd['file'];
+                    scope.photo.file = fd['file'];
+                    // Add preview image
+                    // First get img element
+                    var parent = $(element[0]).parent();
+                    $(parent[0]).css({
+                      'display' : 'none'
+                    });
+                    var previewImage = $(element[0]).parent().next();
+                    $(previewImage[0]).css({
+                      "background-image": "url(" + data + ")",
+                      "background-size": "cover",
+                      'display': 'block'
+                    });
+
                   } else {
-                    addFeedback("El tamaño de la imagen tiene que ser menor a 1MB");
+                    console.log("El tamaño de la imagen tiene que ser menor a 1MB");
                   }
                 } else {
-                  addFeedback("Debes de adjuntar una imagen con formato jpg, jpeg ó png");
+                  console.log("Debes de adjuntar una imagen con formato jpg, jpeg ó png");
                 }
               });
             };
