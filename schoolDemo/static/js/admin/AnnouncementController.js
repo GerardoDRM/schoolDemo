@@ -124,12 +124,12 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
-      '<div class="col-sm-6">' +
+      '<div class="col-sm-8">' +
       '<h1 class="md-headline no-margin"> ' + announ.title + ' </h1>' +
       '<p class="md-subhead"> ' + announ.content + '</p>' +
       '<p class="md-subhead"> ' + levels + '</p>' +
       '</div>' +
-      '<div class="col-sm-6"> '+
+      '<div class="col-sm-4"> '+
       '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
       '<div class="col-sm-8"><p>'+ pDate +'</p></div>' +
       '<md-button class="md-raised button-eliminate" ng-click="deleteAnnouncement('+ announ.publication_date +')">Eliminar</md-button>' +

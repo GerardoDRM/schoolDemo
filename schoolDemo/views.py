@@ -224,12 +224,14 @@ class SchoolStudents(Resource):
         if result.modified_count == 1:
             message = {
                 "status": 200,
-                "code": 1
+                "code": 1,
+                "student_id": id
             }
         else:
             message = {
                 "status": 201,
-                "code": 2
+                "code": 2,
+                "student_id": id
             }
 
         return jsonify(message)
@@ -316,7 +318,7 @@ class SchoolCourses(Resource):
     # Delete specific professor
     def delete(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id', type=int, location='json',required=True)
+        parser.add_argument('id', type=str, location='json',required=True)
         args = parser.parse_args()
         result = mongo.db.courses.delete_one({"_id":args.id})
         if result.deleted_count == 1:

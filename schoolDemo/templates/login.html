@@ -1,31 +1,28 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div layout="row" layout-align="center center" style="height:100%;">
   <div class="login" flex="40" style="height:100%;">
 
   </div>
   <div flex="60" style="height:100%;">
-    <form method="POST" action="" class="form" style="text-align:center; width:50%;">
-      <h1> Colegio Lorem </h1>
+    <form method="POST" action="" class="form" style="margin:0 auto; width:60%;">
+      <h1 style="text-align:center"> Craft Code </h1>
       <div layout-gt-sm="column">
-       <md-input-container class="md-block" flex-gt-sm>
-         <label>Id</label>
-         <input ng-model="user.firstName">
-       </md-input-container>
-       <md-input-container class="md-block" flex-gt-sm>
-         <label>Password</label>
-         <input ng-model="theMax" type="password">
-       </md-input-container>
-     </div>
- <div layout="column" layout-align="center center">
-    <md-select placeholder="Assign to user" ng-model="user" md-on-open="loadUsers()" style="min-width: 200px;">
-      <md-option ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
-    </md-select>
-</div>
-
-        <md-button class="md-raised"><a href="{{ url_for('teacher') }}">Login</a></md-button>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Id</label>
+          <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Password</label>
+          <input ng-model="theMax" type="password">
+        </md-input-container>
+        <md-select placeholder="Elige tu usuario" ng-model="user">
+          <md-option value="student">Alumno</md-option>
+          <md-option value="teacher">Profesor</md-option>
+          <md-option value="admin">Administrador</md-option>
+        </md-select>
+      </div>
+      <md-button class="md-raised"><a href="{{ url_for('teacher') }}">Login</a></md-button>
     </form>
   </div>
 
