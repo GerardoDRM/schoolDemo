@@ -21,7 +21,9 @@
      </div>
  <div layout="column" layout-align="center center">
     <md-select placeholder="Assign to user" ng-model="user" md-on-open="loadUsers()" style="min-width: 200px;">
-      <md-option ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
+      <md-option value="Alumno">Alumno</md-option>
+      <md-option value="Profesor">Profesor</md-option>
+      <md-option value="Administrador">Administrador</md-option>
     </md-select>
 </div>
 

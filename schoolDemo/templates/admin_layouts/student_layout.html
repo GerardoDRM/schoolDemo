@@ -1,17 +1,17 @@
-<div ng-controller="CourseController">
-  <md-button md-no-ink class="md-primary" ng-click="addCourse($event)">+ Agregar curso</md-button>
-  <div id="CourseCards">
+<div ng-controller="StudentController">
+  <md-button md-no-ink class="md-primary" ng-click="addStudent($event)">+ Agregar alumno</md-button>
+  <div id="StudentCards">
   </div>
   <!-- Angular Material has problems with chips and dialogs using templates
    instead we use a static dialog using just one controller in order to use chips
    with a dialog -->
   <div style="visibility: hidden">
-    <div class="md-dialog-container" id="CourseDialog">
-      <md-dialog aria-label="Crear un nuevo curso">
+    <div class="md-dialog-container" id="StudentDialog">
+      <md-dialog aria-label="Crear un nuevo alumno">
         <form>
           <md-toolbar>
             <div class="md-toolbar-tools">
-              <h2>Agrega un curso</h2>
+              <h2>Agrega un alumno</h2>
               <span flex></span>
               <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -25,22 +25,31 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <md-input-container class="md-block" flex>
-                      <label>Nombre del curso</label>
+                      <label>Nombre del alumno</label>
                       <input ng-model="prof.name">
                     </md-input-container>
                     <md-input-container class="md-block" flex>
-                      <label>Clave</label>
+                      <label>Password</label>
                       <input ng-model="prof.password">
                     </md-input-container>
-
-                    <md-input-container class="md-block">
-         <label>Biography</label>
-         <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-       </md-input-container>
+                    <md-button ng-click="generatePassword()">
+                      Generar Password
+                    </md-button>
+                    <md-chips ng-model="selectedCourses" md-transform-chip="transformChip($chip)" md-require-match="autocompleteDemoRequireMatch">
+                      <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name" placeholder="Materias">
+                        <span md-highlight-text="searchText">{{item.name|angular}} :: {{item.code|angular}}-{{item.sec|angular}} </span>
+                      </md-autocomplete>
+                      <md-chip-template>
+                        <span>
+                          <strong>{{"$chip.name"|angular}}</strong>
+                          <em>({{"$chip.code"|angular}} / {{"$chip.sec"|angular}}) </em>
+                        </span>
+                      </md-chip-template>
+                    </md-chips>
                   </div>
                   <div class="col-sm-6">
                     <md-input-container class="md-block" flex>
-                      <label>Semestre</label>
+                      <label>Email</label>
                       <input ng-model="prof.email">
                     </md-input-container>
 
