@@ -44,7 +44,6 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
   $scope.getData();
 
   $scope.storeData = function() {
-    console.log($scope.photo);
     // Use PUT method in order to send data
     // to server
     // Create new Object
@@ -58,7 +57,6 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
       "in_charge_job": $scope.school.in_charge_job,
       "phone": $scope.school.phone
     }
-    console.log(updated);
     $http({
         method: 'PUT',
         url: '/api/v0/school/info/' + $scope.id,

@@ -109,7 +109,7 @@ class SchoolProfessors(Resource):
         args = parser.parse_args()
         teachers = mongo.db.professors.find({"level":args.level})
         t = create_dic(teachers)
-        return jsonify(tachers = t)
+        return jsonify(teachers = t)
 
     # Create or update one teacher
     def put(self):
@@ -147,12 +147,14 @@ class SchoolProfessors(Resource):
         if result.modified_count == 1:
             message = {
                 "status": 200,
-                "code": 1
+                "code": 1,
+                "prof_id": id
             }
         else:
             message = {
                 "status": 201,
-                "code": 2
+                "code": 2,
+                "prof_id": id
             }
 
         return jsonify(message)
