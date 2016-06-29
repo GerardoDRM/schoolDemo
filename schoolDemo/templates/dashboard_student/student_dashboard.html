@@ -1,0 +1,267 @@
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+
+<body ng-app="SchoolApp" ng-cloak>
+  <!--
+    Your HTML content here
+  -->
+  <header md-page-header>
+    <md-toolbar>
+      <div class="head-img">
+        <h1>Matematicas</h1>
+      </div>
+    </md-toolbar>
+  </header>
+
+  <div layout="column">
+    <md-content class="md-padding">
+      <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
+        <md-tab label="Avisos">
+          <div ng-controller="Announces" ng-cloak>
+            <div layout="column" layout-align="center center">
+              <div class="publish">
+                <h2>Publica un aviso</h2>
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Escribe un aviso</label>
+                  <input ng-model="user.comment">
+                </md-input-container>
+                <md-button class="md-raised" ng-click="createComment()">Publicar</md-button>
+              </div>
+              <md-list style="width:50%;" id="comment-space">
+                <md-list-item class="md-3-line" style="height:250px;">
+                  <div class="list-item-txt">
+                    <h3>Maestro Luis</h3>
+                    <h4>20/04/2016</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean volutpat aliquet aliquet. Nulla sed nulla non nulla elementum porttitor. Phasellus laoreet sapien eget quam cursus, nec tristique ante convallis. Cras in massa a purus
+                      volutpat sagittis. Quisque laoreet eros mauris, at molestie risus ultrices ac. Integer placerat felis ut tristique venenatis. Praesent quis metus eget sapien consectetur porta. Praesent euismod mollis lacus, in dictum urna ullamcorper
+                      tincidunt. Vestibulum auctor justo vehicula suscipit laoreet. Praesent ligula purus, lobortis vitae euismod a, dignissim r</p>
+                  </div>
+                  <md-divider inset></md-divider>
+                </md-list-item>
+                <md-list-item class="md-3-line comment-list" style="height:200px; padding-left:100px">
+                  <div class="list-item-txt">
+                    <h3>Chris</h3>
+                    <p>
+                      Secondary line text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam. nostra, per inceptos himenaeos.
+                    </p>
+                  </div>
+                </md-list-item>
+              </md-list>
+              <br/>
+    </md-content>
+    </div>
+    </md-tab>
+    <md-tab label="Tareas">
+      <md-content class="md-padding">
+        <div ng-controller="HomeWork" ng-cloak>
+          <div layout="column" layout-align="center center">
+            <div>
+              <md-button md-no-ink class="md-primary" ng-click="showAdvanced($event)">+Agregar tarea</md-button>
+            </div>
+            <div id="hw-content" style="width:50%;">
+
+            </div>
+
+          </div>
+        </div>
+      </md-content>
+    </md-tab>
+    <md-tab label="Quiz">
+      <md-content class="md-padding">
+        <div ng-controller="Quiz" ng-cloak>
+          <div layout="column" layout-align="center center">
+            <div>
+              <md-button md-no-ink class="md-primary" ng-click="showAdvancedQuiz($event)">+Agregar quiz</md-button>
+            </div>
+            <div id="quiz-content" style="width:50%;">
+
+            </div>
+          </div>
+        </div>
+      </md-content>
+    </md-tab>
+    </md-tabs>
+    </md-content>
+    </div>
+
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+
+    <!-- Your application bootstrap  -->
+    <script type="text/javascript">
+      /**
+       * You must include the dependency on 'ngMaterial'
+       */
+      var app = angular.module('SchoolApp', ['ngMaterial']);
+      app.controller("Announces", ['$scope', '$compile', function($scope, $compile) {
+        $scope.user = {};
+        $scope.createComment = function() {
+          console.log($scope.user.comment);
+          _addComment($scope, $compile, $scope.user.comment);
+        }
+
+        var _addComment = function(scope, compile, comment) {
+          angular.element(document.getElementById('comment-space')).append(compile(
+            '<md-list-item class="md-3-line" style="height:250px;">' +
+            '<div class="list-item-txt">' +
+            '<h3>Maestro Luis</h3>' +
+            '<h4>20/04/2016</h4>' +
+            '<p>' + comment +
+            '</p>' +
+            '</div>' +
+            '<md-divider inset></md-divider>' +
+            '</md-list-item>'
+          )(scope));
+        }
+      }]);
+
+      app.controller("HomeWork", ['$scope', '$compile', '$mdDialog', '$mdMedia', function($scope, $compile, $mdDialog, $mdMedia) {
+        $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+        $scope.showAdvanced = function(ev) {
+          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+          $mdDialog.show({
+              controller: DialogController,
+              templateUrl: '/static/templates/dialogHW.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose: true,
+              fullscreen: useFullScreen
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+          $scope.$watch(function() {
+            return $mdMedia('xs') || $mdMedia('sm');
+          }, function(wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+          });
+        };
+
+        function DialogController($scope, $mdDialog, $compile) {
+          $scope.hw = {};
+
+          $scope.createHw = function() {
+            _addHw($scope, $compile);
+            $mdDialog.cancel();
+          }
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          var _addHw = function(scope, compile) {
+            angular.element(document.getElementById('hw-content')).append(compile(
+              '<md-card style="background:#E0E0E0">' +
+              '<md-card-title>' +
+              '<md-card-title-text>' +
+              '<div class="row">' +
+              '<div class="col-sm-8">' +
+              '<h1 class="md-headline no-margin"> ' + scope.hw.title + ' </h1>' +
+              '<p class="md-subhead"> ' +scope.hw.description + '</p>' +
+              '<p class="md-subhead"> ' + "" + '</p>' +
+              '</div>' +
+              '<div class="col-sm-4"> '+
+              '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
+              '<div class="col-sm-8"><p>'+ "16/06/2016"  +'</p></div>' +
+              '<md-button class="md-raised button-eliminate" ng-click="editTask()">Editar Tarea</md-button>' +
+              '<md-button class="md-raised button-eliminate" ng-click="deleteTask()">Eliminar Tarea</md-button>' +
+              '</div>' +
+              '</div>' +
+              '</md-card-title-text> ' +
+              '</md-card>'
+            )(scope));
+          }
+        }
+      }]);
+
+      app.controller("Quiz", ['$scope', '$compile', '$mdDialog', '$mdMedia', function($scope, $compile, $mdDialog, $mdMedia) {
+        $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+        $scope.showAdvancedQuiz = function(ev) {
+          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+          $mdDialog.show({
+              controller: QuizController,
+              templateUrl: '/static/templates/dialogQuiz.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose: true,
+              fullscreen: useFullScreen
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+          $scope.$watch(function() {
+            return $mdMedia('xs') || $mdMedia('sm');
+          }, function(wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+          });
+        };
+
+        function QuizController($scope, $mdDialog, $compile) {
+          $scope.qz = {};
+
+          $scope.openMenu = function($mdOpenMenu, ev) {
+            originatorEv = ev;
+            $mdOpenMenu(ev);
+          };
+
+          $scope.createQuestion = function() {
+            angular.element(document.getElementById('qt-content')).append($compile(
+              '<md-card style="background:#E0E0E0">' +
+              '<md-card-title-text>' +
+              '<div layout="column">' +
+              '<md-input-container class="md-block" flex>' +
+              '<label>Pregunta</label>' +
+              '<input ng-model="hw.q1.q">' +
+              '</md-input-container>' +
+              '</md-card-title-text> ' +
+              '</md-card>'
+            )($scope));
+          }
+
+          $scope.createQz = function() {
+            _addQz($scope, $compile);
+            $mdDialog.cancel();
+          }
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          var _addQz = function(scope, compile) {
+            angular.element(document.getElementById('quiz-content')).append(compile(
+              '<md-card style="background:#E0E0E0">' +
+              '<md-card-title>' +
+              '<md-card-title-text>' +
+              '<span class="md-headline"> ' + scope.qz.title + ' </span>' +
+              '<span class="md-subhead"> ' + scope.qz.description + '</span>' +
+              '<span class="md-subhead"> ' + "5 preguntas" + '</span>' +
+              '<span class="md-subhead"> ' + "Duracion: 3hrs." + '</span>' +
+              '</md-card-title-text> ' +
+              '</md-card>'
+            )(scope));
+          }
+        }
+      }]);
+    </script>
+
+</body>
+
+</html>

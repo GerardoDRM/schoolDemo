@@ -392,7 +392,6 @@ class SchoolAnnouncements(Resource):
             args = parser.parse_args()
             user = mongo.db.professors.find_one(
                 {"_id": args.teacher_id}, {'level': 1, "_id": 0})
-            print user
             query['announcements.level'] = {"$in": user["level"]}
 
         elif role == "student":
@@ -487,10 +486,10 @@ class CoursesAnnoun(Resource):
     # Get announcement from course section
 
     def get(self, id, num):
-        announ = mongo.db.courses.find_one({"_id": id, "section.sec": num}, {
-                                           "_id": 0, "section.sec.announ": 1})
-        a = create_dic(announ)
-        return jsonify(announcements=a)
+        announ = mongo.db.courses.find_one({"_id": id, "section.sec": int(num)}, {
+                                           "_id": 0, "section.announ": 1})
+        section = announ['section'][0]
+        return jsonify(announcements=section['announ'])
 
     # Post announcement on course section
     def post(self, id, num):
@@ -566,9 +565,10 @@ class CoursesTasks(Resource):
 
     def get(self, id, num):
         tasks = mongo.db.courses.find_one({"_id": id, "section.sec": num}, {
-            "_id": 0, "section.sec.task": 1})
-        t = create_dic(tasks)
-        return jsonify(tasks=t)
+            "_id": 0, "section.hw": 1})
+
+        section = tasks['section'][0]
+        return jsonify(tasks=section['hw'])
 
     # Post announcement on course section
     def post(self, id, num):
@@ -587,7 +587,7 @@ class CoursesTasks(Resource):
         # Update existing data else create new document
         if args.position is None:
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
-                "section.$.task": {
+                "section.$.hw": {
                     "content": args.content,
                     "title": args.title,
                     "published_date": args.published_date,
@@ -601,10 +601,10 @@ class CoursesTasks(Resource):
             }
         else:
             pos = args.position
-            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.task." + pos + ".content": args.content,
-                                                                                   "section.$.task." + pos + ".title": args.title,
-                                                                                   "section.$.task." + pos + ".deadline": args.deadline,
-                                                                                   "section.$.task." + pos + ".video": args.video}})
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.hw." + pos + ".content": args.content,
+                                                                                   "section.$.hw." + pos + ".title": args.title,
+                                                                                   "section.$.hw." + pos + ".deadline": args.deadline,
+                                                                                   "section.$.hw." + pos + ".video": args.video}})
             message = {
                 "status": 200,
                 "code": 2
@@ -620,7 +620,7 @@ class CoursesTasks(Resource):
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
-            "section.$.task": {"published_date": args.date}
+            "section.$.hw": {"published_date": args.date}
         }})
 
         message = {}
@@ -645,11 +645,13 @@ class CoursesTasks(Resource):
 # return JSON
 class CoursesQuiz(Resource):
     # Get announcement from course section
+
     def get(self, id, num):
         quiz = mongo.db.courses.find_one({"_id": id, "section.sec": num}, {
-            "_id": 0, "section.sec.quiz": 1})
-        q = create_dic(quiz)
-        return jsonify(quiz=q)
+            "_id": 0, "section.quiz": 1})
+
+        section = quiz['section'][0]
+        return jsonify(quiz=section['quiz'])
 
     # Post announcement on course section
     def post(self, id, num):
@@ -661,7 +663,7 @@ class CoursesQuiz(Resource):
                             location='json', required=True)
         parser.add_argument('deadline', type=int,
                             location='json', required=True)
-        parser.add_argument('accesstime', type=int, location='json')
+        parser.add_argument('accesstime', type=int, location='json', required=True)
         parser.add_argument('position', type=int, location='json')
         args = parser.parse_args()
 

@@ -12,15 +12,12 @@
 .card-announ {
   background-color: white;
   width: 55%;
-    margin: 10px auto;
-
+  margin: 10px auto;
 }
-
 .button-eliminate {
   margin-top: 50px;
   float: right;
 }
-
 .card {
   background: $white;
   padding: 25px;
@@ -28,8 +25,6 @@
     float: right;
   }
 }
-
-
 /* Tab container*/
 .cd-tabs-content {
   background: $white;
@@ -50,5 +45,21 @@
     p {
       @include styling_wrapper_content($black, null, 16px, $font-family--primary, 1.6);
     }
+  }
+}
+.head-img {
+  background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
+  position: relative;
+  width: 100%;
+  height: 0;
+  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
+  padding-bottom: 15.25%;
+  overflow: hidden;
+  background-size: 160%;
+  /* You can override this value if your picture has a weird ratio */
+  background-position: 50% 50%;
+  h1 {
+    text-align: center;
+    margin-top: 5%;
   }
 }
