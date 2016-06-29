@@ -12,7 +12,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
     $('#announcementCards').empty();
     $http({
       method: 'GET',
-      url: '/api/v0/school/announcements/' + $scope.id,
+      url: '/api/v0/school/announcements/' + $scope.id + "/admin",
     }).then(function successCallback(response) {
       console.log(response.data);
       var dataList = response.data['announcements'];
@@ -45,7 +45,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
   $scope.deleteAnnouncement = function(date) {
     $http({
       method: 'DELETE',
-      url: '/api/v0/school/announcements/' + $scope.id,
+      url: '/api/v0/school/announcements/' + $scope.id + "/admin",
       data: {
         "publication_date": parseInt(date)
       },
@@ -94,7 +94,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       }
       $http({
         method: 'PUT',
-        url: '/api/v0/school/announcements/' + $scope.id,
+        url: '/api/v0/school/announcements/' + $scope.id + "/admin",
         data: updated
       }).then(function successCallback(response) {
         _addAnnouncement($scope.announ);

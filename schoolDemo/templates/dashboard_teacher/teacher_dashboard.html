@@ -5,6 +5,7 @@
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
   <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
 
@@ -15,7 +16,7 @@
   <header md-page-header>
     <md-toolbar>
       <div class="head-img">
-        <h1>Historia del Arte</h1>
+        <h1>Matematicas</h1>
       </div>
     </md-toolbar>
   </header>
@@ -36,7 +37,6 @@
               </div>
               <md-list style="width:50%;" id="comment-space">
                 <md-list-item class="md-3-line" style="height:250px;">
-                  <img ng-src="http://zblogged.com/wp-content/uploads/2015/11/17.jpg" class="md-avatar">
                   <div class="list-item-txt">
                     <h3>Maestro Luis</h3>
                     <h4>20/04/2016</h4>
@@ -47,7 +47,6 @@
                   <md-divider inset></md-divider>
                 </md-list-item>
                 <md-list-item class="md-3-line comment-list" style="height:200px; padding-left:100px">
-                  <img ng-src="https://lh5.googleusercontent.com/-ZadaXoUTBfs/AAAAAAAAAAI/AAAAAAAAAGA/19US52OmBqc/photo.jpg" class="md-avatar">
                   <div class="list-item-txt">
                     <h3>Chris</h3>
                     <p>
@@ -120,7 +119,6 @@
         var _addComment = function(scope, compile, comment) {
           angular.element(document.getElementById('comment-space')).append(compile(
             '<md-list-item class="md-3-line" style="height:250px;">' +
-            '<img ng-src="http://zblogged.com/wp-content/uploads/2015/11/17.jpg" class="md-avatar">' +
             '<div class="list-item-txt">' +
             '<h3>Maestro Luis</h3>' +
             '<h4>20/04/2016</h4>' +
@@ -139,7 +137,7 @@
           var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
           $mdDialog.show({
               controller: DialogController,
-              templateUrl: '/static/templates/dialog.html',
+              templateUrl: '/static/templates/dialogHW.html',
               parent: angular.element(document.body),
               targetEvent: ev,
               clickOutsideToClose: true,
@@ -173,9 +171,19 @@
               '<md-card style="background:#E0E0E0">' +
               '<md-card-title>' +
               '<md-card-title-text>' +
-              '<span class="md-headline"> ' + scope.hw.title + ' </span>' +
-              '<span class="md-subhead"> ' + scope.hw.description + '</span>' +
-              '<span class="md-subhead"> ' + scope.hw.submissionDate + '</span>' +
+              '<div class="row">' +
+              '<div class="col-sm-8">' +
+              '<h1 class="md-headline no-margin"> ' + scope.hw.title + ' </h1>' +
+              '<p class="md-subhead"> ' +scope.hw.description + '</p>' +
+              '<p class="md-subhead"> ' + "" + '</p>' +
+              '</div>' +
+              '<div class="col-sm-4"> '+
+              '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
+              '<div class="col-sm-8"><p>'+ "16/06/2016"  +'</p></div>' +
+              '<md-button class="md-raised button-eliminate" ng-click="editTask()">Editar Tarea</md-button>' +
+              '<md-button class="md-raised button-eliminate" ng-click="deleteTask()">Eliminar Tarea</md-button>' +
+              '</div>' +
+              '</div>' +
               '</md-card-title-text> ' +
               '</md-card>'
             )(scope));
@@ -189,7 +197,7 @@
           var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
           $mdDialog.show({
               controller: QuizController,
-              templateUrl: '/static/templates/dialog00.html',
+              templateUrl: '/static/templates/dialogQuiz.html',
               parent: angular.element(document.body),
               targetEvent: ev,
               clickOutsideToClose: true,

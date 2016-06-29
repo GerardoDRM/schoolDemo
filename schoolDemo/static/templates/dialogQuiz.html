@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crea un nuevo quiz" ng-cloak style="width:50%;">
+<md-dialog aria-label="Crea un nuevo quiz" ng-cloak class="card-dialog">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -12,21 +12,21 @@
     <md-dialog-content layout="column">
       <div class="md-dialog-content">
         <div layout="column">
-          <md-input-container class="md-block" flex>
+          <md-input-container class="md-block input-margin" flex>
             <label>Titulo del quiz</label>
             <input ng-model="qz.title">
           </md-input-container>
-          <md-input-container class="md-block" flex>
+          <md-input-container class="md-block input-margin" flex>
             <label>Descripcion</label>
             <input ng-model="qz.description">
           </md-input-container>
-          <md-datepicker ng-model="qz.submissionDate" md-placeholder="Fecha de evaluacion">
+          <md-datepicker class="input-margin" ng-model="qz.submissionDate" md-placeholder="Fecha de evaluacion">
           </md-datepicker>
-          <md-input-container class="md-block" flex>
+          <md-input-container class="md-block input-margin" flex>
             <label>Hora inicio</label>
             <input ng-model="qz.start">
           </md-input-container>
-          <md-input-container class="md-block" flex>
+          <md-input-container class="md-block input-margin" flex>
             <label>Hora de finalizacion</label>
             <input ng-model="qz.end">
           </md-input-container>

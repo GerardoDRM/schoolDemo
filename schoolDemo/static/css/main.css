@@ -33,6 +33,9 @@
   border-radius: 0;
   margin: 10px 2px; }
 
+.no-padding {
+  padding: 0; }
+
 .no-margin, .profile-preview {
   margin: 0; }
 
@@ -250,6 +253,9 @@ footer {
   * This SASS file has all
   * forms used on the app
 **/
+.publish {
+  width: 50%; }
+
 /**
   * Icons Partial SASS
   * This SASS file has most of the icons
@@ -259,6 +265,15 @@ footer {
   * Modals Partial SASS
   * This SASS has the modals dialogs
 **/
+.card-dialog {
+  width: 50%; }
+  .card-dialog .input-margin {
+    margin: 25px;
+    width: 80%; }
+  .card-dialog .icon-margin {
+    width: 80%;
+    text-align: right; }
+
 /**
   * Wrappers Partial SASS
   * This SASS has all the wrappers used on the app
@@ -284,6 +299,28 @@ footer {
   padding: 25px; }
   .card .card-button {
     float: right; }
+
+/* Tab container*/
+.cd-tabs-content {
+  background: #FFF;
+  height: auto;
+  padding: 0;
+  width: 100%; }
+  .cd-tabs-content .tab {
+    display: none;
+    padding: 1.4em;
+    height: auto;
+    overflow-y: scroll; }
+    .cd-tabs-content .tab.selected {
+      display: block;
+      -webkit-animation: cd-fade-in 0.5s;
+      -moz-animation: cd-fade-in 0.5s;
+      animation: cd-fade-in 0.5s; }
+    .cd-tabs-content .tab p {
+      font-size: 1em;
+      color: #000;
+      font-family: "Open Sans", sans-serif;
+      line-height: 1.6; }
 
 /*Media Queries*/
 

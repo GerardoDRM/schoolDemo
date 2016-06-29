@@ -1,28 +1,28 @@
 {% extends "base.html" %} {% block content %}
 
-<div layout="row" layout-align="center center" style="height:100%;">
-  <div class="login" flex="40" style="height:100%;">
+<div layout="row" layout-align="center center" style="height:100%;" ng-controller="HomeController">
+  <div class="login" flex="40" style="height:100%;" id="schoolPhoto">
 
   </div>
   <div flex="60" style="height:100%;">
     <form method="POST" action="" class="form" style="margin:0 auto; width:60%;">
-      <h1 style="text-align:center"> Craft Code </h1>
+      <h1 style="text-align:center"> {{school.name | angular}} </h1>
       <div layout-gt-sm="column">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Id</label>
-          <input ng-model="user.firstName">
+          <input ng-model="user.id">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <label>Password</label>
-          <input ng-model="theMax" type="password">
+          <input ng-model="user.password" type="password">
         </md-input-container>
-        <md-select placeholder="Elige tu usuario" ng-model="user">
+        <md-select placeholder="Elige tu usuario" ng-model="user.role">
           <md-option value="student">Alumno</md-option>
           <md-option value="teacher">Profesor</md-option>
           <md-option value="admin">Administrador</md-option>
         </md-select>
       </div>
-      <md-button class="md-raised"><a href="{{ url_for('teacher') }}">Login</a></md-button>
+      <md-button class="md-raised" ng-click="login()"><a href="javascript::void()">Login</a></md-button>
     </form>
   </div>
 

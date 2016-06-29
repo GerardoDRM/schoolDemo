@@ -4,25 +4,25 @@
     <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp" style="overflow:hidden">
       <md-list>
         <md-list-item style="height:50px">
-          <md-button>
+          <md-button class="menu-click" id="profileBtn"  data-content="profile">
             <md-icon md-svg-src="/static/images/classes.svg"></md-icon>
             Mi Perfil
             </md-buton>
         </md-list-item>
         <md-list-item style="height:50px">
-          <md-button>
+          <md-button class="menu-click selected" id="classesBtn"  data-content="classes">
             <md-icon md-svg-src="/static/images/classes.svg"></md-icon>
             Clases
             </md-buton>
         </md-list-item>
-        <md-list-item style="height:50px">
-          <md-button>
+        <!-- <md-list-item style="height:50px">
+          <md-button class="menu-click" id="timetableBtn"  data-content="timetable">
             <md-icon md-svg-src="/static/images/timetable.svg"></md-icon>
             Horario
             </md-buton>
-        </md-list-item>
+        </md-list-item> -->
         <md-list-item style="height:50px">
-          <md-button>
+          <md-button class="menu-click" id="annuncesBtn"  data-content="announces">
             <md-icon md-svg-src="/static/images/announce.svg"></md-icon>
             Avisos Administrativos
             </md-buton>
@@ -36,23 +36,19 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
-    <md-content id="content" class="md-padding">
-      <md-card style="width: 32%;height: 200px;">
-        <div class="top-header"></div>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Algebra</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-          <p>
-            The titles of Washed Out's breakthrough song and the first single from Paracosm share the two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-          </p>
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button><a href="{{ url_for('teacher_class') }}">Ir a clase</a></md-button>
-        </md-card-actions>
-      </md-card>
+    <md-content id="content" class="md-padding cd-tabs-content">
+      <div class="tab" data-content="profile" id="profile">
+        {% include "dashboard_teacher/profile_info.html" %}
+      </div>
+      <div class="tab selected" data-content="classes" id="classes">
+        {% include "dashboard_teacher/classes.html" %}
+      </div>
+      <!-- <div  class="tab" data-content="timetable" id="timetable">
+        {% include "dashboard_teacher/timetable.html" %}
+      </div> -->
+      <div class="tab" data-content="announces" id="announces">
+        {% include "dashboard_teacher/announces.html" %}
+      </div>
     </md-content>
   </div>
 </div>

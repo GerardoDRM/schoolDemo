@@ -13,3 +13,7 @@ html {
 .no-margin {
   @extend %no-margin;
 }
+
+.no-padding {
+  @extend %no-padding;
+}

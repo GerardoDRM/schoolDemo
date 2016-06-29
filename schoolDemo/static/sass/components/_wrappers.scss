@@ -28,3 +28,27 @@
     float: right;
   }
 }
+
+
+/* Tab container*/
+.cd-tabs-content {
+  background: $white;
+  height: auto;
+  padding: 0;
+  width: 100%;
+  .tab {
+    display: none;
+    padding: 1.4em;
+    height: auto;
+    overflow-y: scroll;
+    &.selected {
+      display: block;
+      -webkit-animation: cd-fade-in 0.5s;
+      -moz-animation: cd-fade-in 0.5s;
+      animation: cd-fade-in 0.5s;
+    }
+    p {
+      @include styling_wrapper_content($black, null, 16px, $font-family--primary, 1.6);
+    }
+  }
+}

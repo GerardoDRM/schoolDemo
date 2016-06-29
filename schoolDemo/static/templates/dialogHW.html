@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak>
+<md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak class="card-dialog">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -11,21 +11,23 @@
     </md-toolbar>
     <md-dialog-content layout="column">
       <div class="md-dialog-content">
-        <div layout="row">
-          <md-input-container class="md-block" flex>
+        <div layout="column">
+          <md-input-container class="md-block input-margin" flex>
             <label>Titulo de la actividad</label>
             <input ng-model="hw.title">
           </md-input-container>
-          <md-input-container class="md-block" flex>
+          <md-input-container class="md-block input-margin" flex>
             <label>Descripcion de la actividad</label>
-            <input ng-model="hw.description">
+            <textarea ng-model="hw.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
           </md-input-container>
-          <md-datepicker ng-model="hw.submissionDate" md-placeholder="Enter date">
+          <md-datepicker class="input-margin" ng-model="hw.submissionDate" md-placeholder="Ingresa la fecha">
           </md-datepicker>
-          <div class="preview-glyphs">
-        <md-icon class="material-icons step" aria-label="attachment">
-        </md-icon>
-      </div>
+          <div class="preview-glyphs icon-margin">
+            <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
+              <input type="file"/>
+            </md-icon>
+            <md-icon md-svg-src="/static/images/ic_videocam.svg" class="material-icons step"></md-icon>
+          </div>
         </div>
       </div>
     </md-dialog-content>

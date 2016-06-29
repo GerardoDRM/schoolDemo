@@ -64,7 +64,7 @@
                     // First get img element
                     var parent = $(element[0]).parent();
                     $(parent[0]).css({
-                      'display' : 'none'
+                      'display': 'none'
                     });
                     var previewImage = $(element[0]).parent().next();
                     $(previewImage[0]).css({
@@ -87,10 +87,23 @@
       }
     }]);
 
-    angular.module('SchoolApp').controller('HomeController', ['$scope', '$http', function($scope, $http) {
-      
-    }]);
+    $(document).ready(function() {
+      // Tabs which are used on navigation bar
+      var tabItems = $('.menu-click');
+      var tabContentWrapper = $('.cd-tabs-content');
+      // This action will change the content for each tab
+      tabItems.on("click", function(event) {
+        var selectedItem = $(this);
+        if (!selectedItem.hasClass('selected')) {
+          var selectedTab = selectedItem.data('content'),
+            selectedContent = tabContentWrapper.find('.tab[data-content="' + selectedTab + '"]');
+          tabItems.removeClass('selected');
+          selectedItem.addClass('selected');
+          selectedContent.addClass('selected').siblings('.tab').removeClass('selected');
+        }
+      });
 
+    });
   </script>
   <script src="/static/js/admin/AnnouncementController.js"></script>
   <script src="/static/js/admin/ProfileController.js"></script>
@@ -98,6 +111,13 @@
   <script src="/static/js/admin/ProfessorController.js"></script>
   <script src="/static/js/admin/StudentController.js"></script>
   <script src="/static/js/admin/CourseController.js"></script>
+
+  <!-- Login -->
+  <script src="/static/js/general/HomeController.js"></script>
+  <!-- Teacher -->
+  <script src="/static/js/teacher/TeacherAnnCtrl.js"></script>
+  <script src="/static/js/teacher/TeacherCourseCtrl.js"></script>
+
 </body>
 
 </html>

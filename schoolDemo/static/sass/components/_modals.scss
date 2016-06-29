@@ -2,3 +2,15 @@
   * Modals Partial SASS
   * This SASS has the modals dialogs
 **/
+
+.card-dialog {
+  width: 50%;
+  .input-margin {
+    margin: 25px;
+    width: 80%;
+  }
+  .icon-margin {
+    width: 80%;
+    text-align: right;
+  }
+}
