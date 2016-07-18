@@ -14,7 +14,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
-    "c3": "Preparatoria",
+    "c3": "Bachillerato",
     "c4": "Licenciatura"
   }
 
@@ -27,7 +27,6 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
         "level": "c3"
       }
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['students'];
       for (var stu in dataList) {
         var drawStudent = dataList[stu];
@@ -36,10 +35,14 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
         $scope.students.push(drawStudent);
         _addStudent(drawStudent)
       }
-    }, function errorCallback(response) {});
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
   });
 
   $scope.addStudent = function(ev) {
+    $scope.stu = {};
+    $scope.selectedCourses = [];
     // Show dialog
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
     $mdDialog.show({
@@ -62,28 +65,48 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
   }
 
   $scope.createStudent = function() {
+    // Get courses in a list
+    var courses_key = [];
+    for (var j in $scope.selectedCourses) {
+      courses_key.push($scope.selectedCourses[j]._id);
+    }
+
     // Create Student
     var updated = {
       "name": $scope.stu.name,
       "password": $scope.stu.password,
       "email": $scope.stu.email,
+      "courses": courses_key,
       "level": $scope.stu.level
     }
+
+    var flag = false;
+    if ($scope.stu._id !== undefined) {
+      updated['id'] = parseInt($scope.stu._id);
+      flag = true;
+    }
+
     $http({
       method: 'PUT',
       url: '/api/v0/school/students',
       data: updated
     }).then(function successCallback(response) {
-      // Update UI
-      $scope.stu._id = response.data['student_id'];
-      // Adding object to global array
-      // This tip will save a server request
-      $scope.students.push($scope.stu);
-      // Update UI
-      _addStudent($scope.stu);
+      console.log(response);
+      if (!flag) {
+        // Update UI
+        $scope.stu._id = response.data['student_id'];
+        // Adding object to global array
+        // This tip will save a server request
+        $scope.students.push($scope.stu);
+        // Update UI
+        _addStudent($scope.stu);
+      }
       $scope.selectedCourses = [];
       $scope.stu = {};
-    }, function errorCallback(response) {});
+      addFeedback("Se han guardado los datos exitosamente", 'success');
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
     // Close dialog
     $mdDialog.cancel();
   }
@@ -102,7 +125,8 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
 
     // Compile to DOM
     angular.element(document.getElementById('StudentCards')).append($compile(
-      '<md-card class="card-prof md-whiteframe-8dp col-sm-4" id=' + stu._id + '>' +
+      '<div class="col-sm-4">' +
+      '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + stu._id + '>' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
@@ -116,7 +140,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
-      '</md-card>'
+      '</md-card></div>'
     )($scope));
   }
 
@@ -124,7 +148,30 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
   // This method search on students array
   // this helps us a request to the server
   $scope.editStudent = function(id, ev) {
-    console.log(id);
+    $scope.selectedCourses = [];
+    var dataList = $scope.students;
+    for (var stu in dataList) {
+      var student = dataList[stu];
+      if (student._id == id) {
+        $scope.stu = student;
+        // Adding courses
+        var courses = $scope.stu.courses;
+        for (var i = 0; i < courses.length; i++) {
+          for (var j = 0; j < $scope.courses.length; j++) {
+            if (courses[i] == $scope.courses[j]._id) {
+              $scope.selectedCourses.push($scope.courses[j]);
+            }
+          }
+        }
+        $mdDialog.show({
+          contentElement: '#StudentDialog',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true
+        });
+        break;
+      }
+    }
   }
 
   // This methos delete a student from database
@@ -139,11 +186,11 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
         'Content-Type': 'application/json'
       }
     }).then(function successCallback(response) {
-      console.log(response);
+      addFeedback("El alumno ha sido eliminado", 'success');
       // Remove from element from DOM
       $('#' + id).remove();
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 
@@ -187,32 +234,17 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
   // This function request all courses on the institution
   // It works to map all couses to autocomplete
   function loadCourses() {
-    var courses = [{
-      'name': 'Matematicas',
-      'code': 'M101',
-      'sec': 001
-    }, {
-      'name': 'Algebra',
-      'code': 'AL101',
-      'sec': 001
-    }, {
-      'name': 'Algebra',
-      'code': 'AL101',
-      'sec': 002
-    }, {
-      'name': 'Literatura',
-      'code': 'LI101',
-      'sec': 001
-    }, {
-      'name': 'Logica',
-      'code': 'LO101',
-      'sec': 001
-    }];
-
-    return courses.map(function(course) {
-      course._lowername = course.name.toLowerCase();
-      course._lowertype = course.code.toLowerCase();
-      return course;
-    });
+    // Get Courses List
+    $http({
+      method: 'GET',
+      url: '/api/v0/school/courses/list'
+    }).then(function successCallback(response) {
+      $scope.courses = response.data['courses'];
+      return $scope.courses.map(function(course) {
+        course._lowername = course.name.toLowerCase();
+        course._lowertype = course._id.toLowerCase();
+        return course;
+      });
+    }, function errorCallback(response) {});
   }
 }]);

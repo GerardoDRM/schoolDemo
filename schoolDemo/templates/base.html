@@ -21,7 +21,42 @@
     </md-toolbar>
   </md-content>
 
+  <!-- Feedback -->
+  <div id="feedback" class="feedback">
+    <h3 id="feedback-msg" class="no-margin"></h3>
+  </div>
+
   {% block content %}{% endblock %}
+
+  <footer class="footer">
+    <div class="container">
+      <div class="col-xs-12">
+        <div class="row contact-foot">
+          <div class="col-xs-12 col-sm-4">
+            <img src="../images/logoNext.jpg" width="60px">
+            <p> Email:contacto@nextplayers.mx </p>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <p>
+              <a style="color:white;" href="http://www.craftcode.rocks" target="_blank">
+                <img src="../images/craft.png" width="65px">Powered by CraftCode</a>
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <a style="color:white;" href="/terms">
+              <p>Términos de uso</p>
+            </a>
+            <a style="color:white;" href="/privacity">
+              <p>Aviso de privacidad</p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+      </div>
+    </div>
+  </footer>
+
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -104,6 +139,21 @@
       });
 
     });
+
+    function addFeedback(msg, status) {
+      var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
+      var fontColor = status == "success" ? "#FFFFFF" : "#C5A14E";
+      $("#feedback").addClass("msg");
+      $("#feedback-msg").html(msg);
+      $("#feedback").css({
+        "background-color": cl,
+        "color": fontColor
+      });
+      setTimeout(function() {
+        $("#feedback").removeClass("msg");
+        $("#feedback-msg").html("");
+      }, 6000);
+    }
   </script>
   <script src="/static/js/admin/AnnouncementController.js"></script>
   <script src="/static/js/admin/ProfileController.js"></script>
@@ -117,6 +167,9 @@
   <!-- Teacher -->
   <script src="/static/js/teacher/TeacherAnnCtrl.js"></script>
   <script src="/static/js/teacher/TeacherCourseCtrl.js"></script>
+  <!-- Teacher -->
+  <script src="/static/js/student/StudentAnnCtrl.js"></script>
+  <script src="/static/js/student/StudentCourseCtrl.js"></script>
 
 </body>
 

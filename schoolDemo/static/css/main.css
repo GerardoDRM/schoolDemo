@@ -29,10 +29,6 @@
   width: 100%;
   height: 100%; }
 
-.btn-shadow, .btn-shadow-more {
-  border-radius: 0;
-  margin: 10px 2px; }
-
 .no-padding {
   padding: 0; }
 
@@ -41,7 +37,7 @@
 
 /* Contact */
 /* Buttons */
-.btn_menu, .file-upload {
+.file-upload {
   overflow: hidden;
   cursor: pointer; }
 
@@ -62,6 +58,13 @@
 /*General*/
 html {
   height: 100%; }
+
+.general-center {
+  text-align: center;
+  margin: 0 auto; }
+
+.txt-left {
+  text-align: left; }
 
 /**
   * Footer Partial SASS
@@ -149,7 +152,7 @@ footer {
       cursor: pointer; }
 
 .login {
-  background-image: url("/static/images/08-06-201601:17:04traviareO8lBNW.jpg");
+  background-image: url("/static/images/profile.jpg");
   background-size: cover;
   width: 100%;
   height: 600px; }
@@ -160,51 +163,11 @@ footer {
   * buttons style on the web app
 **/
 /* General */
-.btn-shadow {
-  background-color: rgba(255, 255, 255, 0.4); }
-  .btn-shadow:hover {
-    background-color: rgba(255, 255, 255, 0.8); }
-
-/* Menu */
-.btn_menu {
-  width: 48px;
-  height: 45px;
-  position: relative;
-  background: #603913;
-  border: none;
-  text-indent: -900em;
-  outline: none; }
-  .btn_menu:after {
-    width: 68%;
-    height: 5px;
-    position: absolute;
-    top: 10px;
-    left: 16%;
-    content: '';
-    background: #FFF;
-    box-shadow: 0 10px 0 #FFF, 0 20px 0 #FFF; }
-  .btn_menu:hover {
-    background: #5c3612; }
-
 /* LOGIN */
 .btn-container {
   width: 150px;
   display: flex;
   margin-left: auto; }
-
-/* SEARCH */
-.container-1 button.icon {
-  width: 6%;
-  height: 35px;
-  border: none;
-  background: transparent; }
-
-/* COMMENTS */
-.btn-shadow-more {
-  background-color: rgba(0, 0, 0, 0.4); }
-  .btn-shadow-more:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #FFF; }
 
 /* Register */
 .file-upload {
@@ -227,26 +190,6 @@ footer {
 
 .file-upload:hover {
   background: #fbb040; }
-
-.btn-publish {
-  width: 70%;
-  font-size: 22px;
-  color: #FED190;
-  border: 5px solid #fbb040;
-  padding-bottom: 35px; }
-  .btn-publish:hover {
-    color: #fbb040;
-    background-color: transparent;
-    border: 5px solid #fbb040; }
-
-.form-buttom {
-  cursor: pointer;
-  padding: 5px;
-  width: auto;
-  text-align: center;
-  color: #fbb040;
-  border: 5px solid #fbb040;
-  background-color: transparent; }
 
 /**
   * Forms Partial SASS
@@ -336,6 +279,10 @@ footer {
   .head-img h1 {
     text-align: center;
     margin-top: 5%; }
+
+.general-card {
+  margin: 10px 0;
+  height: 250px; }
 
 /*Media Queries*/
 

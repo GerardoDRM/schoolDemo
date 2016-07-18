@@ -38,13 +38,6 @@
                 <input ng-model="school.in_charge_job">
               </md-input-container>
             </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block">
-                <label>Descripción</label>
-                <textarea ng-model="school.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-              </md-input-container>
-            </div>
-
           </div>
           <!-- First Column -->
           <div class="col-sm-6">
@@ -66,27 +59,17 @@
                 <input ng-model="school.address">
               </md-input-container>
             </div>
-            <div layout-gt-sm="row">
-              <h3> Niveles </h3>
-            </div>
-            <div style="margin-bottom: 40px;">
-              <md-checkbox ng-disabled="true" ng-model="school.level.c4" aria-label="Bachelor">
-                Licenciatura
-              </md-checkbox>
-              <md-checkbox ng-disabled="true" ng-model="school.level.c3" aria-label="HighSchool">
-                Bachillerato
-              </md-checkbox>
-              <md-checkbox ng-disabled="true" ng-model="school.level.c2" aria-label="MiddleSchool">
-                Secundaria
-              </md-checkbox>
-              <md-checkbox ng-disabled="true" ng-model="school.level.c1" aria-label="ElementarySchool">
-                Primaria
-              </md-checkbox>
-            </div>
-            <md-button class="md-raised md-hue-1 card-button" ng-click="storeData()">Guardar</md-button>
           </div>
           <!-- Second Column -->
         </div>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" style="width:100%;">
+            <label>Descripción</label>
+            <textarea ng-model="school.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+          </md-input-container>
+        </div>
+        <md-button class="md-raised md-hue-1 card-button" ng-click="storeData()">Guardar</md-button>
+
         <!-- Info Col -->
       </md-card>
     </div>

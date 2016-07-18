@@ -1,0 +1,65 @@
+<md-content class="md-padding">
+  <div ng-controller="CourseTaskCtrl" ng-cloak>
+    <div layout="column" layout-align="center center">
+      <div>
+        <md-button md-no-ink class="md-primary" ng-click="showAdvanced($event)">+Agregar tarea</md-button>
+      </div>
+      <div id="hw-content" style="width:50%;">
+
+      </div>
+
+    </div>
+    <!-- Angular Material has problems with chips and dialogs using templates
+     instead we use a static dialog using just one controller in order to use chips
+     with a dialog -->
+    <div style="visibility: hidden">
+      <div class="md-dialog-container" id="CourseDialogTask">
+        <md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak class="card-dialog">
+          <form>
+            <md-toolbar>
+              <div class="md-toolbar-tools">
+                <h2>Crea una tarea / actividad</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                  <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+              </div>
+            </md-toolbar>
+            <md-dialog-content layout="column">
+              <div class="md-dialog-content">
+                <div layout="column">
+                  <md-input-container class="md-block input-margin" flex>
+                    <label>Titulo de la actividad</label>
+                    <input ng-model="hw.title">
+                  </md-input-container>
+                  <md-input-container class="md-block input-margin" flex>
+                    <label>Descripcion de la actividad</label>
+                    <textarea ng-model="hw.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+                  </md-input-container>
+                  <md-datepicker class="input-margin" ng-model="hw.submissionDate" md-placeholder="Ingresa la fecha">
+                  </md-datepicker>
+                  <div class="preview-glyphs icon-margin">
+                    <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
+                      <input type="file" />
+                    </md-icon>
+                    <md-icon md-svg-src="/static/images/ic_videocam.svg" class="material-icons step"></md-icon>
+                  </div>
+                </div>
+              </div>
+            </md-dialog-content>
+            <md-dialog-actions layout="row">
+              <span flex></span>
+              <md-button ng-click="cancel()">
+                Cancelar
+              </md-button>
+              <md-button ng-click="createHw()" style="margin-right:20px;">
+                Crear
+              </md-button>
+            </md-dialog-actions>
+          </form>
+        </md-dialog>
+      </div>
+    </div>
+    <!-- End Dialog -->
+  </div>
+</md-content>

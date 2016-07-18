@@ -14,7 +14,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
-    "c3": "Preparatoria",
+    "c3": "Bachillerato",
     "c4": "Licenciatura"
   }
 
@@ -27,7 +27,6 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
         "level": "c3"
       }
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['teachers'];
       for (var prof in dataList) {
         var drawProf = dataList[prof];
@@ -37,10 +36,15 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
         $scope.professors.push(drawProf);
         _addProfessor(drawProf)
       }
-    }, function errorCallback(response) {});
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
   });
 
   $scope.addProfessor = function(ev) {
+    $scope.prof = {};
+    $scope.prof.levelList = [];
+    $scope.selectedCourses = [];
     // Show dialog
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
     $mdDialog.show({
@@ -67,6 +71,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     // Add level keys on array to
     // indentify which levels are included
     var l = $scope.prof.level;
+    $scope.prof.levelList = [];
     for (var level in l) {
       if (l[level]) {
         $scope.prof.levelList.push(level);
@@ -75,20 +80,22 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     // Get courses in a list
     var courses_key = [];
     for (var j in $scope.selectedCourses) {
-      courses_key.push($scope.selectedCourses[j].code);
+      courses_key.push($scope.selectedCourses[j]._id);
     }
     var updated = {
       "name": $scope.prof.name,
       "password": $scope.prof.password,
       "email": $scope.prof.email,
       "level": $scope.prof.levelList,
-      "courses": courses_key
+      "courses": courses_key,
+      "phone": $scope.prof.phone
     }
     var flag = false;
     if ($scope.prof._id !== undefined) {
       updated['id'] = parseInt($scope.prof._id);
       flag = true;
     }
+
     $http({
       method: 'PUT',
       url: '/api/v0/school/teachers',
@@ -106,7 +113,10 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
       // Clean announ object
       $scope.prof = {};
       $scope.prof.levelList = [];
-    }, function errorCallback(response) {});
+      addFeedback("Se han guardado los datos exitosamente", 'success');
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
     // Close dialog
     $mdDialog.cancel();
   }
@@ -120,15 +130,16 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     var levels = "";
     var courses = "";
     for (var i in prof.levelList) {
-      levels += $scope.levelRef[prof.levelList[i]] + ", ";
+      levels += $scope.levelRef[prof.levelList[i]] + " ";
     }
     for (var j in $scope.selectedCourses) {
-      courses += $scope.selectedCourses[j].name + ", ";
+      courses += $scope.selectedCourses[j].name + " ";
     }
 
     // Compile to DOM
     angular.element(document.getElementById('ProfessorCards')).append($compile(
-      '<md-card class="card-prof md-whiteframe-8dp col-sm-4" id=' + prof._id + '>' +
+      '<div class="col-sm-4">' +
+      '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + prof._id + '>' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
@@ -143,29 +154,34 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
-      '</md-card>'
+      '</md-card></div>'
     )($scope));
   }
 
   // This method search on professors array
   // this helps us a request to the server
   $scope.editProfessor = function(id, ev) {
+    $scope.selectedCourses = [];
     var dataList = $scope.professors;
     for (var prof in dataList) {
       var professor = dataList[prof];
       if (professor._id == id) {
         $scope.prof = professor;
-        console.log(professor);
         // Adding courses
         var courses = $scope.prof.courses;
         for (var i = 0; i < courses.length; i++) {
           for (var j = 0; j < $scope.courses.length; j++) {
-            if (courses[i] == $scope.courses[j].code) {
+            if (courses[i] == $scope.courses[j]._id) {
               $scope.selectedCourses.push($scope.courses[j]);
             }
           }
         }
-        // $scope.selectedCourses.push();
+        // Adding Level checkboxes
+        $scope.prof.level = [];
+        var levels = $scope.prof.levelList;
+        for (var l = 0; l < levels.length; l++) {
+          $scope.prof.level[levels[l]] = true;
+        }
         $mdDialog.show({
           contentElement: '#ProfessorDialog',
           parent: angular.element(document.body),
@@ -189,11 +205,11 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
         'Content-Type': 'application/json'
       }
     }).then(function successCallback(response) {
-      console.log(response);
       // Remove from element from DOM
       $('#' + id).remove();
+      addFeedback("El profesor ha sido eliminado", 'success');
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 
@@ -237,32 +253,17 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
   // This function request all courses on the institution
   // It works to map all couses to autocomplete
   function loadCourses() {
-    var courses = [{
-      'name': 'Matematicas',
-      'code': 'M101',
-      'sec': 001
-    }, {
-      'name': 'Algebra',
-      'code': 'AL101',
-      'sec': 001
-    }, {
-      'name': 'Algebra',
-      'code': 'AL101',
-      'sec': 002
-    }, {
-      'name': 'Literatura',
-      'code': 'LI101',
-      'sec': 001
-    }, {
-      'name': 'Logica',
-      'code': 'LO101',
-      'sec': 001
-    }];
-
-    return courses.map(function(course) {
-      course._lowername = course.name.toLowerCase();
-      course._lowertype = course.code.toLowerCase();
-      return course;
-    });
+    // Get Courses List
+    $http({
+      method: 'GET',
+      url: '/api/v0/school/courses/list'
+    }).then(function successCallback(response) {
+      $scope.courses = response.data['courses'];
+      return $scope.courses.map(function(course) {
+        course._lowername = course.name.toLowerCase();
+        course._lowertype = course._id.toLowerCase();
+        return course;
+      });
+    }, function errorCallback(response) {});
   }
 }]);

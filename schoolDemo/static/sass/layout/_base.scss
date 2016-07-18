@@ -17,3 +17,12 @@ html {
 .no-padding {
   @extend %no-padding;
 }
+
+.general-center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.txt-left {
+  text-align: left;
+}

@@ -6,7 +6,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
-    "c3": "Preparatoria",
+    "c3": "Bachillerato",
     "c4": "Licenciatura"
   }
 
@@ -19,7 +19,6 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
         "level": "c3"
       }
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['courses'];
       for (var cour in dataList) {
         var drawCourse = dataList[cour];
@@ -33,6 +32,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
   });
 
   $scope.addCourse = function(ev) {
+    $scope.cou = {};
     // Show dialog
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
     $mdDialog.show({
@@ -57,7 +57,6 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       "level": $scope.cou.level,
       "semester": $scope.cou.semester
     }
-    console.log(updated);
     $http({
       method: 'PUT',
       url: '/api/v0/school/courses',
@@ -67,11 +66,14 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       // This tip will save a server request
       $scope.courses.push($scope.cou);
       // Update UI
-      _addCourse($scope.cou);
+      $('#course-tab').click();
       $scope.selectedCourses = [];
       // Clean announ object
       $scope.cou = {};
-    }, function errorCallback(response) {});
+      addFeedback("Se han guardado los datos exitosamente", 'success');
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
     // Close dialog
     $mdDialog.cancel();
   }
@@ -86,7 +88,8 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
 
     // Compile to DOM
     angular.element(document.getElementById('CourseCards')).append($compile(
-      '<md-card class="card-prof md-whiteframe-8dp col-sm-4" id=' + cou._id + '>' +
+      '<div class="col-sm-4">' +
+      '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + cou._id + '>' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
@@ -97,23 +100,36 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       '</div>' +
       '<div class="col-sm-6"> ' +
       '<md-button class="md-raised button-eliminate" ng-click="editCourse(\'' + cou._id + '\', $event)">Editar</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteCourse(\'' + cou._id  + '\')">Eliminar</md-button>' +
+      '<md-button class="md-raised button-eliminate" ng-click="deleteCourse(\'' + cou._id + '\')">Eliminar</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
-      '</md-card>'
+      '</md-card></div>'
     )($scope));
   }
 
   // This method search on students array
   // this helps us a request to the server
   $scope.editCourse = function(id, ev) {
-    console.log(id);
+    var dataList = $scope.courses;
+    for (var c in dataList) {
+      var course = dataList[c];
+      if (course._id == id) {
+        console.log(course);
+        $scope.cou = course;
+        $mdDialog.show({
+          contentElement: '#CourseDialog',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true
+        });
+        break;
+      }
+    }
   }
 
   // This methos delete a student from database
   $scope.deleteCourse = function(id) {
-    console.log(id);
     $http({
       method: 'DELETE',
       url: '/api/v0/school/courses',
@@ -124,11 +140,11 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
         'Content-Type': 'application/json'
       }
     }).then(function successCallback(response) {
-      console.log(response);
+      addFeedback("Un curso ha sido eliminado", 'success');
       // Remove from element from DOM
       $('#' + id).remove();
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 

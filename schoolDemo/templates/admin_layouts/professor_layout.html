@@ -37,12 +37,12 @@
                     </md-button>
                     <md-chips ng-model="selectedCourses" md-transform-chip="transformChip($chip)" md-require-match="autocompleteDemoRequireMatch">
                       <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name" placeholder="Materias">
-                        <span md-highlight-text="searchText">{{item.name|angular}} :: {{item.code|angular}}-{{item.sec|angular}} </span>
+                        <span md-highlight-text="searchText">{{item.name|angular}} :: {{item._id|angular}}-{{item.section|angular}} </span>
                       </md-autocomplete>
                       <md-chip-template>
                         <span>
                           <strong>{{"$chip.name"|angular}}</strong>
-                          <em>({{"$chip.code"|angular}} / {{"$chip.sec"|angular}}) </em>
+                          <em>({{"$chip._id"|angular}} / {{"$chip.section"|angular}}) </em>
                         </span>
                       </md-chip-template>
                     </md-chips>

@@ -16,7 +16,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
     }).then(function successCallback(response) {
       console.log(response.data);
       var dataList = response.data['announcements'];
-      for(var announ in dataList) {
+      for (var announ in dataList) {
         var drawAnnoun = dataList[announ];
         drawAnnoun.levelList = drawAnnoun.level;
         _addAnnouncement(drawAnnoun)
@@ -49,7 +49,9 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       data: {
         "publication_date": parseInt(date)
       },
-      headers: {'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }).then(function successCallback(response) {
       console.log(response);
       // Remove from element from DOM
@@ -120,7 +122,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
 
     // Compile to DOM
     angular.element(document.getElementById('announcementCards')).append($compile(
-      '<md-card class="card-announ md-whiteframe-8dp" id='+ announ.publication_date +'>' +
+      '<md-card class="card-announ md-whiteframe-8dp" id=' + announ.publication_date + '>' +
       '<md-card-title>' +
       '<md-card-title-text>' +
       '<div class="row">' +
@@ -129,15 +131,16 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       '<p class="md-subhead"> ' + announ.content + '</p>' +
       '<p class="md-subhead"> ' + levels + '</p>' +
       '</div>' +
-      '<div class="col-sm-4"> '+
+      '<div class="col-sm-4"> ' +
       '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
-      '<div class="col-sm-8"><p>'+ pDate +'</p></div>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteAnnouncement('+ announ.publication_date +')">Eliminar</md-button>' +
+      '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
+      '<md-button class="md-raised button-eliminate" ng-click="deleteAnnouncement(' + announ.publication_date + ')">Eliminar</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
       '</md-card>'
     )($scope));
   }
+
 
 }]);

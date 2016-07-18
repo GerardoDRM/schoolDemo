@@ -40,7 +40,7 @@ def teacher_class():
 
 @app.route('/student/class')
 def student_class():
-    return render_template("student_dashboard.html")
+    return render_template("dashboard_student/student_dashboard.html")
 
 
 @app.route('/admin')
@@ -99,19 +99,23 @@ class SchoolAPI(Resource):
         if cursor is not None:
             # First check profile photo
             photo = ''
-            if args.profile_photo is not None:
+            data = {
+                "name": args.name, "email": args.email,
+                "password": "", "description": args.description,
+                "address.street": args.address, "address.in_charge": args.in_charge,
+                "address.in_charge_job": args.in_charge_job, "address.phone": args.phone
+            }
+            if args.profile_photo is not None and args.profile_photo != "/static/images/profile.jpg":
                 # Root
                 path_dir = "/static/images/"
-                file_name = create_file_name()
+                file_name = "profile.jpg"
                 path_file = path_dir + file_name
                 # Create image
                 create_image(path_file, args.profile_photo)
                 photo = path_file
+                data["profile_photo"] = photo
 
-            mongo.db.school.update({"_id": ObjectId(id)}, {"$set": {"name": args.name, "email": args.email,
-                                                                    "profile_photo": photo, "password": "", "description": args.description,
-                                                                    "address.street": args.address, "address.in_charge": args.in_charge,
-                                                                    "address.in_charge_job": args.in_charge_job, "address.phone": args.phone}})
+            mongo.db.school.update({"_id": ObjectId(id)}, {"$set": data})
             message = {
                 "status": 201,
                 "code": 1
@@ -119,6 +123,26 @@ class SchoolAPI(Resource):
         else:
             message = {
                 "status": 500,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+    # Delete profile photo
+    def delete(self, id):
+        path = "/static/images/profile.jpg"
+        delete_file(path)
+        result = mongo.db.school.update_one(
+            {"_id": ObjectId(id)}, {"$set": {"profile_photo": ""}})
+
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
                 "code": 2
             }
 
@@ -323,7 +347,7 @@ class SchoolCourses(Resource):
         parser.add_argument('semester', type=str,
                             location='json', required=True)
         parser.add_argument('description', type=str,
-                            location='json', required=True)
+                            location='json')
         parser.add_argument('college_carrer', type=str, location='json')
         parser.add_argument('section', type=list, location='json')
         args = parser.parse_args()
@@ -370,6 +394,34 @@ class SchoolCourses(Resource):
                 "code": 2
             }
         return jsonify(message)
+
+# This class manage the simple Get courses info API
+# return JSON
+
+
+class SimpleCoursesAPI(Resource):
+    # Get general school info
+
+    def get(self):
+        courses = mongo.db.courses.find(
+            {}, {"_id": 1, "name": 1, "section.sec": 1})
+        c = create_dic(courses)
+        courses_dict_list = []
+        for sec in c:
+            course_dict = {
+                "_id": sec['_id'],
+                "name": sec['name']
+            }
+            if len(sec['section']) > 0:
+                sec_list = sec['section']
+                for one_sec in sec_list:
+                    course_dict['section'] = one_sec['sec']
+                    courses_dict_list.append(course_dict)
+            else:
+                course_dict['section'] = 1
+                courses_dict_list.append(course_dict)
+
+        return jsonify(courses=courses_dict_list)
 
 # Announcements made by school administrator
 # this class has CRUD operatios in order to
@@ -478,10 +530,26 @@ class TeacherCourses(Resource):
 
 
 # This class has CRUD operatios in order to
+# manage student courses
+# @Path <id> - student id
+# return JSON
+class StudentCourses(Resource):
+    # Get all courses by student
+
+    def get(self, id):
+        p = mongo.db.students.find_one({"_id": id}, {"_id": 0, "courses": 1})
+        courses = mongo.db.courses.find({"_id": {"$in": p["courses"]}}, {
+                                        "name": 1, "description": 1, "level": 1})
+        c = create_dic(courses)
+        return jsonify(courses=c)
+
+# This class has CRUD operatios in order to
 # manage a course announ
 # @Path <id> - curse id
 # @Path <num> - section number
 # return JSON
+
+
 class CoursesAnnoun(Resource):
     # Get announcement from course section
 
@@ -663,7 +731,8 @@ class CoursesQuiz(Resource):
                             location='json', required=True)
         parser.add_argument('deadline', type=int,
                             location='json', required=True)
-        parser.add_argument('accesstime', type=int, location='json', required=True)
+        parser.add_argument('accesstime', type=int,
+                            location='json', required=True)
         parser.add_argument('position', type=int, location='json')
         args = parser.parse_args()
 
@@ -775,6 +844,10 @@ api.add_resource(SchoolStudents, '/api/v0/school/students',
                  endpoint='schoolStudents')
 api.add_resource(SchoolCourses, '/api/v0/school/courses',
                  endpoint='schoolCourses')
+api.add_resource(SimpleCoursesAPI, '/api/v0/school/courses/list',
+                 endpoint='schoolCoursesList')
+api.add_resource(
+    StudentCourses, '/api/v0/student/courses/<int:id>', endpoint='studentCourses')
 api.add_resource(
     TeacherCourses, '/api/v0/teacher/courses/<int:id>', endpoint='teacherCourses')
 api.add_resource(CoursesAnnoun, '/api/v0/courses/announ/<id>/<int:num>',
