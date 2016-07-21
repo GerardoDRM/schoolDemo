@@ -1,6 +1,15 @@
 <div ng-controller="StudentController">
   <md-button md-no-ink class="md-primary" ng-click="addStudent($event)">+ Agregar alumno</md-button>
-  <md-button md-no-ink class="md-primary" ng-click="addStudent($event)">+ Carga de alumnos con Excel</md-button>
+  <div class="header-filter">
+    <h3>Niveles</h3>
+    <md-radio-group ng-model="data.group">
+      <md-radio-button value="c3" class="md-primary" >Bachillerato</md-radio-button>
+      <md-radio-button value="c4" class="md-primary"> Licenciatura </md-radio-button>
+    </md-radio-group>
+    <md-button ng-click="search()">
+      Buscar
+    </md-button>
+  </div>
   <div id="StudentCards">
   </div>
   <!-- Angular Material has problems with chips and dialogs using templates

@@ -1,23 +1,31 @@
-angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$compile',  function($scope, $http, $compile) {
+angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
   $scope.id = "MA101";
   $scope.section = 1;
 
   $scope.announ = {};
 
   $('#annuncesBtn').click(function() {
+    $scope.announ = {};
+    $scope.displayAnnoun();
+  });
+
+
+  $scope.displayAnnoun = function() {
     $('#comment-space').empty();
     $http({
       method: 'GET',
       url: '/api/v0/courses/announ/' + $scope.id + "/" + $scope.section
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['announcements'];
-      for(var announ in dataList) {
+      for (var announ in dataList) {
         var drawAnnoun = dataList[announ];
         _addAnnouncement(drawAnnoun);
       }
     }, function errorCallback(response) {});
-  });
+  }
+
+  // Get announcements
+  $scope.displayAnnoun();
 
   /*
    * This function compile javascript template
@@ -30,11 +38,12 @@ angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$co
     angular.element(document.getElementById('comment-space')).append($compile(
       '<md-list-item class="md-3-line" style="height:250px;">' +
       '<div class="list-item-txt">' +
-      '<h3>'+ announ.author +'</h3>' +
-      '<h4>'+ pDate +'</h4>' +
+      '<h3>' + announ.author + '</h3>' +
+      '<h4>' + pDate + '</h4>' +
       '<p>' + announ.description +
       '</p>' +
       '</div>' +
+      '<md-button class="md-raised md-warn" ng-click="deleteAnnouncement(' + announ.date + ')">Eliminar</md-button>' +
       '<md-divider inset></md-divider>' +
       '</md-list-item>'
     )($scope));
@@ -57,10 +66,11 @@ angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$co
       url: '/api/v0/courses/announ/' + $scope.id + "/" + $scope.section,
       data: updated
     }).then(function successCallback(response) {
-      _addAnnouncement($scope.announ);
-      // Clean announ object
-      $scope.announ = {};
-    }, function errorCallback(response) {});
+      addFeedback("Se ha agregado el comentario al muro", 'success');
+      $('#annuncesBtn').click();
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
   }
 
   $scope.deleteAnnouncement = function(date) {
@@ -70,13 +80,15 @@ angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$co
       data: {
         "publication_date": parseInt(date)
       },
-      headers: {'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }).then(function successCallback(response) {
-      console.log(response);
       // Remove from element from DOM
-      $('#' + date).remove();
+      $('#annuncesBtn').click();
+      addFeedback("Se ha eliminado el comentario del muro", 'success');
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 

@@ -528,11 +528,64 @@ class TeacherCourses(Resource):
         print c
         return jsonify(courses=c)
 
+# This class has CRUD operatios in order to
+# manage teacher profile
+# @Path <id> - teacher id
+# return JSON
+
+
+class TeacherProfile(Resource):
+    # Get teacher profile
+
+    def get(self, id):
+        teacher = mongo.db.professors.find_one(
+            {"_id": id}, {'_id': 0, 'courses': 0})
+
+        return jsonify(teacher)
+
+    # Update teacher profile
+    def put(self, id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('description', type=str,
+                            location='json')
+        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('phone', type=str, location='json')
+        parser.add_argument('password', type=str,
+                            location='json', required=True)
+        args = parser.parse_args()
+
+        data = {
+            "description": args.description,
+            "email": args.email,
+            "phone": args.phone,
+            "password": args.password
+        }
+
+        message = {}
+        # Update existing data else create new document
+        result = mongo.db.professors.update_one(
+            {"_id": id}, {"$set": data})
+
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
+                "code": 2
+            }
+
+        return jsonify(message)
+
 
 # This class has CRUD operatios in order to
 # manage student courses
 # @Path <id> - student id
 # return JSON
+
+
 class StudentCourses(Resource):
     # Get all courses by student
 
@@ -600,12 +653,12 @@ class CoursesAnnoun(Resource):
     # Delte announcement from course section
     def delete(self, id, num):
         parser = reqparse.RequestParser()
-        parser.add_argument('date', type=int,
+        parser.add_argument('publication_date', type=int,
                             location='json', required=True)
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
-            "section.$.announ": {"date": args.date}
+            "section.$.announ": {"date": args.publication_date}
         }})
 
         message = {}
@@ -850,6 +903,8 @@ api.add_resource(
     StudentCourses, '/api/v0/student/courses/<int:id>', endpoint='studentCourses')
 api.add_resource(
     TeacherCourses, '/api/v0/teacher/courses/<int:id>', endpoint='teacherCourses')
+api.add_resource(
+    TeacherProfile, '/api/v0/teacher/profile/<int:id>', endpoint='teacherProfile')
 api.add_resource(CoursesAnnoun, '/api/v0/courses/announ/<id>/<int:num>',
                  endpoint='coursesAnnoun')
 api.add_resource(CoursesTasks, '/api/v0/courses/task/<id>/<int:num>',

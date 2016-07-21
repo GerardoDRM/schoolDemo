@@ -1,6 +1,7 @@
 angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.prof = {};
+  $scope.data = {};
   $scope.prof.levelList = [];
   $scope.selectedItem = null;
   $scope.searchText = null;
@@ -19,12 +20,20 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
   }
 
   $('#professor-tab').click(function() {
+    $scope.prof = {};
+    $scope.professors = [];
+    $scope.selectedCourses = [];
+    $scope.data.group = "c3";
+    $scope.search();
+  });
+
+  $scope.search = function() {
     $('#ProfessorCards').empty();
     $http({
       method: 'GET',
       url: '/api/v0/school/teachers',
       params: {
-        "level": "c3"
+        "level": $scope.data.group
       }
     }).then(function successCallback(response) {
       var dataList = response.data['teachers'];
@@ -39,7 +48,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
-  });
+  }
 
   $scope.addProfessor = function(ev) {
     $scope.prof = {};
@@ -113,6 +122,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
       // Clean announ object
       $scope.prof = {};
       $scope.prof.levelList = [];
+      $('#professor-tab').click();
       addFeedback("Se han guardado los datos exitosamente", 'success');
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');

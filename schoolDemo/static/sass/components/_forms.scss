@@ -3,7 +3,22 @@
   * This SASS file has all
   * forms used on the app
 **/
-
 .publish {
   width: 50%;
+}
+
+.card-container {
+  margin: 10% auto;
+  width: 60%;
+  .form_reg {
+    margin: 5% auto;
+    width: 80%;
+    .profile_photo {
+      @include box(200px, 200px);
+      @include border-radius(100px);
+      margin: -130px auto 0;
+      border: 5px solid $gray-material;
+      background-size: cover;
+    }
+  }
 }

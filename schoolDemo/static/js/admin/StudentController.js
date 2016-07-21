@@ -1,6 +1,7 @@
 angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.stu = {};
+  $scope.data = {};
   $scope.selectedItem = null;
   $scope.searchText = null;
   $scope.querySearch = querySearch;
@@ -19,12 +20,20 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
   }
 
   $('#student-tab').click(function() {
+    $scope.students = [];
+    $scope.selectedCourses = [];
+    $scope.stu = {};
+    $scope.data.group = "c3";
+    $scope.search();
+  });
+
+  $scope.search = function() {
     $('#StudentCards').empty();
     $http({
       method: 'GET',
       url: '/api/v0/school/students',
       params: {
-        "level": "c3"
+        "level": $scope.data.group
       }
     }).then(function successCallback(response) {
       var dataList = response.data['students'];
@@ -38,7 +47,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
-  });
+  }
 
   $scope.addStudent = function(ev) {
     $scope.stu = {};
@@ -91,7 +100,6 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       url: '/api/v0/school/students',
       data: updated
     }).then(function successCallback(response) {
-      console.log(response);
       if (!flag) {
         // Update UI
         $scope.stu._id = response.data['student_id'];
@@ -103,6 +111,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       }
       $scope.selectedCourses = [];
       $scope.stu = {};
+      $('#student-tab').click();
       addFeedback("Se han guardado los datos exitosamente", 'success');
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
@@ -156,10 +165,12 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
         $scope.stu = student;
         // Adding courses
         var courses = $scope.stu.courses;
-        for (var i = 0; i < courses.length; i++) {
-          for (var j = 0; j < $scope.courses.length; j++) {
-            if (courses[i] == $scope.courses[j]._id) {
-              $scope.selectedCourses.push($scope.courses[j]);
+        if (courses !== undefined) {
+          for (var i = 0; i < courses.length; i++) {
+            for (var j = 0; j < $scope.courses.length; j++) {
+              if (courses[i] == $scope.courses[j]._id) {
+                $scope.selectedCourses.push($scope.courses[j]);
+              }
             }
           }
         }

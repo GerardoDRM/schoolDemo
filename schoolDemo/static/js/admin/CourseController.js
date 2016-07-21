@@ -1,6 +1,7 @@
 angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.cou = {};
+  $scope.data = {};
   // Stored objects
   $scope.courses = [];
   $scope.levelRef = {
@@ -11,12 +12,19 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
   }
 
   $('#course-tab').click(function() {
+    $scope.cou = {};
+    $scope.courses = [];
+    $scope.data.group = "c3";
+    $scope.search();
+  });
+
+  $scope.search = function() {
     $('#CourseCards').empty();
     $http({
       method: 'GET',
       url: '/api/v0/school/courses',
       params: {
-        "level": "c3"
+        "level": $scope.data.group
       }
     }).then(function successCallback(response) {
       var dataList = response.data['courses'];
@@ -29,7 +37,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
         _addCourse(drawCourse)
       }
     }, function errorCallback(response) {});
-  });
+  }
 
   $scope.addCourse = function(ev) {
     $scope.cou = {};
@@ -70,6 +78,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       $scope.selectedCourses = [];
       // Clean announ object
       $scope.cou = {};
+      $('#course-tab').click();
       addFeedback("Se han guardado los datos exitosamente", 'success');
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');

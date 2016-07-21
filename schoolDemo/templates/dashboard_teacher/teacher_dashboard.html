@@ -21,6 +21,11 @@
     </md-toolbar>
   </header>
 
+  <!-- Feedback -->
+  <div id="feedback" class="feedback">
+    <h3 id="feedback-msg" class="no-margin"></h3>
+  </div>
+
   <div layout="column">
     <md-content class="md-padding">
       <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
@@ -58,6 +63,21 @@
      * You must include the dependency on 'ngMaterial'
      */
     var app = angular.module('SchoolApp', ['ngMaterial']);
+
+    function addFeedback(msg, status) {
+      var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
+      var fontColor = status == "success" ? "#FFFFFF" : "#C5A14E";
+      $("#feedback").addClass("msg");
+      $("#feedback-msg").html(msg);
+      $("#feedback").css({
+        "background-color": cl,
+        "color": fontColor
+      });
+      setTimeout(function() {
+        $("#feedback").removeClass("msg");
+        $("#feedback-msg").html("");
+      }, 6000);
+    }
   </script>
 
   <script src="/static/js/teacher/courses/CourseAnnCtrl.js"></script>

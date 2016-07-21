@@ -199,6 +199,23 @@ footer {
 .publish {
   width: 50%; }
 
+.card-container {
+  margin: 10% auto;
+  width: 60%; }
+  .card-container .form_reg {
+    margin: 5% auto;
+    width: 80%; }
+    .card-container .form_reg .profile_photo {
+      width: 200px;
+      height: 200px;
+      -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      -ms-border-radius: 100px;
+      border-radius: 100px;
+      margin: -130px auto 0;
+      border: 5px solid #e9eaed;
+      background-size: cover; }
+
 /**
   * Icons Partial SASS
   * This SASS file has most of the icons
