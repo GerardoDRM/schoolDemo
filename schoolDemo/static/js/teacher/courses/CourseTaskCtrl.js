@@ -1,30 +1,38 @@
-angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http','$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
+angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.id = "MA101";
   $scope.section = 1;
-
   $scope.hw = {};
+  $scope.tasks = [];
+  $scope.position = undefined;
 
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
 
   $('#taskBtn').click(function() {
+    $scope.hw = {};
+    $scope.tasks = [];
+    $scope.positon = undefined;
+    $scope.getTasks();
+  });
+
+  $scope.getTasks = function() {
     $('#hw-content').empty();
     $http({
       method: 'GET',
       url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['tasks'];
-      for(var task in dataList) {
+      for (var task in dataList) {
         var draw = dataList[task];
-        _addHw(draw);
+        $scope.tasks.push(draw);
+        _addHw(draw, task);
       }
     }, function errorCallback(response) {});
-  });
+  }
 
-  var _addHw = function(hw) {
+  var _addHw = function(hw, task) {
     var pDate = moment.unix(hw.published_date).format("DD/MM/YYYY");
 
     angular.element(document.getElementById('hw-content')).append($compile(
@@ -34,13 +42,14 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<div class="row">' +
       '<div class="col-sm-8">' +
       '<h1 class="md-headline no-margin"> ' + hw.title + ' </h1>' +
+      '<p  class="md-subhead">' + hw.model + '</p>' +
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +
       '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
       '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
-      '<md-button class="md-raised button-eliminate" ng-click="editTask()">Editar Tarea</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteTask()">Eliminar Tarea</md-button>' +
+      '<md-button class="md-raised button-eliminate" ng-click="editTask(' + task + ', $ev)">Editar Tarea</md-button>' +
+      '<md-button class="md-raised button-eliminate" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
@@ -49,6 +58,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   }
 
   $scope.showAdvanced = function(ev) {
+    $scope.hw = {};
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
     $mdDialog.show({
         contentElement: '#CourseDialogTask',
@@ -57,11 +67,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
         clickOutsideToClose: true,
         fullscreen: useFullScreen
       })
-      .then(function(answer) {
-        $scope.status = 'You said the information was "' + answer + '".';
-      }, function() {
-        $scope.status = 'You cancelled the dialog.';
-      });
+      .then(function(answer) {}, function() {});
     $scope.$watch(function() {
       return $mdMedia('xs') || $mdMedia('sm');
     }, function(wantsFullScreen) {
@@ -71,14 +77,18 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
 
 
   $scope.createHw = function() {
-    // Create Announcement
+    // Create Task
     $scope.hw.published_date = moment().unix();
-
     var updated = {
       "content": $scope.hw.content,
       "title": $scope.hw.title,
       "published_date": $scope.hw.published_date,
-      "deadline": $scope.hw.published_date
+      "model": $scope.hw.model
+    }
+
+    // Check if is an update
+    if ($scope.position !== undefined) {
+      updated['position'] = $scope.position;
     }
 
     $http({
@@ -86,27 +96,43 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section,
       data: updated
     }).then(function successCallback(response) {
-      _addHw($scope.hw);
-      // Clean announ object
-      $scope.task = {};
-    }, function errorCallback(response) {});
+      $('#taskBtn').click();
+      addFeedback("Se ha creado la tarea", 'success');
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
     $mdDialog.cancel();
   }
 
-  $scope.deleteAnnouncement = function(date) {
+  // This method search on task array
+  // this helps us a request to the server
+  $scope.editTask = function(pos, ev) {
+    var dataList = $scope.tasks;
+    $scope.hw = dataList[pos]
+    $scope.position = pos;
+    $mdDialog.show({
+      contentElement: '#CourseDialogTask',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true
+    });
+  }
+
+  $scope.deleteTask = function(date) {
     $http({
       method: 'DELETE',
       url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section,
       data: {
         "published_date": parseInt(date)
       },
-      headers: {'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }).then(function successCallback(response) {
-      console.log(response);
-      // Remove from element from DOM
-      $('#' + date).remove();
+      $('#taskBtn').click();
+      addFeedback("Se ha eliminado la tarea", 'success');
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 

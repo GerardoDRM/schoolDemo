@@ -34,18 +34,24 @@
                   </md-input-container>
                   <md-input-container class="md-block input-margin" flex>
                     <label>Descripcion</label>
-                    <input ng-model="qz.content">
+                    <textarea ng-model="qz.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
                   </md-input-container>
-                  <md-datepicker class="input-margin" ng-model="qz.submissionDate" md-placeholder="Fecha de evaluacion">
-                  </md-datepicker>
-                  <md-input-container class="md-block input-margin" flex>
-                    <label>Hora inicio</label>
-                    <input ng-model="qz.start">
-                  </md-input-container>
-                  <md-input-container class="md-block input-margin" flex>
-                    <label>Hora de finalizacion</label>
-                    <input ng-model="qz.end">
-                  </md-input-container>
+                  <div class="row margin-block">
+                    <div class="col-sm-6">
+                      <label>Fecha inicio de examen</label>
+                      <md-datepicker class="input-margin" ng-model="qz.start_date" md-placeholder="MM/DD/YYYY">
+                      </md-datepicker>
+                      <label>Hora inicio de examen</label>
+                      <mdp-time-picker ng-model="qz.start_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
+                    </div>
+                    <div class="col-sm-6">
+                      <label>Fecha termino de examen</label>
+                      <md-datepicker class="input-margin" ng-model="qz.end_date" md-placeholder="MM/DD/YYYY">
+                      </md-datepicker>
+                      <label>Hora termino de examen</label>
+                      <mdp-time-picker ng-model="qz.end_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="md-dialog-content">
@@ -55,23 +61,18 @@
                   </md-button>
                   <md-menu-content width="4">
                     <md-menu-item>
-                      <md-button ng-click="createQuestion()">
+                      <md-button ng-click="_addSimpleQuestion()">
                         Pregunta abierta
                       </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                      <md-button ng-click="createQuestion()">
+                      <md-button ng-click="_addMultipleQuestion()">
                         Opcion Multiple
                       </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                      <md-button ng-click="createQuestion()">
-                        Relacionar
-                      </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                      <md-button ng-click="createQuestion()">
-                        Adjuntar archivos
+                      <md-button ng-click="_addBooleanQuestion()">
+                        Verdadero / Falso
                       </md-button>
                     </md-menu-item>
                   </md-menu-content>

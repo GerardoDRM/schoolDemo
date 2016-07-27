@@ -699,10 +699,9 @@ class CoursesTasks(Resource):
         parser.add_argument('title', type=str, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
-        parser.add_argument('deadline', type=int,
+        parser.add_argument('model', type=str,
                             location='json', required=True)
-        parser.add_argument('video', type=str, location='json')
-        parser.add_argument('position', type=int, location='json')
+        parser.add_argument('position', type=str, location='json')
         args = parser.parse_args()
 
         # Update existing data else create new document
@@ -712,8 +711,7 @@ class CoursesTasks(Resource):
                     "content": args.content,
                     "title": args.title,
                     "published_date": args.published_date,
-                    "deadline": args.deadline,
-                    "video": args.video
+                    "model": args.model
                 }
             }})
             message = {
@@ -724,8 +722,7 @@ class CoursesTasks(Resource):
             pos = args.position
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.hw." + pos + ".content": args.content,
                                                                                    "section.$.hw." + pos + ".title": args.title,
-                                                                                   "section.$.hw." + pos + ".deadline": args.deadline,
-                                                                                   "section.$.hw." + pos + ".video": args.video}})
+                                                                                   "section.$.hw." + pos + ".model": args.model}})
             message = {
                 "status": 200,
                 "code": 2
@@ -741,7 +738,7 @@ class CoursesTasks(Resource):
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
-            "section.$.hw": {"published_date": args.date}
+            "section.$.hw": {"published_date": args.published_date}
         }})
 
         message = {}
@@ -782,11 +779,17 @@ class CoursesQuiz(Resource):
         parser.add_argument('title', type=str, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
-        parser.add_argument('deadline', type=int,
+        parser.add_argument('start_date', type=int,
                             location='json', required=True)
-        parser.add_argument('accesstime', type=int,
+        parser.add_argument('start_hour', type=int,
                             location='json', required=True)
-        parser.add_argument('position', type=int, location='json')
+        parser.add_argument('end_date', type=int,
+                            location='json', required=True)
+        parser.add_argument('end_hour', type=int,
+                            location='json', required=True)
+        parser.add_argument('position', type=str, location='json')
+        parser.add_argument('questions', type=list, location='json')
+
         args = parser.parse_args()
 
         # Update existing data else create new document
@@ -796,8 +799,11 @@ class CoursesQuiz(Resource):
                     "content": args.content,
                     "title": args.title,
                     "published_date": args.published_date,
-                    "deadline": args.deadline,
-                    "accesstime": args.accesstime
+                    "start_date": args.start_date,
+                    "start_hour": args.start_hour,
+                    "end_date": args.end_date,
+                    "end_hour": args.end_hour,
+                    "questions": args.questions
                 }
             }})
             message = {
@@ -808,8 +814,11 @@ class CoursesQuiz(Resource):
             pos = args.position
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.quiz." + pos + ".content": args.content,
                                                                                    "section.$.quiz." + pos + ".title": args.title,
-                                                                                   "section.$.quiz." + pos + ".deadline": args.deadline,
-                                                                                   "section.$.quiz." + pos + ".video": args.accesstime}})
+                                                                                   "section.$.quiz." + pos + ".start_date": args.start_date,
+                                                                                   "section.$.quiz." + pos + ".start_hour": args.start_hour,
+                                                                                   "section.$.quiz." + pos + ".end_date": args.end_date,
+                                                                                   "section.$.quiz." + pos + ".end_hour": args.end_hour,
+                                                                                   "section.$.quiz." + pos + ".questions": args.questions}})
             message = {
                 "status": 200,
                 "code": 2
@@ -825,7 +834,7 @@ class CoursesQuiz(Resource):
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
-            "section.$.quiz": {"published_date": args.date}
+            "section.$.quiz": {"published_date": args.published_date}
         }})
 
         message = {}

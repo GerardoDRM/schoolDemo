@@ -301,6 +301,22 @@ footer {
   margin: 10px 0;
   height: 250px; }
 
+.margin-block {
+  margin: 60px auto; }
+  .margin-block label {
+    text-align: center;
+    width: 100%; }
+
+.container-question {
+  margin: 10px auto;
+  width: 90%;
+  border-bottom: 1px solid #e9eaed; }
+  .container-question .multiple-opt {
+    width: 150px; }
+
+.questions {
+  height: 50px; }
+
 /*Media Queries*/
 
 /*# sourceMappingURL=main.css.map */

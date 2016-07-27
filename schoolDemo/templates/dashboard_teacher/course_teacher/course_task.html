@@ -36,13 +36,34 @@
                     <label>Descripcion de la actividad</label>
                     <textarea ng-model="hw.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
                   </md-input-container>
-                  <md-datepicker class="input-margin" ng-model="hw.submissionDate" md-placeholder="Ingresa la fecha">
-                  </md-datepicker>
-                  <div class="preview-glyphs icon-margin">
-                    <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
-                      <input type="file" />
-                    </md-icon>
-                    <md-icon md-svg-src="/static/images/ic_videocam.svg" class="material-icons step"></md-icon>
+                  <div class="row margin-block">
+                    <div class="col-sm-6">
+                      <md-input-container class="md-block input-margin" flex>
+                        <label>Tipo</label>
+                        <md-select ng-model="hw.model">
+                          <md-option value="homework">
+                            Tarea
+                          </md-option>
+                          <md-option value="project">
+                            Proyecto
+                          </md-option>
+                          <md-option value="participation">
+                            Participacion
+                          </md-option>
+                          <md-option value="extras">
+                            Extras
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+                    <div class="col-sm-6">
+                      <md-input-container class="md-icon-float md-block">
+                        <label>Agregar archivo</label>
+                        <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
+                        </md-icon>
+                        <input type="file">
+                      </md-input-container>
+                    </div>
                   </div>
                 </div>
               </div>

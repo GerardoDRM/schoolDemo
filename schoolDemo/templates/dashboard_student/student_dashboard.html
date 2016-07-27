@@ -58,6 +58,21 @@
      * You must include the dependency on 'ngMaterial'
      */
     var app = angular.module('SchoolApp', ['ngMaterial']);
+
+    function addFeedback(msg, status) {
+      var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
+      var fontColor = status == "success" ? "#FFFFFF" : "#C5A14E";
+      $("#feedback").addClass("msg");
+      $("#feedback-msg").html(msg);
+      $("#feedback").css({
+        "background-color": cl,
+        "color": fontColor
+      });
+      setTimeout(function() {
+        $("#feedback").removeClass("msg");
+        $("#feedback-msg").html("");
+      }, 6000);
+    }
   </script>
 
   <script src="/static/js/student/courses/CourseAnnCtrl.js"></script>
