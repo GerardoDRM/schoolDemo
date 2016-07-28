@@ -1,46 +1,37 @@
-angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
+angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.id = "MA101";
   $scope.section = 1;
 
-  $scope.qz = {};
-  $scope.quizes = [];
-
-  // Questions Array
-  $scope.questionsArray = [];
-  $scope.questionCounter = 0;
-  $scope.questions = {};
+  $scope.material = {};
+  $scope.materials = [];
 
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
 
-  $('#quizBtn').click(function() {
-    $scope.qz = {};
-    $scope.quizes = [];
-    $scope.position = undefined;
-    $scope.questionCounter = 0;
-    $scope.questionsArray = [];
-    $scope.questions = {};
-    $scope.getQuiz();
+  $('#materialBtn').click(function() {
+    $scope.material = {};
+    $scope.materials = [];
+    $scope.getMaterial();
   });
 
-  $scope.getQuiz = function() {
-    $('#quiz-content').empty();
-    $http({
-      method: 'GET',
-      url: '/api/v0/courses/quiz/' + $scope.id + "/" + $scope.section
-    }).then(function successCallback(response) {
-      var dataList = response.data['quiz'];
-      for (var quiz in dataList) {
-        var draw = dataList[quiz];
-        _addQz(draw, quiz);
-        draw.start_date = new Date(draw.start_date * 1000);
-        draw.end_date = new Date(draw.end_date * 1000);
-        draw.start_hour = new Date(draw.start_hour * 1000);
-        draw.end_hour = new Date(draw.end_hour * 1000);
-        $scope.quizes.push(draw);
-      }
+  $scope.getMaterial = function() {
+    $('#material-content').empty();
+    // $http({
+    //   method: 'GET',
+    //   url: '/api/v0/courses/quiz/' + $scope.id + "/" + $scope.section
+    // }).then(function successCallback(response) {
+    //   var dataList = response.data['quiz'];
+    //   for (var quiz in dataList) {
+    //     var draw = dataList[quiz];
+    //     _addQz(draw, quiz);
+    //     draw.start_date = new Date(draw.start_date * 1000);
+    //     draw.end_date = new Date(draw.end_date * 1000);
+    //     draw.start_hour = new Date(draw.start_hour * 1000);
+    //     draw.end_hour = new Date(draw.end_hour * 1000);
+    //     $scope.quizes.push(draw);
+    //   }
     }, function errorCallback(response) {});
   }
 
@@ -72,18 +63,7 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
     $mdDialog.cancel();
   };
 
-  var _addQz = function(qz, quiz) {
-    var pDate = moment.unix(qz.published_date).format("DD/MM/YYYY");
-    var sDate = moment.unix(qz.start_date).format("DD/MM/YYYY");
-    var eDate = moment.unix(qz.end_date).format("DD/MM/YYYY");
-    var sHour = moment.unix(qz.start_hour).format("hh:mm");
-    var eHour = moment.unix(qz.end_hour).format("hh:mm");
-
-    var completeSDate = sDate + " " + sHour;
-    var completeEDate = eDate + " " + eHour;
-
-    var numQuestions = qz.questions.length;
-
+  var _addMaterial = function(qz, quiz) {
     angular.element(document.getElementById('quiz-content')).append($compile(
       '<md-card style="background:#E0E0E0">' +
       '<md-card-title>' +

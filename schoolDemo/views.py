@@ -1,7 +1,7 @@
 # coding=utf-8
-from schoolDemo import app, mongo
-from flask import Flask
-from flask import jsonify, render_template, g, flash, redirect, url_for, json
+import requests
+from schoolDemo import app, mongo, models
+from flask import Flask, jsonify, render_template, g, flash, redirect, url_for, json
 from bson.objectid import ObjectId
 from decimal import Decimal
 from flask.ext.restful import Api, Resource, reqparse
@@ -16,11 +16,60 @@ import re
 import base64
 from PIL import Image
 from io import BytesIO
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+from werkzeug.security import check_password_hash, generate_password_hash
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'home'
+
+# Load user from database
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    query = {"_id": int(user_id)}
+    s = mongo.db.students.find_one(query)
+    t = mongo.db.professors.find_one(query)
+    a = mongo.db.school.find_one(query)
+    if s:
+        return models.User(s['_id'], s['name'], "student")
+    if t:
+        return models.User(t['_id'], t['name'], "teacher")
+    if a:
+        return models.User(a['_id'], a['name'], "admin")
+
+    return None
+
+
+@app.before_request
+def before_request():
+    """Connect to the database before each request."""
+    g.user = current_user
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 @app.route('/')
-def login():
+def home():
     return render_template("login.html")
+
+
+@app.route('/dash')
+@login_required
+def dashboard():
+    if current_user.type == "student":
+        route = 'student'
+    elif current_user.type == "teacher":
+        route = 'teacher'
+    elif current_user.type == "admin":
+        route = 'admin'
+    return redirect(url_for(route))
 
 
 @app.route('/teacher')
@@ -47,11 +96,63 @@ def student_class():
 def admin():
     return render_template("admin_base.html")
 
+# # Custom errors
+# @app.errorhandler(404)
+# def not_found(error):
+#     return render_template('404.html'), 404
+#
+#
+# @app.errorhandler(500)
+# def internal_error(error):
+#     return render_template('500.html'), 500
 
 ###################################################
 # ------------------Restful API-------------------
 ###################################################
 api = Api(app)
+
+# This class manage the User API
+# return JSON
+
+
+class UserApi(Resource):
+    # Get sesson access info
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', type=int,
+                            location="json", required=True)
+        parser.add_argument('password', type=str,
+                            location="json", required=True)
+        parser.add_argument('type', type=str, location="json", required=True)
+        args = parser.parse_args()
+
+        print args
+
+        message = {}
+        user = None
+
+        print args.type
+        if args.type == "student":
+            user = mongo.db.students.find_one({"_id": args.id})
+        elif args.type == "teacher":
+            user = mongo.db.professors.find_one({"_id": args.id})
+        elif args.type == "admin":
+            user = mongo.db.school.find_one({"_id": args.id})
+        else:
+            message = {"status": 0, "code": 500}
+
+        if user is not None:
+            if check_password_hash(user['password'], args.password):
+                user_obj = models.User(args.id, user['name'], args.type)
+                login_user(user_obj)
+                message = {"status": 200, "code": 1}
+            else:
+                message = {"status": 200, "code": 2}
+        else:
+            message = {"status": 500, "code": 0}
+
+        return jsonify(message)
 
 
 # This class manage the simple Get school info API
@@ -73,7 +174,7 @@ class SchoolAPI(Resource):
 
     def get(self, id):
         school = mongo.db.school.find_one(
-            {"_id": ObjectId(id)}, {'_id': 0, 'announcements': 0})
+            {"_id": id}, {'_id': 0, 'announcements': 0})
         return jsonify(school)
 
     # Update general info
@@ -95,7 +196,7 @@ class SchoolAPI(Resource):
         args = parser.parse_args()
 
         # Check if user already exists
-        cursor = mongo.db.school.find_one({"_id": ObjectId(id)})
+        cursor = mongo.db.school.find_one({"_id": id})
         if cursor is not None:
             # First check profile photo
             photo = ''
@@ -115,7 +216,7 @@ class SchoolAPI(Resource):
                 photo = path_file
                 data["profile_photo"] = photo
 
-            mongo.db.school.update({"_id": ObjectId(id)}, {"$set": data})
+            mongo.db.school.update({"_id": id}, {"$set": data})
             message = {
                 "status": 201,
                 "code": 1
@@ -133,7 +234,7 @@ class SchoolAPI(Resource):
         path = "/static/images/profile.jpg"
         delete_file(path)
         result = mongo.db.school.update_one(
-            {"_id": ObjectId(id)}, {"$set": {"profile_photo": ""}})
+            {"_id": id}, {"$set": {"profile_photo": ""}})
 
         if result.modified_count == 1:
             message = {
@@ -436,7 +537,7 @@ class SchoolAnnouncements(Resource):
 
     def get(self, id, role):
         query = {
-            "_id": ObjectId(id)
+            "_id": id
         }
         parser = reqparse.RequestParser()
         if role == "teacher":
@@ -471,7 +572,7 @@ class SchoolAnnouncements(Resource):
         args = parser.parse_args()
 
         if args.position is None:
-            mongo.db.school.update({"_id": ObjectId(id)}, {"$push": {
+            mongo.db.school.update({"_id": id}, {"$push": {
                 "announcements": {
                     "title": args.title, "content": args.content,
                     "publication_date": args.date, "level": args.level
@@ -482,10 +583,10 @@ class SchoolAnnouncements(Resource):
             }
         else:
             pos = args.position
-            mongo.db.school.update({"_id": ObjectId(id)}, {"$set": {"announcements." + pos + ".title": args.title,
-                                                                    "announcements." + pos + ".content": args.content,
-                                                                    "announcements." + pos + ".publication_date": args.date,
-                                                                    "announcements." + pos + ".level": args.level}})
+            mongo.db.school.update({"_id": id}, {"$set": {"announcements." + pos + ".title": args.title,
+                                                          "announcements." + pos + ".content": args.content,
+                                                          "announcements." + pos + ".publication_date": args.date,
+                                                          "announcements." + pos + ".level": args.level}})
             message = {
                 "status": 200,
                 "code": 2
@@ -500,7 +601,7 @@ class SchoolAnnouncements(Resource):
                             location='json', required=True)
         args = parser.parse_args()
 
-        mongo.db.school.update({"_id": ObjectId(id)}, {"$pull": {
+        mongo.db.school.update({"_id": id}, {"$pull": {
             "announcements": {"publication_date": args.publication_date}
         }})
 
@@ -851,6 +952,85 @@ class CoursesQuiz(Resource):
 
         return jsonify(message)
 
+# This class has CRUD operatios in order to
+# manage a course material
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+
+
+class CoursesMaterial(Resource):
+    # Get material from course section
+
+    def get(self, id, num):
+        quiz = mongo.db.courses.find_one({"_id": id, "section.sec": num}, {
+            "_id": 0, "section.material": 1})
+
+        section = quiz['section'][0]
+        return jsonify(material=section['material'])
+
+    # Post material on course section
+    def post(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('content', type=str,
+                            location='json', required=True)
+        parser.add_argument('title', type=str, location='json', required=True)
+        parser.add_argument('published_date', type=int,
+                            location='json', required=True)
+        parser.add_argument('position', type=str, location='json')
+
+        args = parser.parse_args()
+
+        # Update existing data else create new document
+        if args.position is None:
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
+                "section.$.material": {
+                    "content": args.content,
+                    "title": args.title,
+                    "published_date": args.published_date
+                }
+            }})
+            message = {
+                "status": 201,
+                "code": 1
+            }
+        else:
+            pos = args.position
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.material." + pos + ".content": args.content,
+                                                                                   "section.$.material." + pos + ".title": args.title
+                                                                                   }})
+            message = {
+                "status": 200,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+    # Delte material from course section
+    def delete(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('published_date', type=int,
+                            location='json', required=True)
+        args = parser.parse_args()
+
+        result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
+            "section.$.material": {"published_date": args.published_date}
+        }})
+
+        message = {}
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
+                "code": 2
+            }
+
+        return jsonify(message)
+
 
 def create_dic(cursor):
     k = []
@@ -896,7 +1076,8 @@ def create_image(path, file):
     im = Image.open(BytesIO(base64.b64decode(file)))
     im.save(absolute_path, 'JPEG')
 
-api.add_resource(SchoolAPI, '/api/v0/school/info/<id>', endpoint='schoolInfo')
+api.add_resource(SchoolAPI, '/api/v0/school/info/<int:id>',
+                 endpoint='schoolInfo')
 api.add_resource(SimpleSchoolAPI, '/api/v0/school', endpoint='school')
 api.add_resource(SchoolAnnouncements,
                  '/api/v0/school/announcements/<id>/<role>', endpoint='schoolAnnouncements')
@@ -920,3 +1101,7 @@ api.add_resource(CoursesTasks, '/api/v0/courses/task/<id>/<int:num>',
                  endpoint='coursesTask')
 api.add_resource(CoursesQuiz, '/api/v0/courses/quiz/<id>/<int:num>',
                  endpoint='coursesQuiz')
+api.add_resource(CoursesMaterial, '/api/v0/courses/material/<id>/<int:num>',
+                 endpoint='coursesMaterial')
+api.add_resource(UserApi, '/api/v0/user/login',
+                 endpoint='userProfile')

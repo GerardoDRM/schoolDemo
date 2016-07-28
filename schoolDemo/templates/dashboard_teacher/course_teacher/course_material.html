@@ -1,0 +1,78 @@
+<div ng-controller="CourseMaterialCtrl">
+  <div class="container">
+    <div layout="column" layout-align="center center">
+      <div>
+        <md-button md-no-ink class="md-primary" ng-click="showAdvancedMaterial($event)">+Agregar material de clase</md-button>
+      </div>
+    </div>
+    <table md-table md-row-select="options.rowSelection">
+      <thead md-head>
+        <tr md-row>
+          <th md-column><span>Titulo</span></th>
+          <th md-column><span>Descripcion de material</span></th>
+          <th md-column>Material</th>
+          <th md-column>Acciones</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row id="material-content">
+        </tr>
+      </tbody>
+    </table>
+    </md-table-container>
+  </div>
+  <!-- Angular Material has problems with chips and dialogs using templates
+   instead we use a static dialog using just one controller in order to use chips
+   with a dialog -->
+  <div style="visibility: hidden">
+    <div class="md-dialog-container" id="CourseDialogMaterial">
+      <md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak class="card-dialog">
+        <form>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Crear recursos para clase</h2>
+              <span flex></span>
+            </div>
+          </md-toolbar>
+          <md-dialog-content layout="column">
+            <div class="md-dialog-content">
+              <div layout="column">
+                <md-input-container class="md-block input-margin" flex>
+                  <label>Titulo del recurso</label>
+                  <input ng-model="material.title">
+                </md-input-container>
+                <md-input-container class="md-block input-margin" flex>
+                  <label>Descripcion del recurso</label>
+                  <textarea ng-model="material.content" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                </md-input-container>
+                <div class="row margin-block">
+                  <div class="col-sm-6">
+                    <md-input-container class="md-icon-float md-block">
+                      <label>Agregar archivo</label>
+                      <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
+                      </md-icon>
+                      <input type="file">
+                    </md-input-container>
+                  </div>
+                  <div class="col-sm-6">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </md-dialog-content>
+          <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+              Cancelar
+            </md-button>
+            <md-button ng-click="createMaterial()" style="margin-right:20px;">
+              Crear
+            </md-button>
+          </md-dialog-actions>
+        </form>
+      </md-dialog>
+    </div>
+  </div>
+  <!-- End Dialog -->
+</div>

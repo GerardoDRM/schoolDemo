@@ -24,16 +24,22 @@ angular.module('SchoolApp').controller('HomeController', ['$scope', '$http', fun
 
 
   $scope.login = function() {
-    console.log($scope.user);
-    // Check user role
-    if($scope.user.role == "student") {
-        window.location = '/student';
-    } else if ($scope.user.role == "teacher") {
-      window.location = '/teacher';
-    } else if ($scope.user.role == "admin") {
-      window.location = '/admin';
-    }
-
+    $http({
+      method: 'POST',
+      url: '/api/v0/user/login',
+      data: $scope.user
+    }).then(function successCallback(response) {
+      var data = response.data;
+      if (data['code'] == 0) {
+        addFeedback("Se ha presentado un incoveniente por favor vuelva a internar", "error");
+      } else if (data['code'] == 1) {
+        window.location.href = "/dash";
+      } else if (data['code'] == 2) {
+        addFeedback("Verifique que sus datos sean correctos", "error");
+      }
+    }, function errorCallback(response) {
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+    });
   };
 
 }]);
