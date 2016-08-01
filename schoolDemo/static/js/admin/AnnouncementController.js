@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "57549fe07fc418fb0dbf1e57";
+  $scope.id = "1";
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
@@ -14,7 +14,6 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       method: 'GET',
       url: '/api/v0/school/announcements/' + $scope.id + "/admin",
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['announcements'];
       for (var announ in dataList) {
         var drawAnnoun = dataList[announ];
@@ -53,11 +52,11 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
         'Content-Type': 'application/json'
       }
     }).then(function successCallback(response) {
-      console.log(response);
+      addFeedback("Se ha eliminado el aviso", 'success');
       // Remove from element from DOM
       $('#' + date).remove();
     }, function errorCallback(response) {
-      console.log(response);
+      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
   }
 
@@ -71,7 +70,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
   function DialogController($scope, $mdDialog, $compile) {
     $scope.announ = {};
     $scope.announ.levelList = [];
-    $scope.id = "57549fe07fc418fb0dbf1e57";
+    $scope.id = "1";
 
     $scope.closeDialog = function() {
       $mdDialog.cancel();
@@ -102,7 +101,10 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
         _addAnnouncement($scope.announ);
         // Clean announ object
         $scope.announ = {};
-      }, function errorCallback(response) {});
+        addFeedback("Se ha agregado el aviso", 'success');
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
       // Close dialog
       $mdDialog.cancel();
     }

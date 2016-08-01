@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
   $scope.school = {}
-  $scope.id = "57549fe07fc418fb0dbf1e57";
+  $scope.id = "1";
   $scope.photo = {
     file: ''
   };
@@ -19,13 +19,13 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
       $scope.school.address = schoolData.address.street;
       $scope.photo.file = schoolData.profile_photo;
       // Select checkboxes
-      $scope.school.level = {};
-      var levels = schoolData.levels;
-      var levelArray = ["c1", "c2", "c3", "c4"];
-      for (var l in levelArray) {
-        var key = levelArray[l];
-        levels.indexOf(key) > -1 ? $scope.school.level[key] = true : $scope.school.level[key] = false;
-      }
+      // $scope.school.level = {};
+      // var levels = schoolData.levels;
+      // var levelArray = ["c1", "c2", "c3", "c4"];
+      // for (var l in levelArray) {
+      //   var key = levelArray[l];
+      //   levels.indexOf(key) > -1 ? $scope.school.level[key] = true : $scope.school.level[key] = false;
+      // }
 
       // Change ui
       // Add preview image
@@ -70,7 +70,6 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
       }
       // Check profile photo
     if ($scope.photo.file !== undefined && $scope.photo.file != "") {
-      console.log($scope.photo.file);
       $http({
         method: 'PUT',
         url: '/api/v0/school/info/' + $scope.id,

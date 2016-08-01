@@ -1,7 +1,7 @@
 # coding=utf-8
 import requests
 from schoolDemo import app, mongo, models
-from flask import Flask, jsonify, render_template, g, flash, redirect, url_for, json
+from flask import Flask, jsonify, render_template, g, flash, redirect, url_for, json, send_file
 from bson.objectid import ObjectId
 from decimal import Decimal
 from flask.ext.restful import Api, Resource, reqparse
@@ -15,9 +15,10 @@ import tempfile
 import re
 import base64
 from PIL import Image
-from io import BytesIO
+from io import BytesIO, StringIO
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
+import zipfile
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -95,6 +96,15 @@ def student_class():
 @app.route('/admin')
 def admin():
     return render_template("admin_base.html")
+
+
+@app.route('/download/zip/<name>', methods=['GET', 'POST'])
+def download_zip(name):
+    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo/static/material/" + name
+    output = open(absolute_path, 'rb')
+    memory_file = BytesIO(output.read())
+    output.close()
+    return send_file(memory_file, attachment_filename=name, as_attachment=True)
 
 # # Custom errors
 # @app.errorhandler(404)
@@ -284,6 +294,7 @@ class SchoolProfessors(Resource):
         else:
             cursor = mongo.db.counters.find_one_and_update(
                 {'_id': 'professorid'}, {'$inc': {'seq': 1}}, projection={'seq': True, '_id': False})
+
             id = int(cursor['seq'])
 
         # Update existing data else create new document
@@ -802,6 +813,8 @@ class CoursesTasks(Resource):
                             location='json', required=True)
         parser.add_argument('model', type=str,
                             location='json', required=True)
+        parser.add_argument('attachment', type=int,
+                            location='json', required=True)
         parser.add_argument('position', type=str, location='json')
         args = parser.parse_args()
 
@@ -812,7 +825,9 @@ class CoursesTasks(Resource):
                     "content": args.content,
                     "title": args.title,
                     "published_date": args.published_date,
-                    "model": args.model
+                    "model": args.model,
+                    "attachment": args.attachment,
+                    "attachments": []
                 }
             }})
             message = {
@@ -823,7 +838,9 @@ class CoursesTasks(Resource):
             pos = args.position
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.hw." + pos + ".content": args.content,
                                                                                    "section.$.hw." + pos + ".title": args.title,
-                                                                                   "section.$.hw." + pos + ".model": args.model}})
+                                                                                   "section.$.hw." + pos + ".model": args.model,
+                                                                                   "section.$.hw." + pos + ".attachment": args.attachment
+                                                                                   }})
             message = {
                 "status": 200,
                 "code": 2
@@ -977,17 +994,29 @@ class CoursesMaterial(Resource):
         parser.add_argument('title', type=str, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
+        parser.add_argument('file', type=str,
+                            location='json')
         parser.add_argument('position', type=str, location='json')
+        parser.add_argument('edition', type=int, location='json')
+        parser.add_argument('file_name', type=str, location='json')
 
         args = parser.parse_args()
 
         # Update existing data else create new document
         if args.position is None:
+            file_name = ""
+            if args.file is not None:
+                path_dir = "/static/material/"
+                file_name = create_file_name("school", ".zip")
+                path_file = path_dir + file_name
+                create_package(path_file, args.file)
+
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
                 "section.$.material": {
                     "content": args.content,
                     "title": args.title,
-                    "published_date": args.published_date
+                    "published_date": args.published_date,
+                    "route": file_name
                 }
             }})
             message = {
@@ -995,9 +1024,34 @@ class CoursesMaterial(Resource):
                 "code": 1
             }
         else:
+            route = None
+            if args.edition == 0:
+                if args.file is not None:
+                    path_dir = "/static/material/"
+                    # Create file
+                    file_name = create_file_name("school", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+                else:
+                    route = args.file_name
+            elif args.edition == 1:
+                path_dir = "/static/material/"
+                # Remove file
+                remove_file = path_dir + args.file_name
+                delete_file(remove_file)
+                route = ""
+                if args.file is not None:
+                    # Create file
+                    file_name = create_file_name("school", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+
             pos = args.position
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.material." + pos + ".content": args.content,
-                                                                                   "section.$.material." + pos + ".title": args.title
+                                                                                   "section.$.material." + pos + ".title": args.title,
+                                                                                   "section.$.material." + pos + ".route": route
                                                                                    }})
             message = {
                 "status": 200,
@@ -1011,6 +1065,7 @@ class CoursesMaterial(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
+        parser.add_argument('file_name', type=str, location='json')
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
@@ -1023,9 +1078,111 @@ class CoursesMaterial(Resource):
                 "status": 200,
                 "code": 1
             }
+            if args.file_name is not None:
+                path_dir = "/static/material/"
+                file_name = args.file_name
+                path_file = path_dir + file_name
+                delete_file(path_file)
+
         else:
             message = {
                 "status": 201,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+
+# This class has CRUD operatios in order to
+# manage a course tasks attachments
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+class CoursesTasksAttach(Resource):
+
+    def get(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('published_date', type=int,
+                            required=True)
+
+        args = parser.parse_args()
+
+        pipe = [
+            # Only include the docs with the specified user id
+            {"$match": {'_id': id, "section.sec": num}},
+            # Bring group out to the only top level field and exclude _id
+            {"$project": {'_id': 0, 'hw': '$section.hw'}},
+            {"$unwind": "$hw"},
+            {"$unwind": "$hw"},
+            {"$match": {'hw.published_date': args.published_date}},
+            {"$project": {"hw.attachments": 1}}
+        ]
+        cursor = mongo.db.courses.aggregate(pipe)
+        attach = create_dic(cursor)[0]['hw']
+        return jsonify(attachments = attach['attachments'])
+
+    # Create an attachments to task
+    def post(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('file', type=str,
+                            location='json')
+        parser.add_argument('position_task', type=str,
+                            location='json', required=True)
+        parser.add_argument('position_attach', type=str, location='json')
+        parser.add_argument('edition', type=int, location='json')
+        parser.add_argument('file_name', type=str, location='json')
+        parser.add_argument('student', type=int,
+                            location='json', required=True)
+
+        args = parser.parse_args()
+
+        # Create
+        if args.position_attach is None:
+            file_name = ""
+            if args.file is not None:
+                path_dir = "/static/tasks/"
+                file_name = create_file_name("task", ".zip")
+                path_file = path_dir + file_name
+                create_package(path_file, args.file)
+
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
+                "section.$.hw." + args.position_task + ".attachments": {"student": args.student, "url": file_name, "grade": 0.0}
+            }})
+
+            message = {
+                "status": 201,
+                "code": 1
+            }
+        else:
+            route = None
+            if args.edition == 0:
+                if args.file is not None:
+                    path_dir = "/static/tasks/"
+                    # Create file
+                    file_name = create_file_name("task", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+                else:
+                    route = args.file_name
+            elif args.edition == 1:
+                path_dir = "/static/tasks/"
+                # Remove file
+                remove_file = path_dir + args.file_name
+                delete_file(remove_file)
+                route = ""
+                if args.file is not None:
+                    # Create file
+                    file_name = create_file_name("task", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+
+            pos = args.position_attach
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.hw." + args.position_task + ".attachments." + pos + ".url": route
+                                                                                   }})
+            message = {
+                "status": 200,
                 "code": 2
             }
 
@@ -1050,10 +1207,10 @@ def create_secure_name(name):
     return regex.sub(lambda mo: dict[mo.string[mo.start():mo.end()]], name).upper()
 
 
-def create_file_name():
+def create_file_name(prefix, suffix):
     # Create unique file name
-    timer = time.strftime("%d-%m-%Y%H:%M:%S") + "traviare"
-    tf = tempfile.NamedTemporaryFile(prefix=timer, suffix=".jpg")
+    timer = time.strftime("%d-%m-%Y%H:%M:%S") + prefix
+    tf = tempfile.NamedTemporaryFile(prefix=timer, suffix=suffix)
     return tf.name.replace("/tmp/", "")
 
 
@@ -1071,6 +1228,15 @@ def create_folder(path):
         os.umask(oldumask)
 
 
+def create_package(path, file):
+    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
+    # z = zipfile.ZipFile(BytesIO(base64.b64decode(file)), "r")
+    byte_str = BytesIO(base64.b64decode(file)).read()
+    output = open(absolute_path, 'wb')
+    output.write(byte_str)
+    output.close()
+
+
 def create_image(path, file):
     absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
     im = Image.open(BytesIO(base64.b64decode(file)))
@@ -1080,7 +1246,7 @@ api.add_resource(SchoolAPI, '/api/v0/school/info/<int:id>',
                  endpoint='schoolInfo')
 api.add_resource(SimpleSchoolAPI, '/api/v0/school', endpoint='school')
 api.add_resource(SchoolAnnouncements,
-                 '/api/v0/school/announcements/<id>/<role>', endpoint='schoolAnnouncements')
+                 '/api/v0/school/announcements/<int:id>/<role>', endpoint='schoolAnnouncements')
 api.add_resource(SchoolProfessors, '/api/v0/school/teachers',
                  endpoint='schoolTeachers')
 api.add_resource(SchoolStudents, '/api/v0/school/students',
@@ -1105,3 +1271,5 @@ api.add_resource(CoursesMaterial, '/api/v0/courses/material/<id>/<int:num>',
                  endpoint='coursesMaterial')
 api.add_resource(UserApi, '/api/v0/user/login',
                  endpoint='userProfile')
+api.add_resource(CoursesTasksAttach, '/api/v0/courses/task/attach/<id>/<int:num>',
+                 endpoint='courseTaskAttach')

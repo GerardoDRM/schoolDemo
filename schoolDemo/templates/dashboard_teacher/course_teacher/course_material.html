@@ -14,9 +14,7 @@
           <th md-column>Acciones</th>
         </tr>
       </thead>
-      <tbody md-body>
-        <tr md-row id="material-content">
-        </tr>
+      <tbody md-body id="material-content">
       </tbody>
     </table>
     </md-table-container>
@@ -51,8 +49,11 @@
                       <label>Agregar archivo</label>
                       <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
                       </md-icon>
-                      <input type="file">
+                      <input type="file" fileread ng-model="route" id="file">
                     </md-input-container>
+                    <md-button ng-click="updateFile()" id="updateFileBtn">
+                      Eliminar Archivo
+                    </md-button>
                   </div>
                   <div class="col-sm-6">
 

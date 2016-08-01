@@ -2,7 +2,7 @@
   <div ng-controller="CourseTaskCtrl" ng-cloak>
     <div layout="column" layout-align="center center">
       <div>
-        <md-button md-no-ink class="md-primary" ng-click="showAdvancedMaterial($event)">+Agregar tarea</md-button>
+        <md-button md-no-ink class="md-primary" ng-click="showAdvanced($event)">+Agregar tarea</md-button>
       </div>
       <div id="hw-content" style="width:50%;">
 
@@ -57,12 +57,11 @@
                       </md-input-container>
                     </div>
                     <div class="col-sm-6">
-                      <md-input-container class="md-icon-float md-block">
-                        <label>Agregar archivo</label>
+                      <md-switch ng-model="hw.attachment" aria-label="attachment_filename">
+                        El alumno puede adjuntar un archivo
                         <md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">
                         </md-icon>
-                        <input type="file">
-                      </md-input-container>
+                      </md-switch>
                     </div>
                   </div>
                 </div>

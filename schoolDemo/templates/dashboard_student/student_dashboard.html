@@ -29,7 +29,7 @@
           {% include "dashboard_student/course_student/course_announ.html" %}
         </md-tab>
         <md-tab label="Material de Clase" id="materialBtn">
-          {% include "dashboard_teacher/course_teacher/course_material.html" %}
+          {% include "dashboard_student/course_student/course_material.html" %}
         </md-tab>
         <md-tab label="Tareas" id="taskBtn">
           {% include "dashboard_student/course_student/course_task.html" %}
@@ -63,6 +63,36 @@
      * You must include the dependency on 'ngMaterial'
      */
     var app = angular.module('SchoolApp', ['ngMaterial', 'md.data.table']);
+    angular.module('SchoolApp').directive("fileread", ['$http', function($http) {
+      return {
+        scope: true,
+        restrict: 'EA',
+        link: function(scope, element, attributes, controller) {
+          element.bind("change", function(changeEvent) {
+            var reader = new FileReader();
+            reader.onload = function(loadEvent) {
+              scope.$apply(function() {
+                var data = loadEvent.target.result;
+                var secureFile = data.match(/^data:application\/(zip|rar)/) != null ? true : false;
+                if (secureFile) {
+                  // Check file size
+                  if (changeEvent.target.files[0].size < 1000000) {
+                    var fd = {};
+                    fd['file'] = data.replace(/^data:application\/(zip|rar);base64,/, "");
+                    scope.package.file = fd['file'];
+                  } else {
+                    console.log("El tamaño de la imagen tiene que ser menor a 1MB");
+                  }
+                } else {
+                  console.log("Debes de adjuntar un archivo zip o rar");
+                }
+              });
+            };
+            reader.readAsDataURL(changeEvent.target.files[0]);
+          });
+        }
+      }
+    }]);
 
     function addFeedback(msg, status) {
       var cl = status == "success" ? "#70DA8B" : "#FFE6B2";

@@ -83,7 +83,8 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       "content": $scope.hw.content,
       "title": $scope.hw.title,
       "published_date": $scope.hw.published_date,
-      "model": $scope.hw.model
+      "model": $scope.hw.model,
+      "attachment": $scope.hw.attachment == true ? 1 : 0
     }
 
     // Check if is an update
@@ -110,6 +111,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     var dataList = $scope.tasks;
     $scope.hw = dataList[pos]
     $scope.position = pos;
+    $scope.hw.attachment = $scope.hw.attachment == 1 ? true : false;
     $mdDialog.show({
       contentElement: '#CourseDialogTask',
       parent: angular.element(document.body),
