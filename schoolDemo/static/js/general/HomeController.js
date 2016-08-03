@@ -17,29 +17,29 @@ angular.module('SchoolApp').controller('HomeController', ['$scope', '$http', fun
         "background-size": "cover"
       });
     }
-
-    console.log($scope.school);
     // Select checkboxes
   }, function errorCallback(response) {});
 
 
   $scope.login = function() {
-    $http({
-      method: 'POST',
-      url: '/api/v0/user/login',
-      data: $scope.user
-    }).then(function successCallback(response) {
-      var data = response.data;
-      if (data['code'] == 0) {
-        addFeedback("Se ha presentado un incoveniente por favor vuelva a internar", "error");
-      } else if (data['code'] == 1) {
-        window.location.href = "/dash";
-      } else if (data['code'] == 2) {
-        addFeedback("Verifique que sus datos sean correctos", "error");
-      }
-    }, function errorCallback(response) {
-      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-    });
+    if ($("#loginForm").valid()) {
+      $http({
+        method: 'POST',
+        url: '/api/v0/user/login',
+        data: $scope.user
+      }).then(function successCallback(response) {
+        var data = response.data;
+        if (data['code'] == 0) {
+          addFeedback("Se ha presentado un incoveniente por favor vuelva a internar", "error");
+        } else if (data['code'] == 1) {
+          window.location.href = "/dash";
+        } else if (data['code'] == 2) {
+          addFeedback("Verifique que sus datos sean correctos", "error");
+        }
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
+    }
   };
 
 }]);

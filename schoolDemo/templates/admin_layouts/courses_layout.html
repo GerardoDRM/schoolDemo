@@ -23,9 +23,6 @@
             <div class="md-toolbar-tools">
               <h2>Agrega un curso</h2>
               <span flex></span>
-              <md-button class="md-icon-button" ng-click="closeDialog()">
-                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-              </md-button>
             </div>
           </md-toolbar>
           <!-- Toolbar -->
@@ -33,60 +30,63 @@
             <div class="md-dialog-content">
               <div layout="column">
                 <div class="row">
-                  <div class="col-sm-6">
-                    <md-input-container class="md-block" flex>
-                      <label>Nombre del curso</label>
-                      <input ng-model="cou.name">
-                    </md-input-container>
-                    <md-input-container class="md-block" flex>
-                      <label>Clave</label>
-                      <input ng-model="cou._id">
-                    </md-input-container>
+                  <form id="adminCourses">
 
-                    <md-input-container class="md-block">
-                      <label>Descripcion</label>
-                      <textarea ng-model="cou.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-                    </md-input-container>
-                  </div>
-                  <div class="col-sm-6">
-                    <md-input-container class="md-block" flex>
-                      <label>Semestre</label>
-                      <input ng-model="cou.semester">
-                    </md-input-container>
+                    <div class="col-sm-6">
+                      <md-input-container class="md-block" flex>
+                        <label>Nombre del curso</label>
+                        <input ng-model="cou.name">
+                      </md-input-container>
+                      <md-input-container class="md-block" flex>
+                        <label>Clave</label>
+                        <input ng-model="cou._id">
+                      </md-input-container>
 
-                    <div>
-                      <h3>Nivel</h3>
-                      <md-select ng-model="cou.level">
-                        <md-option value="c1">
-                          Primaria
-                        </md-option>
-                        <md-option value="c2">
-                          Secundaria
-                        </md-option>
-                        <md-option value="c3">
-                          Bachillerato
-                        </md-option>
-                        <md-option value="c4">
-                          Licenciatura
-                        </md-option>
-                      </md-select>
+                      <md-input-container class="md-block">
+                        <label>Descripcion</label>
+                        <textarea ng-model="cou.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                      </md-input-container>
                     </div>
+                    <div class="col-sm-6">
+                      <md-input-container class="md-block" flex>
+                        <label>Semestre</label>
+                        <input ng-model="cou.semester">
+                      </md-input-container>
+                  </form>
+
+                  <div>
+                    <h3>Nivel</h3>
+                    <md-select ng-model="cou.level" aria-label="courses">
+                      <md-option value="c1">
+                        Primaria
+                      </md-option>
+                      <md-option value="c2">
+                        Secundaria
+                      </md-option>
+                      <md-option value="c3">
+                        Bachillerato
+                      </md-option>
+                      <md-option value="c4">
+                        Licenciatura
+                      </md-option>
+                    </md-select>
+                  </div>
                   </div>
                 </div>
               </div>
               <!-- End Dialog Content -->
             </div>
-          </md-dialog-content>
-          <md-dialog-actions layout="row">
-            <span flex></span>
-            <md-button ng-click="closeDialog()">
-              Cancelar
-            </md-button>
-            <md-button ng-click="createCourse()" style="margin-right:20px;">
-              Crear
-            </md-button>
-          </md-dialog-actions>
         </form>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+          <span flex></span>
+          <md-button ng-click="closeDialog()">
+            Cancelar
+          </md-button>
+          <md-button ng-click="createCourse()" style="margin-right:20px;">
+            Crear
+          </md-button>
+        </md-dialog-actions>
       </md-dialog>
 
     </div>

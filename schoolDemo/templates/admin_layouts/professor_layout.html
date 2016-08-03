@@ -18,14 +18,11 @@
   <div style="visibility: hidden">
     <div class="md-dialog-container" id="ProfessorDialog">
       <md-dialog aria-label="Crear un nuevo docente">
-        <form>
+        <form id="adminTeachers">
           <md-toolbar>
             <div class="md-toolbar-tools">
               <h2>Agrega un docente</h2>
               <span flex></span>
-              <md-button class="md-icon-button" ng-click="closeDialog()">
-                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-              </md-button>
             </div>
           </md-toolbar>
           <!-- Toolbar -->
@@ -36,11 +33,11 @@
                   <div class="col-sm-6">
                     <md-input-container class="md-block" flex>
                       <label>Nombre de profesor</label>
-                      <input ng-model="prof.name">
+                      <input ng-model="prof.name" required>
                     </md-input-container>
                     <md-input-container class="md-block" flex>
                       <label>Password</label>
-                      <input ng-model="prof.password">
+                      <input ng-model="prof.password" required>
                     </md-input-container>
                     <md-button ng-click="generatePassword()">
                       Generar Password

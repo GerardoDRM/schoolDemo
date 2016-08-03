@@ -8,26 +8,3 @@
 
 
 /* LOGIN */
-.btn-container {
-    width: 150px;
-    display: flex;
-    margin-left: auto;
-}
-
-
-
-/* Register */
-.file-upload {
-    @include border-radius(50px);
-    @include styling_wrapper_content($white, center, 26px);
-    @include transition(background .45s ease-in-out);
-    @include box(14%, null, relative);
-    @extend %overflow-cursor;
-    margin: -10px auto 5%;
-    background: $medium-orange;
-    border: 5px solid $soft-maroon;
-
-}
-.file-upload:hover{
-    background: $soft-maroon;
-}

@@ -17,30 +17,28 @@
   <header md-page-header>
     <md-toolbar>
       <div class="head-img">
-        <h1>Matematicas</h1>
+        <h1>Tareas</h1>
       </div>
     </md-toolbar>
   </header>
 
-  <div layout="column">
-    <md-content class="md-padding">
-      <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
-        <md-tab label="Avisos" id="annuncesBtn">
-          {% include "dashboard_student/course_student/course_announ.html" %}
-        </md-tab>
-        <md-tab label="Material de Clase" id="materialBtn">
-          {% include "dashboard_student/course_student/course_material.html" %}
-        </md-tab>
-        <md-tab label="Tareas" id="taskBtn">
-          {% include "dashboard_student/course_student/course_task.html" %}
-        </md-tab>
-        <md-tab label="Quiz" id="quizBtn">
-          {% include "dashboard_student/course_student/course_quiz.html" %}
-        </md-tab>
-        <md-tab label="Criterio" id="criteriaBtn">
-          {% include "dashboard_student/course_student/course_criteria.html" %}
-        </md-tab>
-      </md-tabs>
+  <div layout="column" ng-controller="CoursesTaskAttach">
+    <md-content class="container md-padding">
+      <md-table-container>
+        <table md-table md-row-select="options.rowSelection">
+          <thead md-head>
+            <tr md-row>
+              <th md-column><span>Id Estudiante</span></th>
+              <th md-column><span>Nombre Estudiante</span></th>
+              <th md-column><span>Nombre de archivo</span></th>
+              <th md-column>Calificacion</th>
+              <th md-column>Acciones</th>
+            </tr>
+          </thead>
+          <tbody md-body id="hw-content">
+          </tbody>
+        </table>
+      </md-table-container>
     </md-content>
   </div>
 
@@ -59,43 +57,12 @@
   <script src="/static/js/general/moment.min.js"></script>
   <script src="/static/js/general/md-data-table.min.js"></script>
 
-
   <!-- Your application bootstrap  -->
   <script type="text/javascript">
     /**
      * You must include the dependency on 'ngMaterial'
      */
     var app = angular.module('SchoolApp', ['ngMaterial', 'md.data.table']);
-    angular.module('SchoolApp').directive("fileread", ['$http', function($http) {
-      return {
-        scope: true,
-        restrict: 'EA',
-        link: function(scope, element, attributes, controller) {
-          element.bind("change", function(changeEvent) {
-            var reader = new FileReader();
-            reader.onload = function(loadEvent) {
-              scope.$apply(function() {
-                var data = loadEvent.target.result;
-                var secureFile = data.match(/^data:application\/(zip|rar)/) != null ? true : false;
-                if (secureFile) {
-                  // Check file size
-                  if (changeEvent.target.files[0].size < 1000000) {
-                    var fd = {};
-                    fd['file'] = data.replace(/^data:application\/(zip|rar);base64,/, "");
-                    scope.package.file = fd['file'];
-                  } else {
-                    console.log("El tamaño de la imagen tiene que ser menor a 1MB");
-                  }
-                } else {
-                  console.log("Debes de adjuntar un archivo zip o rar");
-                }
-              });
-            };
-            reader.readAsDataURL(changeEvent.target.files[0]);
-          });
-        }
-      }
-    }]);
 
     function addFeedback(msg, status) {
       var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
@@ -113,12 +80,7 @@
     }
   </script>
 
-  <script src="/static/js/student/courses/CourseAnnCtrl.js"></script>
-  <script src="/static/js/student/courses/CourseQuizCtrl.js"></script>
-  <script src="/static/js/student/courses/CourseTaskCtrl.js"></script>
-  <script src="/static/js/student/courses/CourseMaterialCtrl.js"></script>
-  <script src="/static/js/student/courses/CourseCriteriaCtrl.js"></script>
-
+  <script src="/static/js/teacher/courses/CoursesTaskAttach.js"></script>
 
 </body>
 

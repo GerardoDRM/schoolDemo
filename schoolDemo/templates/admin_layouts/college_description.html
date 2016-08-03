@@ -6,7 +6,7 @@
           <div class="default-photo">
             <img alt="..." class="photo-icon" src="/static/images/photo.png">
           </div>
-          <input fileread type="file"/>
+          <input fileread type="file" />
         </div>
         <div class="profile-preview">
           <div class="inner-filter">
@@ -18,59 +18,61 @@
     <!-- Photo Col -->
     <div class="col-sm-8">
       <md-card class="md-whiteframe-8dp card">
-        <div class="row">
-          <div class="col-sm-6">
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Nombre</label>
-                <input ng-model="school.name">
-              </md-input-container>
+        <form id="adminProfile">
+          <div class="row">
+            <div class="col-sm-6">
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Nombre</label>
+                  <input ng-model="school.name" required>
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Nombre del responsable</label>
+                  <input ng-model="school.in_charge" required>
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Cargo del responsable</label>
+                  <input ng-model="school.in_charge_job">
+                </md-input-container>
+              </div>
             </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Nombre del responsable</label>
-                <input ng-model="school.in_charge">
-              </md-input-container>
+            <!-- First Column -->
+            <div class="col-sm-6">
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Correo</label>
+                  <input ng-model="school.email">
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Teléfono</label>
+                  <input ng-model="school.phone">
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Dirección</label>
+                  <input ng-model="school.address">
+                </md-input-container>
+              </div>
             </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Cargo del responsable</label>
-                <input ng-model="school.in_charge_job">
-              </md-input-container>
-            </div>
+            <!-- Second Column -->
           </div>
-          <!-- First Column -->
-          <div class="col-sm-6">
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Correo</label>
-                <input ng-model="school.email">
-              </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Teléfono</label>
-                <input ng-model="school.phone">
-              </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Dirección</label>
-                <input ng-model="school.address">
-              </md-input-container>
-            </div>
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" style="width:100%;">
+              <label>Descripción</label>
+              <textarea ng-model="school.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
           </div>
-          <!-- Second Column -->
-        </div>
-        <div layout-gt-sm="row">
-          <md-input-container class="md-block" style="width:100%;">
-            <label>Descripción</label>
-            <textarea ng-model="school.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-          </md-input-container>
-        </div>
-        <md-button class="md-raised md-hue-1 card-button" ng-click="storeData()">Guardar</md-button>
+          <md-button class="md-raised md-hue-1 card-button" ng-click="storeData()">Guardar</md-button>
 
-        <!-- Info Col -->
+          <!-- Info Col -->
+        </form>
       </md-card>
     </div>
   </div>

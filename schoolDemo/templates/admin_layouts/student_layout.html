@@ -3,7 +3,7 @@
   <div class="header-filter">
     <h3>Niveles</h3>
     <md-radio-group ng-model="data.group">
-      <md-radio-button value="c3" class="md-primary" >Bachillerato</md-radio-button>
+      <md-radio-button value="c3" class="md-primary">Bachillerato</md-radio-button>
       <md-radio-button value="c4" class="md-primary"> Licenciatura </md-radio-button>
     </md-radio-group>
     <md-button ng-click="search()">
@@ -18,29 +18,25 @@
   <div style="visibility: hidden">
     <div class="md-dialog-container" id="StudentDialog">
       <md-dialog aria-label="Crear un nuevo alumno">
-        <form>
-          <md-toolbar>
-            <div class="md-toolbar-tools">
-              <h2>Agrega un alumno</h2>
-              <span flex></span>
-              <md-button class="md-icon-button" ng-click="closeDialog()">
-                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-              </md-button>
-            </div>
-          </md-toolbar>
-          <!-- Toolbar -->
-          <md-dialog-content layout="column">
-            <div class="md-dialog-content">
-              <div layout="column">
-                <div class="row">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>Agrega un alumno</h2>
+          </div>
+        </md-toolbar>
+        <!-- Toolbar -->
+        <md-dialog-content layout="column">
+          <div class="md-dialog-content">
+            <div layout="column">
+              <div class="row">
+                <form id="adminStudents">
                   <div class="col-sm-6">
                     <md-input-container class="md-block" flex>
                       <label>Nombre del alumno</label>
-                      <input ng-model="stu.name">
+                      <input ng-model="stu.name" required>
                     </md-input-container>
                     <md-input-container class="md-block" flex>
                       <label>Password</label>
-                      <input ng-model="stu.password">
+                      <input ng-model="stu.password" required>
                     </md-input-container>
                     <md-button ng-click="generatePassword()">
                       Generar Password
@@ -62,40 +58,40 @@
                       <label>Email</label>
                       <input ng-model="stu.email">
                     </md-input-container>
+                </form>
 
-                    <div>
-                      <h3>Nivel</h3>
-                      <md-select ng-model="stu.level">
-                        <md-option value="c1">
-                          Primaria
-                        </md-option>
-                        <md-option value="c2">
-                          Secundaria
-                        </md-option>
-                        <md-option value="c3">
-                          Bachillerato
-                        </md-option>
-                        <md-option value="c4">
-                          Licenciatura
-                        </md-option>
-                      </md-select>
-                    </div>
-                  </div>
+                <div>
+                  <h3>Nivel</h3>
+                  <md-select ng-model="stu.level" aria-label="select">
+                    <md-option value="c1">
+                      Primaria
+                    </md-option>
+                    <md-option value="c2">
+                      Secundaria
+                    </md-option>
+                    <md-option value="c3">
+                      Bachillerato
+                    </md-option>
+                    <md-option value="c4">
+                      Licenciatura
+                    </md-option>
+                  </md-select>
+                </div>
                 </div>
               </div>
-              <!-- End Dialog Content -->
             </div>
-          </md-dialog-content>
-          <md-dialog-actions layout="row">
-            <span flex></span>
-            <md-button ng-click="closeDialog()">
-              Cancelar
-            </md-button>
-            <md-button ng-click="createStudent()" style="margin-right:20px;">
-              Crear
-            </md-button>
-          </md-dialog-actions>
-        </form>
+            <!-- End Dialog Content -->
+          </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+          <span flex></span>
+          <md-button ng-click="closeDialog()">
+            Cancelar
+          </md-button>
+          <md-button ng-click="createStudent()" style="margin-right:20px;">
+            Crear
+          </md-button>
+        </md-dialog-actions>
       </md-dialog>
 
     </div>

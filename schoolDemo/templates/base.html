@@ -16,7 +16,7 @@
   <md-content>
     <md-toolbar class="md-tall">
       <h2 class="md-toolbar-tools">
-        <span>Classes</span>
+        <span>Minds Keeper</span>
       </h2>
     </md-toolbar>
   </md-content>
@@ -33,22 +33,16 @@
       <div class="col-xs-12">
         <div class="row contact-foot">
           <div class="col-xs-12 col-sm-4">
-            <img src="../images/logoNext.jpg" width="60px">
-            <p> Email:contacto@nextplayers.mx </p>
+            <p>Soporte</p>
+            <p> Email:contacto.craftcode@gmail.com </p>
           </div>
           <div class="col-xs-12 col-sm-4">
             <p>
               <a style="color:white;" href="http://www.craftcode.rocks" target="_blank">
-                <img src="../images/craft.png" width="65px">Powered by CraftCode</a>
+                <img src="/static/images/craft.png" width="65px">Powered by CraftCode</a>
             </p>
           </div>
           <div class="col-xs-12 col-sm-4">
-            <a style="color:white;" href="/terms">
-              <p>Términos de uso</p>
-            </a>
-            <a style="color:white;" href="/privacity">
-              <p>Aviso de privacidad</p>
-            </a>
           </div>
         </div>
       </div>
@@ -61,6 +55,7 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
   <!-- Angular Material requires Angular.js Libraries -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
@@ -123,21 +118,18 @@
     }]);
 
     $(document).ready(function() {
-      // Tabs which are used on navigation bar
-      var tabItems = $('.menu-click');
-      var tabContentWrapper = $('.cd-tabs-content');
-      // This action will change the content for each tab
-      tabItems.on("click", function(event) {
-        var selectedItem = $(this);
-        if (!selectedItem.hasClass('selected')) {
-          var selectedTab = selectedItem.data('content'),
-            selectedContent = tabContentWrapper.find('.tab[data-content="' + selectedTab + '"]');
-          tabItems.removeClass('selected');
-          selectedItem.addClass('selected');
-          selectedContent.addClass('selected').siblings('.tab').removeClass('selected');
-        }
+      jQuery.extend(jQuery.validator.messages, {
+        required: "Este campo es requerido",
+        minlength: jQuery.validator.format("Por favor debe de haber almenos {0} caracteres."),
+        email: "Ingresa un correo valido",
+        equalTo: "La Contraseña debe de ser la misma"
       });
-
+      $("#loginForm").validate();
+      $("#adminProfile").validate();
+      $("#adminStudents").validate();
+      $("#adminTeachers").validate();
+      $("#adminCourses").validate();
+      $("#adminAnnounces").validate();
     });
 
     function addFeedback(msg, status) {

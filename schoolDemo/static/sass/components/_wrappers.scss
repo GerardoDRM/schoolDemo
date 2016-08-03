@@ -25,28 +25,7 @@
     float: right;
   }
 }
-/* Tab container*/
-.cd-tabs-content {
-  background: $white;
-  height: auto;
-  padding: 0;
-  width: 100%;
-  .tab {
-    display: none;
-    padding: 1.4em;
-    height: auto;
-    overflow-y: scroll;
-    &.selected {
-      display: block;
-      -webkit-animation: cd-fade-in 0.5s;
-      -moz-animation: cd-fade-in 0.5s;
-      animation: cd-fade-in 0.5s;
-    }
-    p {
-      @include styling_wrapper_content($black, null, 16px, $font-family--primary, 1.6);
-    }
-  }
-}
+
 .head-img {
   background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
   position: relative;
@@ -74,9 +53,10 @@
     width: 100%;
   }
 }
-.container-question {
+.container-questions {
   margin: 10px auto;
   width: 90%;
+  height: 230px;
   border-bottom: 1px solid $gray-material;
   .multiple-opt {
     width: 150px;

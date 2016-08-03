@@ -93,20 +93,22 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
         "date": moment().unix(),
         "level": $scope.announ.levelList
       }
-      $http({
-        method: 'PUT',
-        url: '/api/v0/school/announcements/' + $scope.id + "/admin",
-        data: updated
-      }).then(function successCallback(response) {
-        _addAnnouncement($scope.announ);
-        // Clean announ object
-        $scope.announ = {};
-        addFeedback("Se ha agregado el aviso", 'success');
-      }, function errorCallback(response) {
-        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-      });
-      // Close dialog
-      $mdDialog.cancel();
+      if ($("#adminAnnounces").valid()) {
+        $http({
+          method: 'PUT',
+          url: '/api/v0/school/announcements/' + $scope.id + "/admin",
+          data: updated
+        }).then(function successCallback(response) {
+          _addAnnouncement($scope.announ);
+          // Clean announ object
+          $scope.announ = {};
+          addFeedback("Se ha agregado el aviso", 'success');
+        }, function errorCallback(response) {
+          addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+        });
+        // Close dialog
+        $mdDialog.cancel();
+      }
     }
   }
 

@@ -95,29 +95,32 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       flag = true;
     }
 
-    $http({
-      method: 'PUT',
-      url: '/api/v0/school/students',
-      data: updated
-    }).then(function successCallback(response) {
-      if (!flag) {
-        // Update UI
-        $scope.stu._id = response.data['student_id'];
-        // Adding object to global array
-        // This tip will save a server request
-        $scope.students.push($scope.stu);
-        // Update UI
-        _addStudent($scope.stu);
-      }
-      $scope.selectedCourses = [];
-      $scope.stu = {};
-      $('#student-tab').click();
-      addFeedback("Se han guardado los datos exitosamente", 'success');
-    }, function errorCallback(response) {
-      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-    });
-    // Close dialog
-    $mdDialog.cancel();
+    if ($("#adminStudents").valid()) {
+
+      $http({
+        method: 'PUT',
+        url: '/api/v0/school/students',
+        data: updated
+      }).then(function successCallback(response) {
+        if (!flag) {
+          // Update UI
+          $scope.stu._id = response.data['student_id'];
+          // Adding object to global array
+          // This tip will save a server request
+          $scope.students.push($scope.stu);
+          // Update UI
+          _addStudent($scope.stu);
+        }
+        $scope.selectedCourses = [];
+        $scope.stu = {};
+        $('#student-tab').click();
+        addFeedback("Se han guardado los datos exitosamente", 'success');
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
+      // Close dialog
+      $mdDialog.cancel();
+    }
   }
 
   /*

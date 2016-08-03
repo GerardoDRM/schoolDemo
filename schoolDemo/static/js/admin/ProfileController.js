@@ -18,14 +18,6 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
       $scope.school.in_charge = schoolData.address.in_charge;
       $scope.school.address = schoolData.address.street;
       $scope.photo.file = schoolData.profile_photo;
-      // Select checkboxes
-      // $scope.school.level = {};
-      // var levels = schoolData.levels;
-      // var levelArray = ["c1", "c2", "c3", "c4"];
-      // for (var l in levelArray) {
-      //   var key = levelArray[l];
-      //   levels.indexOf(key) > -1 ? $scope.school.level[key] = true : $scope.school.level[key] = false;
-      // }
 
       // Change ui
       // Add preview image
@@ -69,7 +61,7 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
         "phone": $scope.school.phone
       }
       // Check profile photo
-    if ($scope.photo.file !== undefined && $scope.photo.file != "") {
+    if ($scope.photo.file !== undefined && $scope.photo.file != "" && $("#adminProfile").valid()) {
       $http({
         method: 'PUT',
         url: '/api/v0/school/info/' + $scope.id,
@@ -85,7 +77,7 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
         addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
       });
     } else {
-      addFeedback("Por favor es necesario tener una foto de institucion", 'error');
+      addFeedback("Por favor es necesario tener una foto de institucion, al igual que su nombre", 'error');
     }
   };
 

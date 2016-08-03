@@ -1,41 +1,43 @@
 {% extends "base.html" %} {% block content %}
 
 <div layout="row" layout-align="center center" style="height:100%;" ng-controller="HomeController">
-  <div class="login" flex-xs="0" flex-sm="0" flex="40" style="height:100%;" id="schoolPhoto">
-
+  <div class="login md-whiteframe-12dp" flex-xs="0" flex-sm="0" flex="40" style="height:100%;" id="schoolPhoto">
   </div>
   <div flex-xs="100" flex-sm="100" flex="60" style="height:100%;">
-    <form method="POST" action="" class="form general-center" style="width:60%;">
+    <form class="form general-center" style="width:60%;" id="loginForm">
       <h1> {{school.name | angular}} </h1>
       <p> {{school.description | angular}} </p>
 
       <div layout-gt-sm="column">
         <md-input-container class="md-block txt-left" flex-gt-sm>
           <label>Id</label>
-          <input ng-model="user.id">
+          <input ng-model="user.id" required>
         </md-input-container>
         <md-input-container class="md-block txt-left" flex-gt-sm>
           <label>Password</label>
-          <input ng-model="user.password" type="password">
+          <input ng-model="user.password" type="password" required>
         </md-input-container>
-        <md-select placeholder="Elige tu usuario" ng-model="user.type" class="txt-left">
+        <md-select placeholder="Elige tu usuario" ng-model="user.type" class="txt-left" required>
           <md-option value="student">Alumno</md-option>
           <md-option value="teacher">Profesor</md-option>
           <md-option value="admin">Administrador</md-option>
         </md-select>
       </div>
-      <md-button class="md-raised" ng-click="login()"><a href="javascript::void()">Login</a></md-button>
-      <div class="row" style="margin-top: 15%;">
+      <md-button class="md-raised" ng-click="login()">Entrar</md-button>
+      <div class="row login-info" style="margin-top: 15%;">
         <div class="col-sm-4">
           <h2>Direccion</h2>
+          <img class="icon" src="/static/images/design/school.svg" alt="school">
           <p>{{school.address | angular}}</p>
         </div>
         <div class="col-sm-4">
           <h2>Email</h2>
+          <img class="icon" src="/static/images/design/mail.svg" alt="email">
           <p>{{school.email | angular}}</p>
         </div>
         <div class="col-sm-4">
           <h2>Telefono</h2>
+          <img class="icon" src="/static/images/design/smartphone.svg" alt="phone">
           <p>{{school.phone | angular}}</p>
         </div>
       </div>

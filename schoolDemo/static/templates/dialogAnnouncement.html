@@ -1,12 +1,9 @@
 <md-dialog aria-label="Crear un nuevo aviso">
-  <form>
+  <form id="adminAnnounces">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Crea un aviso</h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="closeDialog()">
-          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-        </md-button>
       </div>
     </md-toolbar>
     <!-- Toolbar -->
@@ -15,15 +12,15 @@
         <div layout="column">
           <md-input-container class="md-block" flex>
             <label>Titulo del aviso</label>
-            <input ng-model="announ.title">
+            <input ng-model="announ.title" required>
           </md-input-container>
 
           <md-input-container style="margin-top:22px; margin-bottom:22px;" class="md-block " flex>
             <label>Contenido</label>
-            <input ng-model="announ.content">
+            <input ng-model="announ.content" required>
           </md-input-container>
           <div>
-            <h3></h3>
+            <h3>Niveles</h3>
             <md-checkbox ng-model="announ.level.c4" aria-label="Bachelor">
               Licenciatura
             </md-checkbox>

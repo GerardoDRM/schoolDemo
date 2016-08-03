@@ -105,30 +105,32 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
       flag = true;
     }
 
-    $http({
-      method: 'PUT',
-      url: '/api/v0/school/teachers',
-      data: updated
-    }).then(function successCallback(response) {
-      if (!flag) {
-        // Update UI
-        $scope.prof._id = response.data['prof_id'];
-        // Adding object to global array
-        // This tip will save a server request
-        $scope.professors.push($scope.prof);
-        _addProfessor($scope.prof);
-      }
-      $scope.selectedCourses = [];
-      // Clean announ object
-      $scope.prof = {};
-      $scope.prof.levelList = [];
-      $('#professor-tab').click();
-      addFeedback("Se han guardado los datos exitosamente", 'success');
-    }, function errorCallback(response) {
-      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-    });
-    // Close dialog
-    $mdDialog.cancel();
+    if ($("#adminTeachers").valid()) {
+      $http({
+        method: 'PUT',
+        url: '/api/v0/school/teachers',
+        data: updated
+      }).then(function successCallback(response) {
+        if (!flag) {
+          // Update UI
+          $scope.prof._id = response.data['prof_id'];
+          // Adding object to global array
+          // This tip will save a server request
+          $scope.professors.push($scope.prof);
+          _addProfessor($scope.prof);
+        }
+        $scope.selectedCourses = [];
+        // Clean announ object
+        $scope.prof = {};
+        $scope.prof.levelList = [];
+        $('#professor-tab').click();
+        addFeedback("Se han guardado los datos exitosamente", 'success');
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
+      // Close dialog
+      $mdDialog.cancel();
+    }
   }
 
   /*

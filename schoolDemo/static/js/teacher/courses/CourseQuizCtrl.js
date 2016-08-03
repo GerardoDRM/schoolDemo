@@ -293,8 +293,6 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
     $scope.qz = dataList[pos];
     $scope.position = pos;
 
-    console.log($scope.qz.start_date);
-
     // Create questions
     $scope.questions = [];
     var qt = $scope.qz["questions"];
@@ -312,9 +310,6 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       }
       $scope.questions['q' + i] = qt[i];
     }
-
-    console.log($scope.qz.start_date);
-
 
     $mdDialog.show({
       contentElement: '#CourseDialogQuiz',

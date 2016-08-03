@@ -9,67 +9,7 @@ $white: #FFF;
 $black: #000;
 $gray: #878787;
 $gray-material : #e9eaed;
-$brown: #603913;
-$soft-maroon: #fbb040;
-$soft-green: #2bb673;
-$soft-blue: #66cbee;
-$soft-orange: #FED190;
-$soft-pink: #EEB5D3;
-$darker-brown: #492C00;
-$orange: #FFA000;
-$mexican-pink: #ec008c;
-$green: #00C241;
-$blue: #1FA7EA;
-$maroon: #C55C00;
-$gold: #ffcf3f;
-$pink: #E897C2;
-$medium-orange: #F8B451;
-$blue-white: #D0EFFA;
-$blue-cyan: #62CDFC;
-$blue-black: #0F75BC;
-$blue-purple : rgba(#2176FF, 0.8);
-$brown-black: #5E2608;
-
-// Light Colors
-
-$light-soft-maroon: $soft-maroon;
-$light-gray: rgba($gray, 0.6);
-$light-soft-green: $soft-green;
-$light-soft-blue: $soft-blue;
-$light-gray-material: rgba($gray-material, 0.9);
-$light-soft-brown: rgba($brown, 0.9);
-$light-white : rgba($white, 0.9);
-$darker-gray : darken($gray, 10%);
-$transparent-darker-gray : rgba($darker-gray, 0.25);
-$opaque-black: rgba($black, 0.541176);
-$shadow-black: rgba($white, 0.4);
-$transparent-brown : rgba($brown, 0.32);
-// Functional colors
-
-$color-box-team: #8C6F3B;
-$color-box-top: rgba($white, 0.45);
-$color-inner-box: rgba($white, 0.75);
-$color-back-modal: rgba($black, 0.8);
-$color-transparent-search-box: rgba($white, 0.8);
-$color-border-gallery: $medium-orange;
-$color-box-states: $soft-pink;
-$color-hotel-contact: $blue-white;
-$color-border-blue: $blue-cyan;
-$color-range: $blue-black;
-$color-footer : $brown;
-$menu-brown : darken($brown, 1%);
-$close-button : $blue-cyan;
-$form-buttons : #E7E8E9;
-$form-buttons-hover : #BCBCBC;
-$color-shadow :  rgba($white, 0.4);
-$color-shadow-hover :  rgba($white, 0.8);
-$color-shadow-more :  rgba($black, 0.4);
-$color-shadow-hover-more :  rgba($black, 0.8);
-$color-error : #FFE6B2;
-$color-error-letter : #C5A14E;
-$color-success: #70DA8B;
-$color-success-letter: #4DA463;
-$color-header-hotel: #A08871;
+$gray-900: #263238;
 // Asset paths
 $path-img-css: "../../img";
 

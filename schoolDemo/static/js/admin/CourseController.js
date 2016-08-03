@@ -75,10 +75,6 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       $scope.courses.push($scope.cou);
       // Update UI
       $('#course-tab').click();
-      $scope.selectedCourses = [];
-      // Clean announ object
-      $scope.cou = {};
-      $('#course-tab').click();
       addFeedback("Se han guardado los datos exitosamente", 'success');
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');

@@ -88,12 +88,23 @@ def teacher_class():
     return render_template("dashboard_teacher/teacher_dashboard.html")
 
 
+@app.route('/teacher/task/attachments')
+def teacher_task_attach():
+    return render_template("dashboard_teacher/course_teacher/course_task_attach.html")
+
+
 @app.route('/student/class')
 def student_class():
     return render_template("dashboard_student/student_dashboard.html")
 
 
+@app.route('/student/exam')
+def student_exam():
+    return render_template("dashboard_student/student_exam.html")
+
+
 @app.route('/admin')
+@login_required
 def admin():
     return render_template("admin_base.html")
 
@@ -461,9 +472,25 @@ class SchoolCourses(Resource):
         parser.add_argument('description', type=str,
                             location='json')
         parser.add_argument('college_carrer', type=str, location='json')
-        parser.add_argument('section', type=list, location='json')
         args = parser.parse_args()
 
+        sec = {
+            "sec": 1,
+            "hw": [],
+            "quiz": [],
+            "material": [],
+            "announcements": [],
+            "criteria": {
+                "participation": 0,
+                "attendance": 0,
+                "hw": 0,
+                "extras": 0,
+                "exams": 0,
+                "project": 0
+            }
+        }
+        sections = []
+        sections.append(sec)
         # Update existing data else create new document
         result = mongo.db.courses.update_one({"_id": args.id}, {"$set": {
             "_id": args.id,
@@ -472,7 +499,7 @@ class SchoolCourses(Resource):
             "semester": args.semester,
             "description": args.description,
             "college_carrer": args.college_carrer,
-            "section": args.section if args.section is not None else []
+            "section": sections
         }}, upsert=True)
 
         message = {}
@@ -1118,8 +1145,16 @@ class CoursesTasksAttach(Resource):
             {"$project": {"hw.attachments": 1}}
         ]
         cursor = mongo.db.courses.aggregate(pipe)
-        attach = create_dic(cursor)[0]['hw']
-        return jsonify(attachments = attach['attachments'])
+        att_list = create_dic(cursor)
+        attach = {}
+        if len(att_list) > 0:
+            attach = att_list[0]['hw']['attachments']
+            for a in attach:
+                student = mongo.db.students.find_one({"_id": a['student']})
+                a['student_name'] = student['name']
+        else:
+            attach['attachments'] = []
+        return jsonify(attachments=attach)
 
     # Create an attachments to task
     def post(self, id, num):
@@ -1183,6 +1218,227 @@ class CoursesTasksAttach(Resource):
                                                                                    }})
             message = {
                 "status": 200,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+# This class has CRUD operatios in order to
+# manage a course tasks attachments
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+
+
+class CoursesExamAnswers(Resource):
+
+    def get(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('published_date', type=int,
+                            required=True)
+
+        args = parser.parse_args()
+
+        pipe = [
+            # Only include the docs with the specified user id
+            {"$match": {'_id': id, "section.sec": num}},
+            # Bring group out to the only top level field and exclude _id
+            {"$project": {'_id': 0, 'hw': '$section.hw'}},
+            {"$unwind": "$hw"},
+            {"$unwind": "$hw"},
+            {"$match": {'hw.published_date': args.published_date}},
+            {"$project": {"hw.attachments": 1}}
+        ]
+        cursor = mongo.db.courses.aggregate(pipe)
+        attach = create_dic(cursor)[0]['hw']
+        return jsonify(attachments=attach['attachments'])
+
+    # Create an attachments to task
+    def post(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('file', type=str,
+                            location='json')
+        parser.add_argument('position_task', type=str,
+                            location='json', required=True)
+        parser.add_argument('position_attach', type=str, location='json')
+        parser.add_argument('edition', type=int, location='json')
+        parser.add_argument('file_name', type=str, location='json')
+        parser.add_argument('student', type=int,
+                            location='json', required=True)
+
+        args = parser.parse_args()
+
+        # Create
+        if args.position_attach is None:
+            file_name = ""
+            if args.file is not None:
+                path_dir = "/static/tasks/"
+                file_name = create_file_name("task", ".zip")
+                path_file = path_dir + file_name
+                create_package(path_file, args.file)
+
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
+                "section.$.hw." + args.position_task + ".attachments": {"student": args.student, "url": file_name, "grade": 0.0}
+            }})
+
+            message = {
+                "status": 201,
+                "code": 1
+            }
+        else:
+            route = None
+            if args.edition == 0:
+                if args.file is not None:
+                    path_dir = "/static/tasks/"
+                    # Create file
+                    file_name = create_file_name("task", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+                else:
+                    route = args.file_name
+            elif args.edition == 1:
+                path_dir = "/static/tasks/"
+                # Remove file
+                remove_file = path_dir + args.file_name
+                delete_file(remove_file)
+                route = ""
+                if args.file is not None:
+                    # Create file
+                    file_name = create_file_name("task", ".zip")
+                    path_file = path_dir + file_name
+                    create_package(path_file, args.file)
+                    route = file_name
+
+            pos = args.position_attach
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.hw." + args.position_task + ".attachments." + pos + ".url": route
+                                                                                   }})
+            message = {
+                "status": 200,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+# This class has CRUD operatios in order to
+# manage a course tasks attachments
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+
+
+class CoursesSimpleQuiz(Resource):
+
+    def get(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('published_date', type=int,
+                            required=True)
+
+        args = parser.parse_args()
+        pipe = [
+            # Only include the docs with the specified user id
+            {"$match": {'_id': id, "section.sec": num}},
+            # Bring group out to the only top level field and exclude _id
+            {"$project": {'_id': 0, 'qz': '$section.quiz'}},
+            {"$unwind": "$qz"},
+            {"$unwind": "$qz"},
+            {"$match": {'qz.published_date': args.published_date}}
+        ]
+        cursor = mongo.db.courses.aggregate(pipe)
+        quiz = create_dic(cursor)[0]['qz']
+
+        return jsonify(quiz)
+
+# This class has CRUD operatios in order to
+# manage a course tasks attachments
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+
+
+class TaskGrade(Resource):
+
+    def post(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('position_attach', type=int,
+                            location="json", required=True)
+        parser.add_argument('position_task', type=str,
+                            location="json", required=True)
+        parser.add_argument('position_attach', type=str,
+                            location="json", required=True)
+        parser.add_argument('grade', type=float,
+                            location="json", required=True)
+
+        args = parser.parse_args()
+
+        result = mongo.db.courses.update_one({"_id": id, "section.sec": num},
+                                             {"$set": {
+                                                 "section.$.hw." + args.position_task + ".attachments." + args.position_attach + ".grade": args.grade
+                                             }})
+        message = {}
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
+                "code": 2
+            }
+
+        return jsonify(message)
+
+
+# This class has CRUD operatios in order to
+# manage a course tasks attachments
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+
+
+class CourseCriteria(Resource):
+
+    def get(self, id, num):
+        criteria = mongo.db.courses.find_one(
+            {"_id": id, "section.sec": num}, {"_id": 0, "section.$": 1})
+        c = criteria['section'][0]
+        return jsonify(c['criteria'])
+
+    def post(self, id, num):
+        parser = reqparse.RequestParser()
+        parser.add_argument('participation', type=int,
+                            location="json", required=True)
+        parser.add_argument('project', type=int,
+                            location="json", required=True)
+        parser.add_argument('extras', type=int,
+                            location="json", required=True)
+        parser.add_argument('hw', type=int,
+                            location="json", required=True)
+        parser.add_argument('exams', type=int,
+                            location="json", required=True)
+        parser.add_argument('attendance', type=int,
+                            location="json", required=True)
+
+        args = parser.parse_args()
+
+        result = mongo.db.courses.update_one({"_id": id, "section.sec": num},
+                                             {"$set": {
+                                                 "section.$.criteria.participation": args.participation,
+                                                 "section.$.criteria.project": args.project,
+                                                 "section.$.criteria.extras": args.extras,
+                                                 "section.$.criteria.hw": args.hw,
+                                                 "section.$.criteria.attendance": args.attendance
+                                             }})
+        message = {}
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
                 "code": 2
             }
 
@@ -1273,3 +1529,9 @@ api.add_resource(UserApi, '/api/v0/user/login',
                  endpoint='userProfile')
 api.add_resource(CoursesTasksAttach, '/api/v0/courses/task/attach/<id>/<int:num>',
                  endpoint='courseTaskAttach')
+api.add_resource(CoursesSimpleQuiz, '/api/v0/courses/quiz/info/<id>/<int:num>',
+                 endpoint='courseSimpleQuiz')
+api.add_resource(TaskGrade, '/api/v0/courses/task/grade/<id>/<int:num>',
+                 endpoint='taskGrade')
+api.add_resource(CourseCriteria, '/api/v0/courses/criteria/<id>/<int:num>',
+                 endpoint='courseCriteria')

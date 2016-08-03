@@ -58,3 +58,31 @@
    width: 100%;
    height: 600px;
  }
+
+ // Feedback
+ .feedback {
+   padding: 0 35px;
+   color: #fff;
+   overflow: hidden;
+   position: fixed;
+   width: 100px;
+   height: 100px;
+   left: 50%;
+   margin-left: -100px;
+   top: 0;
+   z-index: 2;
+   display: none;
+   font-family: 'Roboto', sans-serif;
+   h3 {
+     font-size: 30px;
+   }
+   p {
+     font-size: 20px;
+   }
+ }
+ .msg {
+   display: block;
+   -webkit-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+   -moz-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+   animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+ }

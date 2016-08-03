@@ -1,0 +1,40 @@
+<div ng-controller="CourseCriteriaCtrl" ng-cloak>
+  <div class="container">
+    <h1>Criterios de Evaluacion</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <md-card class="card-container">
+          <md-card-content>
+            <form class="form_reg">
+              <md-input-container class="md-block" flex>
+                <label>Tareas</label>
+                <input ng-model="criteria.hw" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Examenes</label>
+                <input ng-model="criteria.exams" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Participaciones</label>
+                <input ng-model="criteria.participation" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Proyectos</label>
+                <input ng-model="criteria.project" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Extras</label>
+                <input ng-model="criteria.extras" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Asistencia</label>
+                <input ng-model="criteria.attendance" disabled>
+              </md-input-container>
+            </form>
+          </md-card-content>
+        </md-card>
+      </div>
+
+    </div>
+  </div>
+</div>

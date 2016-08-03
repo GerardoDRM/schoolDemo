@@ -35,15 +35,6 @@
 .no-margin, .profile-preview {
   margin: 0; }
 
-/* Contact */
-/* Buttons */
-.file-upload {
-  overflow: hidden;
-  cursor: pointer; }
-
-/* Top ten */
-/* Home towns */
-/* Top image */
 /**
   * Index Partial SASS
   * This SASS file is the manifest on
@@ -73,27 +64,85 @@ html {
 /*Footer*/
 footer {
   width: 100%;
-  background: #603913;
-  height: 200px;
+  background: #263238;
+  height: 100px;
   justify-content: center;
-  display: flex; }
-  footer .contact-foot {
-    font-size: 1em;
-    color: #FFF;
-    text-align: center;
-    font-family: "Open Sans", sans-serif;
-    margin: 2% 0;
-    opacity: 0.7; }
-    footer .contact-foot span {
-      color: #fbb040;
-      float: right;
-      font-size: 1.125em; }
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+  color: #FFF; }
 
 /**
   * Header Partial SASS
   * This SASS file has the header components
   * used on the app
 **/
+/*
+  ANIMATION
+  */
+@-webkit-keyframes stretch {
+  0% {
+    transform: scale(0.3);
+    border-radius: 100%; }
+  50% {
+    width: 50%;
+    height: 150px;
+    margin-left: -48%; }
+  100% {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    transform: scale(1); } }
+@-moz-keyframes stretch {
+  0% {
+    transform: scale(0.3);
+    border-radius: 100%; }
+  50% {
+    width: 50%;
+    height: 150px;
+    margin-left: -48%; }
+  100% {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    transform: scale(1); } }
+@keyframes stretch {
+  0% {
+    transform: scale(0.3);
+    border-radius: 100%; }
+  50% {
+    width: 50%;
+    height: 150px;
+    margin-left: -48%; }
+  100% {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    transform: scale(1); } }
+/* out*/
+@-webkit-keyframes feedback-out {
+  0% {
+    transform: translateY(0); }
+  20% {
+    transform: translateY(0px);
+    padding-top: 5px; }
+  100% {
+    transform: translateY(-150px); } }
+@-moz-keyframes feedback-out {
+  0% {
+    transform: translateY(0); }
+  20% {
+    transform: translateY(0px);
+    padding-top: 5px; }
+  100% {
+    transform: translateY(-150px); } }
+@keyframes feedback-out {
+  0% {
+    transform: translateY(0); }
+  20% {
+    transform: translateY(0px);
+    padding-top: 5px; }
+  100% {
+    transform: translateY(-150px); } }
 /**
   * Index Partial SASS
   * This SASS file is the manifest on
@@ -157,6 +206,30 @@ footer {
   width: 100%;
   height: 600px; }
 
+.feedback {
+  padding: 0 35px;
+  color: #fff;
+  overflow: hidden;
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  margin-left: -100px;
+  top: 0;
+  z-index: 2;
+  display: none;
+  font-family: 'Roboto', sans-serif; }
+  .feedback h3 {
+    font-size: 30px; }
+  .feedback p {
+    font-size: 20px; }
+
+.msg {
+  display: block;
+  -webkit-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+  -moz-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+  animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards; }
+
 /**
   * Buttons Partial SASS
   * This SASS file has all
@@ -164,33 +237,6 @@ footer {
 **/
 /* General */
 /* LOGIN */
-.btn-container {
-  width: 150px;
-  display: flex;
-  margin-left: auto; }
-
-/* Register */
-.file-upload {
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  -ms-border-radius: 50px;
-  border-radius: 50px;
-  font-size: 1.625em;
-  color: #FFF;
-  text-align: center;
-  -webkit-transition: background 0.45s ease-in-out;
-  -moz-transition: background 0.45s ease-in-out;
-  -o-transition: background 0.45s ease-in-out;
-  transition: background 0.45s ease-in-out;
-  width: 14%;
-  position: relative;
-  margin: -10px auto 5%;
-  background: #F8B451;
-  border: 5px solid #fbb040; }
-
-.file-upload:hover {
-  background: #fbb040; }
-
 /**
   * Forms Partial SASS
   * This SASS file has all
@@ -215,6 +261,12 @@ footer {
       margin: -130px auto 0;
       border: 5px solid #e9eaed;
       background-size: cover; }
+
+.login-info {
+  font-family: "Open Sans", sans-serif; }
+  .login-info .icon {
+    width: 50px;
+    height: 50px; }
 
 /**
   * Icons Partial SASS
@@ -260,28 +312,6 @@ footer {
   .card .card-button {
     float: right; }
 
-/* Tab container*/
-.cd-tabs-content {
-  background: #FFF;
-  height: auto;
-  padding: 0;
-  width: 100%; }
-  .cd-tabs-content .tab {
-    display: none;
-    padding: 1.4em;
-    height: auto;
-    overflow-y: scroll; }
-    .cd-tabs-content .tab.selected {
-      display: block;
-      -webkit-animation: cd-fade-in 0.5s;
-      -moz-animation: cd-fade-in 0.5s;
-      animation: cd-fade-in 0.5s; }
-    .cd-tabs-content .tab p {
-      font-size: 1em;
-      color: #000;
-      font-family: "Open Sans", sans-serif;
-      line-height: 1.6; }
-
 .head-img {
   background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
   position: relative;
@@ -307,11 +337,12 @@ footer {
     text-align: center;
     width: 100%; }
 
-.container-question {
+.container-questions {
   margin: 10px auto;
   width: 90%;
+  height: 230px;
   border-bottom: 1px solid #e9eaed; }
-  .container-question .multiple-opt {
+  .container-questions .multiple-opt {
     width: 150px; }
 
 .questions {
