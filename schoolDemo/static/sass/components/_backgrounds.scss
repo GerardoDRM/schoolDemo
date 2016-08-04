@@ -5,7 +5,7 @@
 **/
 .profile-photo {
   background: $black;
-  height: 550px;
+  height: 300px;
   .default-photo {
     background: $gray;
     @include transition(opacity ease-in-out .2s);
@@ -17,7 +17,6 @@
       @include vertical-align();
     }
   }
-
   input {
     opacity: 0;
     width: 100%;
@@ -51,38 +50,37 @@
     }
   }
 }
-
 .login {
-   background-image: url("/static/images/profile.jpg");
-   background-size: cover;
-   width: 100%;
-   height: 600px;
- }
+  background-image: url("/static/images/profile.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 600px;
+}
 
- // Feedback
- .feedback {
-   padding: 0 35px;
-   color: #fff;
-   overflow: hidden;
-   position: fixed;
-   width: 100px;
-   height: 100px;
-   left: 50%;
-   margin-left: -100px;
-   top: 0;
-   z-index: 2;
-   display: none;
-   font-family: 'Roboto', sans-serif;
-   h3 {
-     font-size: 30px;
-   }
-   p {
-     font-size: 20px;
-   }
- }
- .msg {
-   display: block;
-   -webkit-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
-   -moz-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
-   animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
- }
+// Feedback
+.feedback {
+  padding: 0 35px;
+  color: #fff;
+  overflow: hidden;
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  margin-left: -100px;
+  top: 0;
+  z-index: 2;
+  display: none;
+  font-family: 'Roboto', sans-serif;
+  h3 {
+    font-size: 30px;
+  }
+  p {
+    font-size: 20px;
+  }
+}
+.msg {
+  display: block;
+  -webkit-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+  -moz-animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+  animation: stretch 0.3s ease-in-out forwards, feedback-out 0.3s ease-in-out 5s forwards;
+}

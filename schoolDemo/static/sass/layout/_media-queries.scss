@@ -2,5 +2,8 @@
 
 
 @include mq($brk-less-sm) {
-
+  .profile-photo {
+    background: $black;
+    height: 552px;
+  }
 }
