@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 
 <div layout="row" layout-align="center center">
-  <md-content class="container">
+  <md-content  class="container image-course" style="width:100%;">
     <md-tabs md-border-bottom md-autoselect md-center-tabs="true" md-dynamic-height="true">
       <md-tab label="Institución">
         {% include "admin_layouts/college_description.html" %}
@@ -12,7 +12,7 @@
       <md-tab label="Alumnos" id="student-tab">
         {% include "admin_layouts/student_layout.html" %}
       </md-tab>
-      <md-tab label="Cursos" id="course-tab">
+      <md-tab style="background-color:red;"   label="Cursos" id="course-tab">
         {% include "admin_layouts/courses_layout.html" %}
       </md-tab>
       <md-tab label="Avisos" id="announ-tab">

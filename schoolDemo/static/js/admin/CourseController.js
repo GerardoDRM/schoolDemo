@@ -108,6 +108,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       '<md-button class="md-raised button-eliminate" ng-click="deleteCourse(\'' + cou._id + '\')">Eliminar</md-button>' +
       '</div>' +
       '</div>' +
+      '<div class="blackboard"><img src="/static/images/design/blackboard.svg"></div>' +
       '</md-card-title-text> ' +
       '</md-card></div>'
     )($scope));

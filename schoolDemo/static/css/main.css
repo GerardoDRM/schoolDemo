@@ -156,7 +156,7 @@ footer {
 **/
 .profile-photo {
   background: #000;
-  height: 550px; }
+  height: 300px; }
   .profile-photo .default-photo {
     background: #878787;
     -webkit-transition: opacity ease-in-out 0.2s;
@@ -358,6 +358,19 @@ footer {
 .add-color {
   color: white; }
 
+.image-course {
+  background-repeat: repeat;
+  width: 100%;
+  background-image: url("../images/design/dots.png"); }
+
+md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
+  background-color: white;
+  border-color: rgba(0, 0, 0, 0.12); }
+
 /*Media Queries*/
+@media (min-width: 768px) {
+  .profile-photo {
+    background: #000;
+    height: 552px; } }
 
 /*# sourceMappingURL=main.css.map */

@@ -75,3 +75,14 @@
 .add-color {
   color: white;
 }
+
+.image-course {
+  background-repeat: repeat;
+  width: 100%;
+  background-image: url("../images/design/dots.png");
+}
+
+md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
+    background-color: white;
+    border-color: rgba(0,0,0,0.12);
+}
