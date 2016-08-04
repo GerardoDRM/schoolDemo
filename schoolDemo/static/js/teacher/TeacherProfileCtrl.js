@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('TeacherProfileCtrl', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
-  $scope.id = 1005;
+  $scope.id = $("#userId").val();
   $scope.profile = {};
 
   $('#profileBtn').click(function() {

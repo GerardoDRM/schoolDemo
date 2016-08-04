@@ -164,7 +164,14 @@ class UserApi(Resource):
             message = {"status": 0, "code": 500}
 
         if user is not None:
-            if check_password_hash(user['password'], args.password):
+            password_flag = False
+            if args.type == "student" or args.type == "teacher":
+                if user['password'] == args.password:
+                    password_flag = True
+            else:
+                if check_password_hash(user['password'], args.password):
+                    password_flag = True
+            if password_flag:
                 user_obj = models.User(args.id, user['name'], args.type)
                 login_user(user_obj)
                 message = {"status": 200, "code": 1}
@@ -223,7 +230,7 @@ class SchoolAPI(Resource):
             photo = ''
             data = {
                 "name": args.name, "email": args.email,
-                "password": "", "description": args.description,
+                "description": args.description,
                 "address.street": args.address, "address.in_charge": args.in_charge,
                 "address.in_charge_job": args.in_charge_job, "address.phone": args.phone
             }
@@ -573,10 +580,8 @@ class SimpleCoursesAPI(Resource):
 class SchoolAnnouncements(Resource):
     # Get all announcements
 
-    def get(self, id, role):
-        query = {
-            "_id": id
-        }
+    def get(self, role):
+        query = {}
         parser = reqparse.RequestParser()
         if role == "teacher":
             parser.add_argument('teacher_id', type=int)
@@ -593,13 +598,13 @@ class SchoolAnnouncements(Resource):
             query['announcements.level'] = {"$in": [user["level"]]}
 
         messages = mongo.db.school.find_one(
-            query, {'announcements': 1, "_id": 0})
+            {}, {'announcements': 1, "_id": 0})
         if messages is None:
             messages = {}
         return jsonify(messages)
 
     # Create or update one announcement
-    def put(self, id, role):
+    def put(self, role):
         parser = reqparse.RequestParser()
         parser.add_argument('title', type=str,  location='json', required=True)
         parser.add_argument('content', type=str,
@@ -610,7 +615,7 @@ class SchoolAnnouncements(Resource):
         args = parser.parse_args()
 
         if args.position is None:
-            mongo.db.school.update({"_id": id}, {"$push": {
+            mongo.db.school.update({}, {"$push": {
                 "announcements": {
                     "title": args.title, "content": args.content,
                     "publication_date": args.date, "level": args.level
@@ -621,7 +626,7 @@ class SchoolAnnouncements(Resource):
             }
         else:
             pos = args.position
-            mongo.db.school.update({"_id": id}, {"$set": {"announcements." + pos + ".title": args.title,
+            mongo.db.school.update({}, {"$set": {"announcements." + pos + ".title": args.title,
                                                           "announcements." + pos + ".content": args.content,
                                                           "announcements." + pos + ".publication_date": args.date,
                                                           "announcements." + pos + ".level": args.level}})
@@ -633,13 +638,13 @@ class SchoolAnnouncements(Resource):
         return jsonify(message)
 
     # Delete specific announcement on array by date
-    def delete(self, id, role):
+    def delete(self, role):
         parser = reqparse.RequestParser()
         parser.add_argument('publication_date', type=int,
                             location='json', required=True)
         args = parser.parse_args()
 
-        mongo.db.school.update({"_id": id}, {"$pull": {
+        mongo.db.school.update({}, {"$pull": {
             "announcements": {"publication_date": args.publication_date}
         }})
 
@@ -1502,7 +1507,7 @@ api.add_resource(SchoolAPI, '/api/v0/school/info/<int:id>',
                  endpoint='schoolInfo')
 api.add_resource(SimpleSchoolAPI, '/api/v0/school', endpoint='school')
 api.add_resource(SchoolAnnouncements,
-                 '/api/v0/school/announcements/<int:id>/<role>', endpoint='schoolAnnouncements')
+                 '/api/v0/school/announcements/<role>', endpoint='schoolAnnouncements')
 api.add_resource(SchoolProfessors, '/api/v0/school/teachers',
                  endpoint='schoolTeachers')
 api.add_resource(SchoolStudents, '/api/v0/school/students',

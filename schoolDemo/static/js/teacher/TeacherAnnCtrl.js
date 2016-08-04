@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('TeacherAnnCtrl', ['$scope', '$http', '$compile',  function($scope, $http, $compile) {
-  $scope.id = "57549fe07fc418fb0dbf1e57";
+  $scope.id = $("#userId").val();
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
@@ -11,10 +11,9 @@ angular.module('SchoolApp').controller('TeacherAnnCtrl', ['$scope', '$http', '$c
     $('#announcementCards').empty();
     $http({
       method: 'GET',
-      url: '/api/v0/school/announcements/' + $scope.id + "/teacher",
-      params: {"teacher_id": 1012}
+      url: '/api/v0/school/announcements/teacher',
+      params: {"teacher_id": $scope.id}
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['announcements'];
       for(var announ in dataList) {
         var drawAnnoun = dataList[announ];

@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
   $scope.school = {}
-  $scope.id = "1";
+  $scope.id = $("#userId").val();
   $scope.photo = {
     file: ''
   };

@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', '$compile',  function($scope, $http, $compile) {
-  $scope.id = 1003;
+  $scope.id = $("#userId").val();
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",

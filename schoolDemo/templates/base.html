@@ -15,9 +15,16 @@
   -->
   <md-content>
     <md-toolbar class="md-tall">
-      <h2 class="md-toolbar-tools">
-        <span>Minds Keeper</span>
-      </h2>
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Minds Keeper</span>
+        </h2>
+        <span flex></span>
+        {% if current_user.is_authenticated %}
+        <md-button class="md-warn"><a href="/logout">Cerrar sesion</a></md-button>
+        <input type="hidden" value="{{current_user.id}}" id="userId"/>
+        {% endif %}
+      </div>
     </md-toolbar>
   </md-content>
 

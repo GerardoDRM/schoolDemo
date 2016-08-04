@@ -1,6 +1,5 @@
 angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$http', '$compile', '$mdDialog', '$mdMedia', function($scope, $http, $compile, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "1";
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
@@ -12,7 +11,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
     $('#announcementCards').empty();
     $http({
       method: 'GET',
-      url: '/api/v0/school/announcements/' + $scope.id + "/admin",
+      url: '/api/v0/school/announcements/admin',
     }).then(function successCallback(response) {
       var dataList = response.data['announcements'];
       for (var announ in dataList) {
@@ -44,7 +43,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
   $scope.deleteAnnouncement = function(date) {
     $http({
       method: 'DELETE',
-      url: '/api/v0/school/announcements/' + $scope.id + "/admin",
+      url: '/api/v0/school/announcements/admin',
       data: {
         "publication_date": parseInt(date)
       },
@@ -70,7 +69,6 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
   function DialogController($scope, $mdDialog, $compile) {
     $scope.announ = {};
     $scope.announ.levelList = [];
-    $scope.id = "1";
 
     $scope.closeDialog = function() {
       $mdDialog.cancel();
@@ -96,7 +94,7 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
       if ($("#adminAnnounces").valid()) {
         $http({
           method: 'PUT',
-          url: '/api/v0/school/announcements/' + $scope.id + "/admin",
+          url: '/api/v0/school/announcements/admin',
           data: updated
         }).then(function successCallback(response) {
           _addAnnouncement($scope.announ);
