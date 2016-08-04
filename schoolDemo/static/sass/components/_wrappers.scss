@@ -25,7 +25,6 @@
     float: right;
   }
 }
-
 .head-img {
   background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
   position: relative;
@@ -62,7 +61,17 @@
     width: 150px;
   }
 }
-
 .questions {
   height: 50px;
+}
+.margin-level {
+  margin-top: 10px;
+}
+
+.header-school {
+   color: white;
+    background-color: #3949AB;
+}
+.add-color {
+  color: white;
 }

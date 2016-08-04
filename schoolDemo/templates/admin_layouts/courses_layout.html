@@ -1,15 +1,26 @@
 <div ng-controller="CourseController">
-  <md-button md-no-ink class="md-primary" ng-click="addCourse($event)">+ Agregar curso</md-button>
-  <div class="header-filter">
+  <div class="header-filter header-school">
+    <div class="row">
+      <div class="col-sm-3">
+    <md-button md-no-ink class="add-color" ng-click="addCourse($event)">+ Agregar curso</md-button>
+  </div>
+  <div class="col-sm-3">
     <h3>Niveles</h3>
+  </div>
     <md-radio-group ng-model="data.group">
-      <md-radio-button value="c3" class="md-primary">Bachillerato</md-radio-button>
-      <md-radio-button value="c4" class="md-primary"> Licenciatura </md-radio-button>
+        <div class="col-sm-3 margin-level">
+      <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
+      <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
+      </div>
     </md-radio-group>
     <md-button ng-click="search()">
       Buscar
     </md-button>
   </div>
+</div>
+
+
+
   <div id="CourseCards">
   </div>
   <!-- Angular Material has problems with chips and dialogs using templates

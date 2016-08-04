@@ -348,6 +348,16 @@ footer {
 .questions {
   height: 50px; }
 
+.margin-level {
+  margin-top: 10px; }
+
+.header-school {
+  color: white;
+  background-color: #3949AB; }
+
+.add-color {
+  color: white; }
+
 /*Media Queries*/
 
 /*# sourceMappingURL=main.css.map */
