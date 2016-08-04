@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
   $scope.hw = {};
   $scope.tasks = [];
@@ -75,8 +75,8 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       url: '/api/v0/courses/task/attach/' + $scope.id + "/" + $scope.section,
       data: updated
     }).then(function successCallback(response) {
-      $('#materialBtn').click();
       addFeedback("Se ha cargado el archivo correctamente", 'success');
+      $('#taskBtn').click();
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
@@ -84,7 +84,6 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
 
 
   $scope.deleteFile = function(pos) {
-    console.log(pos);
     var updated = {
       "position_task": parseInt(pos),
       "student": $scope.student,
@@ -108,8 +107,8 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       url: '/api/v0/courses/task/attach/' + $scope.id + "/" + $scope.section,
       data: updated
     }).then(function successCallback(response) {
-      $('#materialBtn').click();
-      addFeedback("Se ha cargado el archivo correctamente", 'success');
+      addFeedback("Se ha eliminado el archivo correctamente", 'success');
+      $('#taskBtn').click();
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
@@ -118,11 +117,11 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   var _addHw = function(hw, pos) {
     var pDate = moment.unix(hw.published_date).format("DD/MM/YYYY");
 
-    var updateTemplate = '<md-button ng-click="uploadFile(' + pos + ')" id="uploadFileBtn">' +
+    var updateTemplate = '<md-button class="md-raised md-primary" ng-click="uploadFile(' + pos + ')" id="uploadFileBtn">' +
       'Subir Archivo' +
       '</md-button>';
 
-    var deleteTemplate = '<md-button ng-click="deleteFile(' + pos + ')" id="updateFileBtn">' +
+    var deleteTemplate = '<md-button class="md-raised md-warn" ng-click="deleteFile(' + pos + ')" id="updateFileBtn">' +
       'Eliminar Archivo' +
       '</md-button>';
 
@@ -150,12 +149,13 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +
-      '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
+      '<div class="col-sm-4" style="height:25px;"><img  width="25px"  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
       '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
       attachment +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
+      '<div class="icon-corner"><img src="/static/images/design/notepad.svg" /></div>' +
       '</md-card>'
     )($scope));
   }

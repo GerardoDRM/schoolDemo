@@ -19,6 +19,10 @@
       <div class="head-img">
         <h1>Examen</h1>
       </div>
+      <span flex></span> {% if current_user.is_authenticated %}
+      <md-button class="md-warn"><a href="/student/class/{{data.id}}">Regresar</a></md-button>
+      <input type="hidden" value="{{data.id}}" id="courseId" />
+      <input type="hidden" value="{{data.date}}" id="examDate" /> {% endif %}
     </md-toolbar>
   </header>
 

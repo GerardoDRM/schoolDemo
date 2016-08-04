@@ -1,16 +1,19 @@
 <div ng-controller="CourseMaterialCtrl">
   <div class="container">
-    <table md-table md-row-select="options.rowSelection">
-      <thead md-head>
-        <tr md-row>
-          <th md-column><span>Titulo</span></th>
-          <th md-column><span>Descripcion de material</span></th>
-          <th md-column>Material</th>
-          <th md-column>Acciones</th>
-        </tr>
-      </thead>
-      <tbody md-body id="material-content">
-      </tbody>
-    </table>
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection">
+        <thead md-head>
+          <tr md-row class="table-head">
+            <th><span>Titulo</span></th>
+            <th><span>Descripcion de material</span></th>
+            <th>Material</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody md-body id="material-content" class="table-body">
+        </tbody>
+        </tbody>
+      </table>
     </md-table-container>
   </div>
+</div>

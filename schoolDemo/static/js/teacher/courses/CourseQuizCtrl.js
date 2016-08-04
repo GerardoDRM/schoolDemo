@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', '$mdpTimePicker', function($scope, $compile, $http, $mdDialog, $mdMedia, $mdpTimePicker) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
 
   $scope.qz = {};
@@ -123,11 +123,6 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       "end_hour": moment($scope.qz.end_hour).unix()
     }
 
-    // console.log($scope.qz.start_date);
-    // var x = moment().unix($scope.qz.start_date)
-    // console.log(x);
-    // console.log(moment.unix(x).format("DD/MM/YYYY"));
-
     // Check if is an update
     if ($scope.position !== undefined) {
       updated['position'] = $scope.position;
@@ -178,7 +173,7 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       '<input ng-model="questions.q' + pos + '.porcentage">' +
       '</md-input-container>' +
       '</div>' +
-      '<md-button class="md-fab md-mini md-primary" aria-label="Delete">' +
+      '<md-button class="md-fab md-mini md-warn" aria-label="Delete">' +
       '<md-icon md-svg-src="/static/images/ic_delete_black.svg" ng-click="deleteQuestion(' + pos + ', $ev)"></md-icon></md-button>' +
       '</div></div>'
     )($scope));
@@ -221,7 +216,7 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       '<input ng-model="questions.q' + pos + '.porcentage">' +
       '</md-input-container>' +
       '</div>' +
-      '<md-button class="md-fab md-mini md-primary" aria-label="Delete">' +
+      '<md-button class="md-fab md-mini md-warn" aria-label="Delete">' +
       '<md-icon md-svg-src="/static/images/ic_delete_black.svg" ng-click="deleteQuestion(' + pos + ', $ev)"></md-icon></md-button>' +
       '<input ng-model="questions.q' + pos + '.model" type="hidden" value="multiple">' +
       '</div></div>'
@@ -251,7 +246,7 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       '<md-radio-button value="false"> Falso </md-radio-button> ' +
       '</md-radio-group>' +
       '</div>' +
-      '<md-button class="md-fab md-mini md-primary" aria-label="Delete">' +
+      '<md-button class="md-fab md-mini md-warn" aria-label="Delete">' +
       '<md-icon md-svg-src="/static/images/ic_delete_black.svg" ng-click="deleteQuestion(' + pos + ')"></md-icon></md-button>' +
       '<input ng-model="questions.q' + pos + '.model" type="hidden" value="boolean">' +
       '</div></div>'

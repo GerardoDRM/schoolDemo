@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseCriteriaCtrl', ['$scope', '$compile', '$http', function($scope, $compile, $http) {
   $scope.criteria = {};
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
 
   $('#criteriaBtn').click(function() {

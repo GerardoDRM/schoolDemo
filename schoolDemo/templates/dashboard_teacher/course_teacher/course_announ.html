@@ -4,19 +4,11 @@
       <h2>Publica un aviso</h2>
       <md-input-container class="md-block" flex-gt-sm>
         <label>Escribe un aviso</label>
-        <input ng-model="announ.description">
+        <textarea ng-model="announ.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
       </md-input-container>
       <md-button class="md-raised" ng-click="createAnnouncement()">Publicar</md-button>
     </div>
     <md-list style="width:50%;" id="comment-space">
-      <!-- <md-list-item class="md-3-line comment-list" style="height:200px; padding-left:100px">
-        <div class="list-item-txt">
-          <h3>Chris</h3>
-          <p>
-            Secondary line text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam. nostra, per inceptos himenaeos.
-          </p>
-        </div>
-      </md-list-item> -->
     </md-list>
   </div>
 </div>

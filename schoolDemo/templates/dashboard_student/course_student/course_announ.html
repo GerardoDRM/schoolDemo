@@ -4,7 +4,7 @@
       <h2>Publica un aviso</h2>
       <md-input-container class="md-block" flex-gt-sm>
         <label>Escribe un aviso</label>
-        <input ng-model="announ.description">
+        <textarea ng-model="announ.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
       </md-input-container>
       <md-button class="md-raised" ng-click="createAnnouncement()">Publicar</md-button>
     </div>

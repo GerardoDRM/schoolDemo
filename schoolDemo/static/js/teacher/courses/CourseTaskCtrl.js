@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
   $scope.hw = {};
   $scope.tasks = [];
@@ -32,7 +32,13 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     }, function errorCallback(response) {});
   }
 
+  $scope.goToTask = function(date, pos) {
+    window.location.href = "/teacher/class/" + $scope.id + "/task/" + pos + "/" + date;
+  }
+
   var _addHw = function(hw, task) {
+    var button = '<md-button class="md-raised md-primary" ng-click="goToTask('+ hw.published_date + ',' + task + ')">Ver Tareas</md-button>';
+    var attach = hw.attachments.length > 0 ? button : "";
     var pDate = moment.unix(hw.published_date).format("DD/MM/YYYY");
 
     angular.element(document.getElementById('hw-content')).append($compile(
@@ -46,13 +52,15 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +
-      '<div class="col-sm-4" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
+      '<div class="col-sm-4" style="height:25px;"><img  width="25px" alt="." src="/static/images/calendar.svg" width="25px"></div>' +
       '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
+      attach +
       '<md-button class="md-raised button-eliminate" ng-click="editTask(' + task + ', $ev)">Editar Tarea</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
+      '<md-button class="md-raised button-eliminate warn" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
+      '<div class="icon-corner"><img src="/static/images/design/notepad.svg" /></div>' +
       '</md-card>'
     )($scope));
   }

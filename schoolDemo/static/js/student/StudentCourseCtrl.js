@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', '$compile',  function($scope, $http, $compile) {
-  $scope.id = $("#userId").val();
+  $scope.id = parseInt($("#userId").val());
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
@@ -24,8 +24,8 @@ angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', 
     }, function errorCallback(response) {});
   });
 
-  $scope.goToCourse = function() {
-    window.location = "student/class";
+  $scope.goToCourse = function(id) {
+    window.location = "student/class/" + id;
   }
 
   /*
@@ -51,6 +51,7 @@ angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', 
       cou.description +
       '</p>' +
       '</md-card-content>' +
+      '<div class="blackboard"><img src="/static/images/design/blackboard.svg"></div>' +
       '<md-button class="md-raised button-eliminate" style="margin:0;" ng-click="goToCourse(\'' + cou._id + '\', $event)">Ir al curso</md-button>' +
       '</div>' +
       '</div>' +

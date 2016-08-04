@@ -15,7 +15,6 @@
   margin: 10px auto;
 }
 .button-eliminate {
-  margin-top: 50px;
   float: right;
 }
 .card {
@@ -25,28 +24,12 @@
     float: right;
   }
 }
-.head-img {
-  background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
-  position: relative;
-  width: 100%;
-  height: 0;
-  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
-  padding-bottom: 15.25%;
-  overflow: hidden;
-  background-size: 160%;
-  /* You can override this value if your picture has a weird ratio */
-  background-position: 50% 50%;
-  h1 {
-    text-align: center;
-    margin-top: 5%;
-  }
-}
 .general-card {
   margin: 10px 0;
   height: 250px;
 }
 .margin-block {
-  margin: 60px auto;
+  margin-top: 100px;
   label {
     text-align: center;
     width: 100%;
@@ -54,9 +37,9 @@
 }
 .container-questions {
   margin: 10px auto;
-  width: 90%;
+  width: 85%;
   height: 230px;
-  border-bottom: 1px solid $gray-material;
+  border-bottom: 4px dashed $gray-900;
   .multiple-opt {
     width: 150px;
   }
@@ -67,11 +50,35 @@
 .margin-level {
   margin-top: 10px;
 }
-
 .header-school {
-   color: white;
-    background-color: #3949AB;
+  color: white;
+  background-color: #3949AB;
 }
 .add-color {
   color: white;
+}
+md-list-item ._md-list-item-inner ._md-secondary-container,
+md-list-item ._md-secondary-container {
+  height: auto;
+}
+// Table
+.table-head {
+  background-color: $white;
+  @include border-radius(5px);
+  th {
+    border-right: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+  }
+}
+.table-body {
+  background: #ccc;
+  @include border-radius(5px);
+  tr {
+    border-bottom: 1px solid $white;
+    td {
+      border-right: 1px solid $white;
+      text-align: center;
+    }
+  }
 }

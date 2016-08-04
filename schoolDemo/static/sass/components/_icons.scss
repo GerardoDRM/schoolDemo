@@ -3,3 +3,30 @@
   * This SASS file has most of the icons
   * used on the app
 **/
+.blackboard {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.publish-icon {
+  width: 50px;
+  position: absolute;
+  right: 0;
+  top: 50px;
+}
+.icon-corner {
+  width: 90px;
+  position: relative;
+  height: 90px;
+  margin-right: -50px;
+  margin-top: 26px;
+  background: $gray-900;
+  border-radius: 50%;
+  img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+  }
+}

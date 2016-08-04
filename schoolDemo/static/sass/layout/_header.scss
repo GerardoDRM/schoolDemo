@@ -3,3 +3,62 @@
   * This SASS file has the header components
   * used on the app
 **/
+
+
+/* Tab container*/
+.cd-tabs-content {
+  background: $white;
+  height: auto;
+  padding: 0;
+  width: 100%;
+  .tab {
+    display: none;
+    padding: 1.4em;
+    height: auto;
+    overflow-y: scroll;
+    &.selected {
+      display: block;
+      -webkit-animation: cd-fade-in 0.5s;
+      -moz-animation: cd-fade-in 0.5s;
+      animation: cd-fade-in 0.5s;
+    }
+    p {
+      @include styling_wrapper_content($black, null, 16px, $font-family--primary, 1.6);
+    }
+  }
+}
+
+
+.left-navigation {
+  overflow:hidden;
+  background-color: $indigo-400;
+  color: $white;
+  font-family: $font-family--primary;
+}
+
+.dots-back {
+  background-image: url("../images/design/dots.png");
+  background-repeat: repeat;
+}
+
+
+.head-img {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(14, 14, 14, 0.62) 70%), linear-gradient(45deg, #ffffff, transparent), url("http://www.nekeran.com/i/books-desktop-background-wallpaper.jpg") no-repeat center;
+  position: relative;
+  width: 100%;
+  height: 0;
+  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
+  padding-bottom: 18.25%;
+  overflow: hidden;
+  background-size: 100%;
+  /* You can override this value if your picture has a weird ratio */
+  background-position: 50% 85%;
+  text-align: center;
+  h1 {
+    text-align: center;
+    margin-top: 5%;
+  }
+  img {
+    width: 140px;
+  }
+}

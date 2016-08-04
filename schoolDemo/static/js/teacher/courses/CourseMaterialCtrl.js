@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
 
   $scope.material = {};
@@ -78,10 +78,10 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
   var _addMaterial = function(mt, material) {
     // Compile to DOM
     angular.element(document.getElementById('material-content')).append($compile(
-      '<tr>' +
+      '<tr class="md-row">' +
       '<td>' + mt.title + '</td>' +
       '<td>' + mt.content + '</td>' +
-      '<td>' + "Material" + '</td>' +
+      '<td>' + "<img src='/static/images/design/travel.svg' width='50px'/>" + '</td>' +
       '<td>' +
       '<md-button class="md-raised button-eliminate" ng-click="editMaterial(' + material + ', $ev)">Editar Recurso</md-button>' +
       '<md-button class="md-raised button-eliminate" ng-click="deleteMaterial(' + mt.published_date + ', \''+ mt.route +'\')">Eliminar Recurso</md-button>' +

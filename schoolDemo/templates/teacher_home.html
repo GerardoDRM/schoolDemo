@@ -1,16 +1,16 @@
 {% extends "base.html" %} {% block content %}
 <div layout="column" style="height:100%;">
   <div layout="row" flex>
-    <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp" style="overflow:hidden">
+    <md-sidenav md-is-locked-open="true" class="left-navigation md-whiteframe-16dp">
       <md-list>
         <md-list-item style="height:50px">
-          <md-button class="menu-click" id="profileBtn" data-content="profile">
+          <md-button class="menu-click selected" id="profileBtn" data-content="profile">
             <md-icon md-svg-src="/static/images/classes.svg"></md-icon>
             Mi Perfil
             </md-buton>
         </md-list-item>
         <md-list-item style="height:50px">
-          <md-button class="menu-click selected" id="classesBtn" data-content="classes">
+          <md-button class="menu-click" id="classesBtn" data-content="classes">
             <md-icon md-svg-src="/static/images/classes.svg"></md-icon>
             Clases
             </md-buton>
@@ -23,11 +23,11 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
-    <md-content id="content" class="md-padding cd-tabs-content">
-      <div class="tab" data-content="profile" id="profile">
+    <md-content id="content" class="md-padding cd-tabs-content dots-back">
+      <div class="tab selected" data-content="profile" id="profile">
         {% include "dashboard_teacher/profile_info.html" %}
       </div>
-      <div class="tab selected" data-content="classes" id="classes">
+      <div class="tab" data-content="classes" id="classes">
         {% include "dashboard_teacher/classes.html" %}
       </div>
       <!-- <div  class="tab" data-content="timetable" id="timetable">

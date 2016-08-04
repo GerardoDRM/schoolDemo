@@ -57,6 +57,28 @@ html {
 .txt-left {
   text-align: left; }
 
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alegreya Sans SC", sans-serif; }
+
+p {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300; }
+
+.title {
+  font-size: 8em;
+  text-align: center; }
+
 /**
   * Footer Partial SASS
   * This SASS file has all footers style
@@ -76,6 +98,56 @@ footer {
   * This SASS file has the header components
   * used on the app
 **/
+/* Tab container*/
+.cd-tabs-content {
+  background: #FFF;
+  height: auto;
+  padding: 0;
+  width: 100%; }
+  .cd-tabs-content .tab {
+    display: none;
+    padding: 1.4em;
+    height: auto;
+    overflow-y: scroll; }
+    .cd-tabs-content .tab.selected {
+      display: block;
+      -webkit-animation: cd-fade-in 0.5s;
+      -moz-animation: cd-fade-in 0.5s;
+      animation: cd-fade-in 0.5s; }
+    .cd-tabs-content .tab p {
+      font-size: 1em;
+      color: #000;
+      font-family: "Open Sans", sans-serif;
+      line-height: 1.6; }
+
+.left-navigation {
+  overflow: hidden;
+  background-color: #5C6BC0;
+  color: #FFF;
+  font-family: "Open Sans", sans-serif; }
+
+.dots-back {
+  background-image: url("../images/design/dots.png");
+  background-repeat: repeat; }
+
+.head-img {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(14, 14, 14, 0.62) 70%), linear-gradient(45deg, #ffffff, transparent), url("http://www.nekeran.com/i/books-desktop-background-wallpaper.jpg") no-repeat center;
+  position: relative;
+  width: 100%;
+  height: 0;
+  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
+  padding-bottom: 18.25%;
+  overflow: hidden;
+  background-size: 100%;
+  /* You can override this value if your picture has a weird ratio */
+  background-position: 50% 85%;
+  text-align: center; }
+  .head-img h1 {
+    text-align: center;
+    margin-top: 5%; }
+  .head-img img {
+    width: 140px; }
+
 /*
   ANIMATION
   */
@@ -236,6 +308,14 @@ footer {
   * buttons style on the web app
 **/
 /* General */
+.link-home {
+  color: #FFF;
+  text-align: center;
+  height: 50px; }
+  .link-home:hover {
+    color: #FFF;
+    text-decoration: none; }
+
 /* LOGIN */
 /**
   * Forms Partial SASS
@@ -246,7 +326,7 @@ footer {
   width: 50%; }
 
 .card-container {
-  margin: 10% auto;
+  margin: 0 auto;
   width: 60%; }
   .card-container .form_reg {
     margin: 5% auto;
@@ -273,6 +353,32 @@ footer {
   * This SASS file has most of the icons
   * used on the app
 **/
+.blackboard {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  right: 0; }
+
+.publish-icon {
+  width: 50px;
+  position: absolute;
+  right: 0;
+  top: 50px; }
+
+.icon-corner {
+  width: 90px;
+  position: relative;
+  height: 90px;
+  margin-right: -50px;
+  margin-top: 26px;
+  background: #263238;
+  border-radius: 50%; }
+  .icon-corner img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto; }
+
 /**
   * Modals Partial SASS
   * This SASS has the modals dialogs
@@ -280,11 +386,14 @@ footer {
 .card-dialog {
   width: 50%; }
   .card-dialog .input-margin {
-    margin: 25px;
+    margin: 0 auto;
     width: 80%; }
   .card-dialog .icon-margin {
     width: 80%;
     text-align: right; }
+  .card-dialog .time {
+    width: 150px;
+    display: table; }
 
 /**
   * Wrappers Partial SASS
@@ -303,7 +412,6 @@ footer {
   margin: 10px auto; }
 
 .button-eliminate {
-  margin-top: 50px;
   float: right; }
 
 .card {
@@ -312,36 +420,21 @@ footer {
   .card .card-button {
     float: right; }
 
-.head-img {
-  background-image: url("http://cdn1.theodysseyonline.com/files/2016/01/03/635873821517718970351055939_Stack-of-books-great-education.jpg");
-  position: relative;
-  width: 100%;
-  height: 0;
-  /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
-  padding-bottom: 15.25%;
-  overflow: hidden;
-  background-size: 160%;
-  /* You can override this value if your picture has a weird ratio */
-  background-position: 50% 50%; }
-  .head-img h1 {
-    text-align: center;
-    margin-top: 5%; }
-
 .general-card {
   margin: 10px 0;
   height: 250px; }
 
 .margin-block {
-  margin: 60px auto; }
+  margin-top: 100px; }
   .margin-block label {
     text-align: center;
     width: 100%; }
 
 .container-questions {
   margin: 10px auto;
-  width: 90%;
+  width: 85%;
   height: 230px;
-  border-bottom: 1px solid #e9eaed; }
+  border-bottom: 4px dashed #263238; }
   .container-questions .multiple-opt {
     width: 150px; }
 
@@ -357,6 +450,33 @@ footer {
 
 .add-color {
   color: white; }
+
+md-list-item ._md-list-item-inner ._md-secondary-container,
+md-list-item ._md-secondary-container {
+  height: auto; }
+
+.table-head {
+  background-color: #FFF;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px; }
+  .table-head th {
+    border-right: 1px solid #ccc;
+    padding: 12px;
+    text-align: center; }
+
+.table-body {
+  background: #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px; }
+  .table-body tr {
+    border-bottom: 1px solid #FFF; }
+    .table-body tr td {
+      border-right: 1px solid #FFF;
+      text-align: center; }
 
 /*Media Queries*/
 

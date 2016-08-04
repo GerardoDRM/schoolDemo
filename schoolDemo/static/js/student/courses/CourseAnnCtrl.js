@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$compile', function($scope, $http, $compile) {
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
 
   $scope.announ = {};
@@ -35,7 +35,7 @@ angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$co
     var pDate = moment.unix(announ.date).format("DD/MM/YYYY");
     // Compile to DOM
     angular.element(document.getElementById('comment-space')).append($compile(
-      '<md-list-item class="md-3-line" style="height:250px;">' +
+      '<md-list-item class="md-3-line">' +
       '<div class="list-item-txt">' +
       '<h3>' + announ.author + '</h3>' +
       '<h4>' + pDate + '</h4>' +
@@ -43,13 +43,14 @@ angular.module('SchoolApp').controller('CourseAnnCtrl', ['$scope', '$http', '$co
       '</p>' +
       '</div>' +
       '<md-divider inset></md-divider>' +
+      '<div class="publish-icon"><img src="/static/images/design/writing.svg"/></div>' +
       '</md-list-item>'
     )($scope));
   }
 
   $scope.createAnnouncement = function() {
     // Create Announcement
-    $scope.announ.author = "Lucas";
+    $scope.announ.author = $("#userName").val();
     $scope.announ.date = moment().unix();
 
     var updated = {

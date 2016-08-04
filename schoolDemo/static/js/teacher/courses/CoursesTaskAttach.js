@@ -1,10 +1,10 @@
 angular.module('SchoolApp').controller('CoursesTaskAttach', ['$scope', '$compile', '$http', function($scope, $compile, $http) {
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
   $scope.resource = {};
   $scope.resources = [];
-  $scope.position_task = 0;
-  $scope.published_date = 1469490000;
+  $scope.position_task = parseInt($("#taskPos").val());
+  $scope.published_date = parseInt($("#taskDate").val());
   $scope.grades = {};
 
   $scope.getAttachments = function() {

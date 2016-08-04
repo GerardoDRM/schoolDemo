@@ -3,8 +3,15 @@
   * This SASS file has all
   * buttons style on the web app
 **/
-
 /* General */
-
+.link-home {
+  color: $white;
+  text-align: center;
+  height: 50px;
+  &:hover {
+    color: $white;
+    text-decoration: none;
+  }
+}
 
 /* LOGIN */

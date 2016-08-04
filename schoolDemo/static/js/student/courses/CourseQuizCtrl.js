@@ -1,6 +1,6 @@
 angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
 
   $scope.qz = {};
@@ -72,6 +72,10 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
     $mdDialog.cancel();
   };
 
+  $scope.goToQuiz = function(date) {
+    window.location.href = "/student/class/" + $scope.id + "/exam/" + date;
+  }
+
   var _addQz = function(qz, quiz) {
     var pDate = moment.unix(qz.published_date).format("DD/MM/YYYY");
     var sDate = moment.unix(qz.start_date).format("DD/MM/YYYY");
@@ -97,7 +101,7 @@ angular.module('SchoolApp').controller('CourseQuizCtrl', ['$scope', '$compile', 
       '<div class="col-sm-5"> ' +
       '<div class="col-sm-3" style="height:25px;"><img  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
       '<div class="col-sm-9"><p>Creacion: ' + pDate + '</p><p>Comienza: ' + completeSDate + '</p><p>Termina: ' + completeEDate + '</p></div>' +
-      '<md-button class="md-raised button-eliminate">Contestar</md-button>' +
+      '<md-button class="md-raised md-primary" ng-click="goToQuiz(' + qz.published_date + ')">Contestar</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +

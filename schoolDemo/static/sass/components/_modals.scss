@@ -6,11 +6,15 @@
 .card-dialog {
   width: 50%;
   .input-margin {
-    margin: 25px;
+    margin: 0 auto;
     width: 80%;
   }
   .icon-margin {
     width: 80%;
     text-align: right;
+  }
+  .time {
+    width: 150px;
+    display: table;
   }
 }

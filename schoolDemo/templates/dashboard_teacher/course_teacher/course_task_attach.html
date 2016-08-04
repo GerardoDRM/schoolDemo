@@ -4,38 +4,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-  <link rel="stylesheet" href="/static/css/main.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/css/md-data-table.min.css">
+  <link rel="stylesheet" href="/static/css/main.css">
 
 </head>
 
 <body ng-app="SchoolApp" ng-cloak>
-  <!--
-    Your HTML content here
-  -->
   <header md-page-header>
     <md-toolbar>
       <div class="head-img">
         <h1>Tareas</h1>
       </div>
+      <span flex></span> {% if current_user.is_authenticated %}
+      <md-button class="md-warn"><a href="/teacher/class/{{course.id}}">Regresar</a></md-button>
+      <input type="hidden" value="{{course.id}}" id="courseId" />
+      <input type="hidden" value="{{task.pos}}" id="taskPos" />
+      <input type="hidden" value="{{task.date}}" id="taskDate" /> {% endif %}
     </md-toolbar>
   </header>
+
+  <!-- Feedback -->
+  <div id="feedback" class="feedback">
+    <h3 id="feedback-msg" class="no-margin"></h3>
+  </div>
 
   <div layout="column" ng-controller="CoursesTaskAttach">
     <md-content class="container md-padding">
       <md-table-container>
         <table md-table md-row-select="options.rowSelection">
           <thead md-head>
-            <tr md-row>
-              <th md-column><span>Id Estudiante</span></th>
-              <th md-column><span>Nombre Estudiante</span></th>
-              <th md-column><span>Nombre de archivo</span></th>
-              <th md-column>Calificacion</th>
-              <th md-column>Acciones</th>
+            <tr md-row class="table-head">
+              <th><span>Id Estudiante</span></th>
+              <th><span>Nombre Estudiante</span></th>
+              <th><span>Nombre de archivo</span></th>
+              <th>Calificacion</th>
+              <th>Acciones</th>
             </tr>
           </thead>
-          <tbody md-body id="hw-content">
+          <tbody md-body id="hw-content" class="table-body">
           </tbody>
         </table>
       </md-table-container>

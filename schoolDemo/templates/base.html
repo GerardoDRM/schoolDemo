@@ -4,9 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-  <link rel="stylesheet" href="/static/css/main.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/css/main.css">
 </head>
 
 <body ng-app="SchoolApp" ng-cloak>
@@ -19,11 +19,9 @@
         <h2>
           <span>Minds Keeper</span>
         </h2>
-        <span flex></span>
-        {% if current_user.is_authenticated %}
+        <span flex></span> {% if current_user.is_authenticated %}
         <md-button class="md-warn"><a href="/logout">Cerrar sesion</a></md-button>
-        <input type="hidden" value="{{current_user.id}}" id="userId"/>
-        {% endif %}
+        <input type="hidden" value="{{current_user.id}}" id="userId" /> {% endif %}
       </div>
     </md-toolbar>
   </md-content>
@@ -74,6 +72,20 @@
 
   <!-- Your application bootstrap  -->
   <script type="text/javascript">
+    function addFeedback(msg, status) {
+      var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
+      var fontColor = status == "success" ? "#FFFFFF" : "#C5A14E";
+      $("#feedback").addClass("msg");
+      $("#feedback-msg").html(msg);
+      $("#feedback").css({
+        "background-color": cl,
+        "color": fontColor
+      });
+      setTimeout(function() {
+        $("#feedback").removeClass("msg");
+        $("#feedback-msg").html("");
+      }, 6000);
+    }
     /**
      * You must include the dependency on 'ngMaterial'
      */
@@ -111,10 +123,10 @@
                     });
 
                   } else {
-                    console.log("El tamaño de la imagen tiene que ser menor a 1MB");
+                    addFeedback("El tamaño de la imagen tiene que ser menor a 1MB");
                   }
                 } else {
-                  console.log("Debes de adjuntar una imagen con formato jpg, jpeg ó png");
+                  addFeedback("Debes de adjuntar una imagen con formato jpg, jpeg ó png");
                 }
               });
             };
@@ -125,6 +137,21 @@
     }]);
 
     $(document).ready(function() {
+      // Tabs which are used on navigation bar
+      var tabItems = $('.menu-click');
+      var tabContentWrapper = $('.cd-tabs-content');
+      // This action will change the content for each tab
+      tabItems.on("click", function(event) {
+        var selectedItem = $(this);
+        if (!selectedItem.hasClass('selected')) {
+          var selectedTab = selectedItem.data('content'),
+            selectedContent = tabContentWrapper.find('.tab[data-content="' + selectedTab + '"]');
+          tabItems.removeClass('selected');
+          selectedItem.addClass('selected');
+          selectedContent.addClass('selected').siblings('.tab').removeClass('selected');
+        }
+      });
+
       jQuery.extend(jQuery.validator.messages, {
         required: "Este campo es requerido",
         minlength: jQuery.validator.format("Por favor debe de haber almenos {0} caracteres."),
@@ -138,21 +165,6 @@
       $("#adminCourses").validate();
       $("#adminAnnounces").validate();
     });
-
-    function addFeedback(msg, status) {
-      var cl = status == "success" ? "#70DA8B" : "#FFE6B2";
-      var fontColor = status == "success" ? "#FFFFFF" : "#C5A14E";
-      $("#feedback").addClass("msg");
-      $("#feedback-msg").html(msg);
-      $("#feedback").css({
-        "background-color": cl,
-        "color": fontColor
-      });
-      setTimeout(function() {
-        $("#feedback").removeClass("msg");
-        $("#feedback-msg").html("");
-      }, 6000);
-    }
   </script>
   <script src="/static/js/admin/AnnouncementController.js"></script>
   <script src="/static/js/admin/ProfileController.js"></script>
@@ -170,6 +182,7 @@
   <!-- Student -->
   <script src="/static/js/student/StudentAnnCtrl.js"></script>
   <script src="/static/js/student/StudentCourseCtrl.js"></script>
+  <script src="/static/js/student/StudentProfileCtrl.js"></script>
 
 </body>
 

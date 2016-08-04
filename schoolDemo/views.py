@@ -74,33 +74,53 @@ def dashboard():
 
 
 @app.route('/teacher')
+@login_required
 def teacher():
     return render_template("teacher_home.html")
 
 
 @app.route('/student')
+@login_required
 def student():
     return render_template("student_home.html")
 
 
-@app.route('/teacher/class')
-def teacher_class():
-    return render_template("dashboard_teacher/teacher_dashboard.html")
+@app.route('/teacher/class/<id>')
+@login_required
+def teacher_class(id):
+    course = mongo.db.courses.find_one({"_id": id}, {"_id": 0, "name": 1})
+    return render_template("dashboard_teacher/teacher_dashboard.html", course={"id": id, "name": course["name"]})
 
 
-@app.route('/teacher/task/attachments')
-def teacher_task_attach():
-    return render_template("dashboard_teacher/course_teacher/course_task_attach.html")
+@app.route('/teacher/class/<id>/task/<pos>/<date>')
+@login_required
+def teacher_task_attach(id, pos, date):
+    task = {
+        "pos": int(pos),
+        "date": int(date)
+    }
+
+    course = {
+        "id": id
+    }
+    return render_template("dashboard_teacher/course_teacher/course_task_attach.html", course=course, task=task)
 
 
-@app.route('/student/class')
-def student_class():
-    return render_template("dashboard_student/student_dashboard.html")
+@app.route('/student/class/<id>')
+@login_required
+def student_class(id):
+    course = mongo.db.courses.find_one({"_id": id}, {"_id": 0, "name": 1})
+    return render_template("dashboard_student/student_dashboard.html", course={"id": id, "name": course["name"]})
 
 
-@app.route('/student/exam')
-def student_exam():
-    return render_template("dashboard_student/student_exam.html")
+@app.route('/student/class/<id>/exam/<date>')
+@login_required
+def student_exam(id, date):
+    data = {
+        "id": id,
+        "date": int(date)
+    }
+    return render_template("dashboard_student/student_exam.html", data = data)
 
 
 @app.route('/admin')
@@ -110,6 +130,7 @@ def admin():
 
 
 @app.route('/download/zip/<name>', methods=['GET', 'POST'])
+@login_required
 def download_zip(name):
     absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo/static/material/" + name
     output = open(absolute_path, 'rb')
@@ -627,9 +648,9 @@ class SchoolAnnouncements(Resource):
         else:
             pos = args.position
             mongo.db.school.update({}, {"$set": {"announcements." + pos + ".title": args.title,
-                                                          "announcements." + pos + ".content": args.content,
-                                                          "announcements." + pos + ".publication_date": args.date,
-                                                          "announcements." + pos + ".level": args.level}})
+                                                 "announcements." + pos + ".content": args.content,
+                                                 "announcements." + pos + ".publication_date": args.date,
+                                                 "announcements." + pos + ".level": args.level}})
             message = {
                 "status": 200,
                 "code": 2
@@ -723,6 +744,54 @@ class TeacherProfile(Resource):
 
         return jsonify(message)
 
+# This class has CRUD operatios in order to
+# manage student profile
+# @Path <id> - student id
+# return JSON
+
+
+class StudentProfile(Resource):
+    # Get student profile
+
+    def get(self, id):
+        teacher = mongo.db.students.find_one(
+            {"_id": id}, {'_id': 0, 'courses': 0})
+
+        return jsonify(teacher)
+
+    # Update teacher profile
+    def put(self, id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('description', type=str,
+                            location='json')
+        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('password', type=str,
+                            location='json', required=True)
+        args = parser.parse_args()
+
+        data = {
+            "email": args.email,
+            "password": args.password
+        }
+
+        message = {}
+        # Update existing data else create new document
+        result = mongo.db.students.update_one(
+            {"_id": id}, {"$set": data})
+
+        if result.modified_count == 1:
+            message = {
+                "status": 200,
+                "code": 1
+            }
+        else:
+            message = {
+                "status": 201,
+                "code": 2
+            }
+
+        return jsonify(message)
+
 
 # This class has CRUD operatios in order to
 # manage student courses
@@ -752,9 +821,9 @@ class CoursesAnnoun(Resource):
 
     def get(self, id, num):
         announ = mongo.db.courses.find_one({"_id": id, "section.sec": int(num)}, {
-                                           "_id": 0, "section.announ": 1})
+                                           "_id": 0, "section.announcements": 1})
         section = announ['section'][0]
-        return jsonify(announcements=section['announ'])
+        return jsonify(announcements=section['announcements'])
 
     # Post announcement on course section
     def post(self, id, num):
@@ -770,7 +839,7 @@ class CoursesAnnoun(Resource):
         # Update existing data else create new document
         if args.position is None:
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
-                "section.$.announ": {
+                "section.$.announcements": {
                     "description": args.description,
                     "author": args.author,
                     "date": args.date,
@@ -783,10 +852,10 @@ class CoursesAnnoun(Resource):
             }
         else:
             pos = args.position
-            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.announ." + pos + ".description": args.description,
-                                                                                   "section.$.announ." + pos + ".author": args.author,
-                                                                                   "section.$.announ." + pos + ".date": args.date,
-                                                                                   "section.$.announ." + pos + ".role": args.role}})
+            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": {"section.$.announcements." + pos + ".description": args.description,
+                                                                                   "section.$.announcements." + pos + ".author": args.author,
+                                                                                   "section.$.announcements." + pos + ".date": args.date,
+                                                                                   "section.$.announcements." + pos + ".role": args.role}})
             message = {
                 "status": 200,
                 "code": 2
@@ -802,7 +871,7 @@ class CoursesAnnoun(Resource):
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
-            "section.$.announ": {"date": args.publication_date}
+            "section.$.announcements": {"date": args.publication_date}
         }})
 
         message = {}
@@ -1433,6 +1502,7 @@ class CourseCriteria(Resource):
                                                  "section.$.criteria.project": args.project,
                                                  "section.$.criteria.extras": args.extras,
                                                  "section.$.criteria.hw": args.hw,
+                                                 "section.$.criteria.exams": args.exams,
                                                  "section.$.criteria.attendance": args.attendance
                                              }})
         message = {}
@@ -1516,6 +1586,8 @@ api.add_resource(SchoolCourses, '/api/v0/school/courses',
                  endpoint='schoolCourses')
 api.add_resource(SimpleCoursesAPI, '/api/v0/school/courses/list',
                  endpoint='schoolCoursesList')
+api.add_resource(
+    StudentProfile, '/api/v0/student/profile/<int:id>', endpoint='studentProfile')
 api.add_resource(
     StudentCourses, '/api/v0/student/courses/<int:id>', endpoint='studentCourses')
 api.add_resource(

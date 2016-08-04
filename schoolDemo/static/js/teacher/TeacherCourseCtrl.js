@@ -1,5 +1,5 @@
 angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', '$compile',  function($scope, $http, $compile) {
-  $scope.id = $("#userId").val();
+  $scope.id = parseInt($("#userId").val());
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
@@ -13,7 +13,6 @@ angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', 
       method: 'GET',
       url: '/api/v0/teacher/courses/' + $scope.id,
     }).then(function successCallback(response) {
-      console.log(response.data);
       var dataList = response.data['courses'];
       for (var cour in dataList) {
         var drawCourse = dataList[cour];
@@ -24,8 +23,8 @@ angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', 
     }, function errorCallback(response) {});
   });
 
-  $scope.goToCourse = function() {
-    window.location = "teacher/class";
+  $scope.goToCourse = function(id) {
+    window.location = "teacher/class/" + id;
   }
 
   /*
@@ -51,6 +50,7 @@ angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', 
       cou.description +
       '</p>' +
       '</md-card-content>' +
+      '<div class="blackboard"><img src="/static/images/design/blackboard.svg"></div>' +
       '<md-button class="md-raised button-eliminate" style="margin:0;" ng-click="goToCourse(\'' + cou._id + '\', $event)">Ir al curso</md-button>' +
       '</div>' +
       '</div>' +

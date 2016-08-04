@@ -19,10 +19,6 @@
             <md-toolbar>
               <div class="md-toolbar-tools">
                 <h2>Crea un nuevo quiz</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                  <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-                </md-button>
               </div>
             </md-toolbar>
             <md-dialog-content layout="column">
@@ -32,31 +28,31 @@
                     <label>Titulo del quiz</label>
                     <input ng-model="qz.title">
                   </md-input-container>
-                  <md-input-container class="md-block input-margin" flex>
+                  <md-input-container class="md-block input-margin" style="margin-top:50px;" flex>
                     <label>Descripcion</label>
                     <textarea ng-model="qz.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
                   </md-input-container>
                   <div class="row margin-block">
                     <div class="col-sm-6">
                       <label>Fecha inicio de examen</label>
-                      <md-datepicker class="input-margin" ng-model="qz.start_date" md-placeholder="MM/DD/YYYY">
+                      <md-datepicker class="input-margin time" ng-model="qz.start_date" md-placeholder="MM/DD/YYYY">
                       </md-datepicker>
                       <label>Hora inicio de examen</label>
-                      <mdp-time-picker ng-model="qz.start_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
+                      <mdp-time-picker class="input-margin time" ng-model="qz.start_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
                     </div>
                     <div class="col-sm-6">
                       <label>Fecha termino de examen</label>
-                      <md-datepicker class="input-margin" ng-model="qz.end_date" md-placeholder="MM/DD/YYYY">
+                      <md-datepicker class="input-margin time" ng-model="qz.end_date" md-placeholder="MM/DD/YYYY">
                       </md-datepicker>
                       <label>Hora termino de examen</label>
-                      <mdp-time-picker ng-model="qz.end_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
+                      <mdp-time-picker class="input-margin time" ng-model="qz.end_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="md-dialog-content">
                 <md-menu>
-                  <md-button aria-label="Open phone interactions menu" ng-click="openMenu($mdOpenMenu, $event)">
+                  <md-button class="md-raised md-primary" aria-label="Open phone interactions menu" ng-click="openMenu($mdOpenMenu, $event)">
                     Agregar pregunta
                   </md-button>
                   <md-menu-content width="4">

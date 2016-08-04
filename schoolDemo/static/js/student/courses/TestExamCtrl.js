@@ -1,7 +1,7 @@
 angular.module('SchoolApp').controller('TestExamCtrl', ['$scope', '$compile', '$http', function($scope, $compile, $http) {
-  $scope.id = "MA101";
+  $scope.id = $("#courseId").val();
   $scope.section = 1;
-  $scope.published_date = 1469500000;
+  $scope.published_date = parseInt($("#examDate").val());
   $scope.qz = {};
   // Questions Array
   $scope.questionsArray = [];
@@ -118,7 +118,6 @@ angular.module('SchoolApp').controller('TestExamCtrl', ['$scope', '$compile', '$
   }
 
   $scope._addBooleanQuestion = function() {
-    console.log($scope.questions);
     var pos = $scope.questionCounter;
     angular.element(document.getElementById('qt-content')).append($compile(
       '<div class="container-questions" id="questionContainer' + pos + '">' +

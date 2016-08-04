@@ -1,0 +1,36 @@
+<div ng-controller="StudentProfileCtrl">
+  <div class="container">
+    <h1 class="title">Perfil</h1>
+    <div class="row" style="margin-top:60px;">
+      <div class="col-md-12">
+        <md-card class="card-container">
+          <md-card-content>
+            <form class="form_reg">
+              <div class="profile_photo" style="background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOC4xLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMzAgMzAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMwIDMwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIGZpbGw9IiNCMkJBQzIiIGQ9Ik04LjksNy40YzAtMy40LDEtNy41LDYuMS03LjVjNS40LDAsNi4xLDQsNi4xLDcuNEwyMC45LDExYzAsMy40LTMuNiw1LjMtNS45LDUuM2MtMiwwLTUuOS0xLjktNS45LTUuMw0KCUw4LjksNy40eiIvPg0KPHBhdGggZmlsbD0iI0IyQkFDMiIgZD0iTTE2LjQsMTguOWgtMi43QzYuMSwxOC45LDAsMjIuNSwwLDMwbDAsMGgzMGwwLDBDMzAsMjIuNSwyMy45LDE4LjksMTYuNCwxOC45eiIvPg0KPC9zdmc+DQo=) 50% 50% / cover no-repeat;"></div>
+              <md-input-container class="md-block" flex>
+                <label>Nombre</label>
+                <input ng-model="profile.name" disabled>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Id</label>
+                <input ng-model="profile.id" disabled="">
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Email</label>
+                <input ng-model="profile.email">
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Password</label>
+                <input ng-model="profile.password">
+              </md-input-container>
+              <md-button ng-click="storeProfile()">Guardar!</button>
+            </form>
+          </md-card-content>
+        </md-card>
+      </div>
+
+    </div>
+  </div>
+  <!-- End container -->
+
+</div>
