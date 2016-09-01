@@ -24,6 +24,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
     $scope.selectedCourses = [];
     $scope.stu = {};
     $scope.data.group = "c3";
+    $scope.courses = loadCourses();
     $scope.search();
   });
 
@@ -144,6 +145,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       '<div class="row">' +
       '<div class="col-sm-6">' +
       '<h1 class="md-headline no-margin"> ' + stu.name + ' </h1>' +
+      '<p class="md-subhead"> ID:' + stu._id + '</p>' +
       '<p class="md-subhead"> ' + level + '</p>' +
       '</div>' +
       '<div class="col-sm-6"> ' +

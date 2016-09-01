@@ -107,7 +107,7 @@
                 var secureFile = data.match(/^data:application\/(zip|rar)/) != null ? true : false;
                 if (secureFile) {
                   // Check file size
-                  if (changeEvent.target.files[0].size < 1000000) {
+                  if (changeEvent.target.files[0].size < 10000000) {
                     var fd = {};
                     fd['file'] = data.replace(/^data:application\/(zip|rar);base64,/, "");
                     scope.package.file = fd['file'];

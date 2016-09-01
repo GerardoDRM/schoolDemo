@@ -103,7 +103,7 @@
                 var secureFile = data.match(/^data:image\/(png|jpg|jpeg)/) != null ? true : false;
                 if (secureFile) {
                   // Check file size
-                  if (changeEvent.target.files[0].size < 1000000) {
+                  if (changeEvent.target.files[0].size < 6000000) {
                     // Check image model
                     var identifier = $(element).parent().prev();
                     var fd = {};
@@ -123,7 +123,7 @@
                     });
 
                   } else {
-                    addFeedback("El tamaño de la imagen tiene que ser menor a 1MB");
+                    addFeedback("El tamaño de la imagen tiene que ser menor a 6MB");
                   }
                 } else {
                   addFeedback("Debes de adjuntar una imagen con formato jpg, jpeg ó png");

@@ -24,6 +24,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     $scope.professors = [];
     $scope.selectedCourses = [];
     $scope.data.group = "c3";
+    $scope.courses = loadCourses();
     $scope.search();
   });
 
@@ -144,8 +145,8 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
     for (var i in prof.levelList) {
       levels += $scope.levelRef[prof.levelList[i]] + " ";
     }
-    for (var j in $scope.selectedCourses) {
-      courses += $scope.selectedCourses[j].name + " ";
+    for (var j in prof.courses) {
+      courses += prof.courses[j] + " ";
     }
 
     // Compile to DOM
@@ -157,6 +158,7 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
       '<div class="row">' +
       '<div class="col-sm-6">' +
       '<h1 class="md-headline no-margin"> ' + prof.name + ' </h1>' +
+      '<p class="md-subhead"> ID:' + prof._id + '</p>' +
       '<p class="md-subhead"> ' + courses + '</p>' +
       '<p class="md-subhead"> ' + levels + '</p>' +
       '</div>' +

@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div layout="column" style="height:100%;">
   <div layout="row" flex>
-    <md-sidenav md-is-locked-open="true" class="left-navigation md-whiteframe-16dp">
+    <md-sidenav md-is-locked-open="$mdMedia('gt-md')" class="left-navigation md-whiteframe-16dp">
       <md-list>
         <md-list-item style="height:50px">
           <md-button class="menu-click selected" id="profileBtn" data-content="profile">

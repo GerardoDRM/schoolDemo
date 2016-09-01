@@ -5,7 +5,6 @@ from flask import Flask, jsonify, render_template, g, flash, redirect, url_for, 
 from bson.objectid import ObjectId
 from decimal import Decimal
 from flask.ext.restful import Api, Resource, reqparse
-from flask.ext.bcrypt import check_password_hash, generate_password_hash
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 import uuid
 from datetime import datetime, timedelta, date
@@ -164,7 +163,7 @@ class UserApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int,
                             location="json", required=True)
-        parser.add_argument('password', type=str,
+        parser.add_argument('password', type=unicode,
                             location="json", required=True)
         parser.add_argument('type', type=str, location="json", required=True)
         args = parser.parse_args()
@@ -229,18 +228,18 @@ class SchoolAPI(Resource):
     # Update general info
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, location='json', required=True)
-        parser.add_argument('email', type=str, location='json', required=True)
-        parser.add_argument('description', type=str, location='json')
-        parser.add_argument('password', type=str, location='json')
+        parser.add_argument('name', type=unicode, location='json', required=True)
+        parser.add_argument('email', type=unicode, location='json', required=True)
+        parser.add_argument('description', type=unicode, location='json')
+        parser.add_argument('password', type=unicode, location='json')
         parser.add_argument('profile_photo', type=str,
                             location='json', required=True)
-        parser.add_argument('address', type=str,
+        parser.add_argument('address', type=unicode,
                             location='json', required=True)
         parser.add_argument('phone', type=str, location='json')
-        parser.add_argument('in_charge', type=str,
+        parser.add_argument('in_charge', type=unicode,
                             location='json', required=True)
-        parser.add_argument('in_charge_job', type=str,
+        parser.add_argument('in_charge_job', type=unicode,
                             location='json', required=True)
         args = parser.parse_args()
 
@@ -317,11 +316,11 @@ class SchoolProfessors(Resource):
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int, location='json')
-        parser.add_argument('name', type=str,  location='json', required=True)
-        parser.add_argument('password', type=str,
+        parser.add_argument('name', type=unicode,  location='json', required=True)
+        parser.add_argument('password', type=unicode,
                             location='json', required=True)
         parser.add_argument('phone', type=str, location='json')
-        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('email', type=unicode, location='json')
         parser.add_argument('level', type=list, location='json', required=True)
         parser.add_argument('courses', type=list, location='json')
         args = parser.parse_args()
@@ -401,10 +400,10 @@ class SchoolStudents(Resource):
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int, location='json')
-        parser.add_argument('name', type=str,  location='json', required=True)
-        parser.add_argument('password', type=str,
+        parser.add_argument('name', type=unicode,  location='json', required=True)
+        parser.add_argument('password', type=unicode,
                             location='json', required=True)
-        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('email', type=unicode, location='json')
         parser.add_argument('level', type=str, location='json', required=True)
         parser.add_argument('courses', type=list, location='json')
         args = parser.parse_args()
@@ -493,13 +492,13 @@ class SchoolCourses(Resource):
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=str, location='json', required=True)
-        parser.add_argument('name', type=str,  location='json', required=True)
+        parser.add_argument('name', type=unicode,  location='json', required=True)
         parser.add_argument('level', type=str, location='json', required=True)
         parser.add_argument('semester', type=str,
                             location='json', required=True)
-        parser.add_argument('description', type=str,
+        parser.add_argument('description', type=unicode,
                             location='json')
-        parser.add_argument('college_carrer', type=str, location='json')
+        parser.add_argument('college_carrer', type=unicode, location='json')
         args = parser.parse_args()
 
         sec = {
@@ -627,8 +626,8 @@ class SchoolAnnouncements(Resource):
     # Create or update one announcement
     def put(self, role):
         parser = reqparse.RequestParser()
-        parser.add_argument('title', type=str,  location='json', required=True)
-        parser.add_argument('content', type=str,
+        parser.add_argument('title', type=unicode,  location='json', required=True)
+        parser.add_argument('content', type=unicode,
                             location='json', required=True)
         parser.add_argument('date', type=int, location='json', required=True)
         parser.add_argument('level', type=list, location='json', required=True)
@@ -711,11 +710,11 @@ class TeacherProfile(Resource):
     # Update teacher profile
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('description', type=str,
+        parser.add_argument('description', type=unicode,
                             location='json')
-        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('email', type=unicode, location='json')
         parser.add_argument('phone', type=str, location='json')
-        parser.add_argument('password', type=str,
+        parser.add_argument('password', type=unicode,
                             location='json', required=True)
         args = parser.parse_args()
 
@@ -762,10 +761,10 @@ class StudentProfile(Resource):
     # Update teacher profile
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('description', type=str,
+        parser.add_argument('description', type=unicode,
                             location='json')
-        parser.add_argument('email', type=str, location='json')
-        parser.add_argument('password', type=str,
+        parser.add_argument('email', type=unicode, location='json')
+        parser.add_argument('password', type=unicode,
                             location='json', required=True)
         args = parser.parse_args()
 
@@ -828,11 +827,11 @@ class CoursesAnnoun(Resource):
     # Post announcement on course section
     def post(self, id, num):
         parser = reqparse.RequestParser()
-        parser.add_argument('description', type=str,
+        parser.add_argument('description', type=unicode,
                             location='json', required=True)
         parser.add_argument('date', type=int, location='json', required=True)
-        parser.add_argument('role', type=str, location='json', required=True)
-        parser.add_argument('author', type=str, location='json', required=True)
+        parser.add_argument('role', type=unicode, location='json', required=True)
+        parser.add_argument('author', type=unicode, location='json', required=True)
         parser.add_argument('position', type=int, location='json')
         args = parser.parse_args()
 
@@ -907,12 +906,12 @@ class CoursesTasks(Resource):
     # Post announcement on course section
     def post(self, id, num):
         parser = reqparse.RequestParser()
-        parser.add_argument('content', type=str,
+        parser.add_argument('content', type=unicode,
                             location='json', required=True)
-        parser.add_argument('title', type=str, location='json', required=True)
+        parser.add_argument('title', type=unicode, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
-        parser.add_argument('model', type=str,
+        parser.add_argument('model', type=unicode,
                             location='json', required=True)
         parser.add_argument('attachment', type=int,
                             location='json', required=True)
@@ -993,9 +992,9 @@ class CoursesQuiz(Resource):
     # Post announcement on course section
     def post(self, id, num):
         parser = reqparse.RequestParser()
-        parser.add_argument('content', type=str,
+        parser.add_argument('content', type=unicode,
                             location='json', required=True)
-        parser.add_argument('title', type=str, location='json', required=True)
+        parser.add_argument('title', type=unicode, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
         parser.add_argument('start_date', type=int,
@@ -1090,9 +1089,9 @@ class CoursesMaterial(Resource):
     # Post material on course section
     def post(self, id, num):
         parser = reqparse.RequestParser()
-        parser.add_argument('content', type=str,
+        parser.add_argument('content', type=unicode,
                             location='json', required=True)
-        parser.add_argument('title', type=str, location='json', required=True)
+        parser.add_argument('title', type=unicode, location='json', required=True)
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
         parser.add_argument('file', type=str,
@@ -1571,7 +1570,7 @@ def create_package(path, file):
 def create_image(path, file):
     absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
     im = Image.open(BytesIO(base64.b64decode(file)))
-    im.save(absolute_path, 'JPEG')
+    im.save(absolute_path, 'JPEG', quality=50)
 
 api.add_resource(SchoolAPI, '/api/v0/school/info/<int:id>',
                  endpoint='schoolInfo')

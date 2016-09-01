@@ -386,7 +386,7 @@ footer {
 .card-dialog {
   width: 50%; }
   .card-dialog .input-margin {
-    margin: 0 auto;
+    margin: 25px auto;
     width: 80%; }
   .card-dialog .icon-margin {
     width: 80%;
