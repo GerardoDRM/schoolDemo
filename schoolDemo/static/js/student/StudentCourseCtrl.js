@@ -3,7 +3,7 @@ angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', 
   $scope.levelRef = {
     "c1": "Primaria",
     "c2": "Secundaria",
-    "c3": "Preparatoria",
+    "c3": "Bachillerato",
     "c4": "Licenciatura"
   }
 

@@ -2,7 +2,7 @@
   <div ng-controller="CourseQuizCtrl" ng-cloak>
     <div layout="column" layout-align="center center">
       <div>
-        <md-button md-no-ink class="md-primary" ng-click="showAdvancedQuiz($event)">+Agregar quiz</md-button>
+        <md-button md-no-ink class="md-primary" ng-click="showAdvancedQuiz($event)">+Agregar examen</md-button>
       </div>
       <div id="quiz-content" style="width:50%;">
 
@@ -18,18 +18,18 @@
           <form>
             <md-toolbar>
               <div class="md-toolbar-tools">
-                <h2>Crea un nuevo quiz</h2>
+                <h2>Crea un nuevo examen</h2>
               </div>
             </md-toolbar>
             <md-dialog-content layout="column">
               <div class="md-dialog-content">
                 <div layout="column">
                   <md-input-container class="md-block input-margin" flex>
-                    <label>Titulo del quiz</label>
+                    <label>Título del examen</label>
                     <input ng-model="qz.title">
                   </md-input-container>
                   <md-input-container class="md-block input-margin" style="margin-top:50px;" flex>
-                    <label>Descripcion</label>
+                    <label>Descripción</label>
                     <textarea ng-model="qz.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
                   </md-input-container>
                   <div class="row margin-block">
@@ -41,10 +41,10 @@
                       <mdp-time-picker class="input-margin time" ng-model="qz.start_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
                     </div>
                     <div class="col-sm-6">
-                      <label>Fecha termino de examen</label>
+                      <label>Fecha Términos de examen</label>
                       <md-datepicker class="input-margin time" ng-model="qz.end_date" md-placeholder="MM/DD/YYYY">
                       </md-datepicker>
-                      <label>Hora termino de examen</label>
+                      <label>Hora Términos de examen</label>
                       <mdp-time-picker class="input-margin time" ng-model="qz.end_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
                     </div>
                   </div>

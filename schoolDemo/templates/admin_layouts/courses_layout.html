@@ -1,25 +1,25 @@
 <div ng-controller="CourseController">
   <div class="header-filter header-school">
     <div class="row">
-      <div class="col-sm-3">
-    <md-button md-no-ink class="add-color" ng-click="addCourse($event)">+ Agregar curso</md-button>
-  </div>
-  <div class="col-sm-3">
-    <h3>Niveles</h3>
-  </div>
-    <md-radio-group ng-model="data.group">
-        <div class="col-sm-3 margin-level">
-      <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
-      <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-4">
+        <h3>Niveles</h3>
+        <md-radio-group ng-model="data.group">
+          <div class="col-sm-12 margin-level">
+            <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
+            <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
+          </div>
+        </md-radio-group>
+        <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="search()">
+          Buscar
+        </md-button>
       </div>
-    </md-radio-group>
-    <md-button ng-click="search()">
-      Buscar
-    </md-button>
+      <div class="col-sm-5">
+        <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="addCourse($event)">+ Agregar curso</md-button>
+
+      </div>
+    </div>
   </div>
-</div>
-
-
 
   <div id="CourseCards">
   </div>
@@ -54,7 +54,7 @@
                       </md-input-container>
 
                       <md-input-container class="md-block">
-                        <label>Descripcion</label>
+                        <label>Descripción</label>
                         <textarea ng-model="cou.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
                       </md-input-container>
                     </div>

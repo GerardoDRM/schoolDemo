@@ -12,4 +12,6 @@ footer {
   display: flex;
   font-family: $font-family--primary;
   color: $white;
+  position: fixed;
+  bottom: 0;
 }

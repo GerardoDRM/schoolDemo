@@ -1,21 +1,22 @@
 <div ng-controller="ProfessorController">
   <div class="header-filter header-school">
     <div class="row">
-      <div class="col-sm-3">
-        <md-button md-no-ink class="add-color" ng-click="addProfessor($event)">+ Agregar docente</md-button>
-      </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-4">
         <h3>Niveles</h3>
+        <md-radio-group ng-model="data.group">
+          <div class="col-sm-12 margin-level">
+            <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
+            <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
+          </div>
+        </md-radio-group>
+        <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="search()">
+          Buscar
+        </md-button>
       </div>
-      <md-radio-group ng-model="data.group">
-        <div class="col-sm-3 margin-level">
-          <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
-          <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
-        </div>
-      </md-radio-group>
-      <md-button ng-click="search()">
-        Buscar
-      </md-button>
+      <div class="col-sm-5">
+        <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="addProfessor($event)">+ Agregar docente</md-button>
+      </div>
     </div>
   </div>
 
@@ -71,7 +72,7 @@
                       <input ng-model="prof.email">
                     </md-input-container>
                     <md-input-container class="md-block" flex>
-                      <label>Telefono</label>
+                      <label>Teléfono</label>
                       <input ng-model="prof.phone">
                     </md-input-container>
                     <div>

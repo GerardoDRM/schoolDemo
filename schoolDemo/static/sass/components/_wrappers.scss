@@ -51,8 +51,8 @@
   margin-top: 10px;
 }
 .header-school {
-  color: white;
-  background-color: #3949AB;
+  color: black;
+  background-color: white;
 }
 .add-color {
   color: white;
@@ -85,7 +85,7 @@ md-list-item ._md-secondary-container {
 .image-course {
   background-repeat: repeat;
   width: 100%;
-  background-image: url("../images/design/dots.png");
+  background-color: $gray-100;
 }
 
 md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
