@@ -24,6 +24,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'home'
 
 # Load user from database
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 
 @login_manager.user_loader
@@ -1545,12 +1546,12 @@ def create_file_name(prefix, suffix):
 
 
 def delete_file(path):
-    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
+    absolute_path = current_path + path
     os.remove(absolute_path)
 
 
 def create_folder(path):
-    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
+    absolute_path = current_path + path
     if not os.path.exists(absolute_path):
         # Change permissions
         oldumask = os.umask(0)
@@ -1559,7 +1560,7 @@ def create_folder(path):
 
 
 def create_package(path, file):
-    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
+    absolute_path = current_path + path
     # z = zipfile.ZipFile(BytesIO(base64.b64decode(file)), "r")
     byte_str = BytesIO(base64.b64decode(file)).read()
     output = open(absolute_path, 'wb')
@@ -1568,7 +1569,7 @@ def create_package(path, file):
 
 
 def create_image(path, file):
-    absolute_path = "/home/gerardo/Documents/Business/schools/schoolDemo/schoolDemo" + path
+    absolute_path = current_path + path
     im = Image.open(BytesIO(base64.b64decode(file)))
     im.save(absolute_path, 'JPEG', quality=50)
 
