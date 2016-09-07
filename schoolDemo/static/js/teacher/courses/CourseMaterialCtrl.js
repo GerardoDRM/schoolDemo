@@ -10,7 +10,8 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
   $scope.edition = undefined;
 
   $scope.package = {
-    file: ''
+    file: '',
+    type: ''
   };
 
   $scope.cancel = function() {
@@ -24,7 +25,8 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
     $scope.route = undefined;
     $scope.edition = undefined;
     $scope.package = {
-      file: ''
+      file: '',
+      type: ''
     };
     $scope.getMaterial();
   });
@@ -108,7 +110,8 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
 
     if ($scope.package.file !== undefined && $scope.package.file != "") {
       updated['file'] = $scope.package.file;
-    }
+      updated['type'] = $scope.package.type;
+     }
 
     if ($scope.edition !== undefined) {
       updated['edition'] = $scope.edition;

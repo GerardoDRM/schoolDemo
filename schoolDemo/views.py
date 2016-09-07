@@ -1100,6 +1100,7 @@ class CoursesMaterial(Resource):
         parser.add_argument('position', type=str, location='json')
         parser.add_argument('edition', type=int, location='json')
         parser.add_argument('file_name', type=str, location='json')
+        parser.add_argument('type', type=str, location='json')
 
         args = parser.parse_args()
 
@@ -1108,7 +1109,8 @@ class CoursesMaterial(Resource):
             file_name = ""
             if args.file is not None:
                 path_dir = "/static/material/"
-                file_name = create_file_name("school", ".zip")
+                file_type = "." + args.type
+                file_name = create_file_name("school", file_type)
                 path_file = path_dir + file_name
                 create_package(path_file, args.file)
 
@@ -1130,7 +1132,8 @@ class CoursesMaterial(Resource):
                 if args.file is not None:
                     path_dir = "/static/material/"
                     # Create file
-                    file_name = create_file_name("school", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name
@@ -1144,7 +1147,8 @@ class CoursesMaterial(Resource):
                 route = ""
                 if args.file is not None:
                     # Create file
-                    file_name = create_file_name("school", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name
@@ -1223,9 +1227,6 @@ class CoursesTasksAttach(Resource):
         attach = {}
         if len(att_list) > 0:
             attach = att_list[0]['hw']['attachments']
-            for a in attach:
-                student = mongo.db.students.find_one({"_id": a['student']})
-                a['student_name'] = student['name']
         else:
             attach['attachments'] = []
         return jsonify(attachments=attach)
@@ -1242,6 +1243,8 @@ class CoursesTasksAttach(Resource):
         parser.add_argument('file_name', type=str, location='json')
         parser.add_argument('student', type=int,
                             location='json', required=True)
+        parser.add_argument('type', type=str, location='json')
+
 
         args = parser.parse_args()
 
@@ -1250,12 +1253,15 @@ class CoursesTasksAttach(Resource):
             file_name = ""
             if args.file is not None:
                 path_dir = "/static/tasks/"
-                file_name = create_file_name("task", ".zip")
+                file_type = "." + args.type
+                file_name = create_file_name("school", file_type)
                 path_file = path_dir + file_name
                 create_package(path_file, args.file)
 
+            print args.student
+            student = mongo.db.students.find_one({"_id": args.student}, {"name": 1, "_id":0})
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
-                "section.$.hw." + args.position_task + ".attachments": {"student": args.student, "url": file_name, "grade": 0.0}
+                "section.$.hw." + args.position_task + ".attachments": {"student": args.student, "url": file_name, "grade": 0.0, "student_name":student["name"]}
             }})
 
             message = {
@@ -1268,7 +1274,8 @@ class CoursesTasksAttach(Resource):
                 if args.file is not None:
                     path_dir = "/static/tasks/"
                     # Create file
-                    file_name = create_file_name("task", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name
@@ -1282,7 +1289,8 @@ class CoursesTasksAttach(Resource):
                 route = ""
                 if args.file is not None:
                     # Create file
-                    file_name = create_file_name("task", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name
@@ -1339,6 +1347,7 @@ class CoursesExamAnswers(Resource):
         parser.add_argument('file_name', type=str, location='json')
         parser.add_argument('student', type=int,
                             location='json', required=True)
+        parser.add_argument('type', type=str, location='json')
 
         args = parser.parse_args()
 
@@ -1347,7 +1356,8 @@ class CoursesExamAnswers(Resource):
             file_name = ""
             if args.file is not None:
                 path_dir = "/static/tasks/"
-                file_name = create_file_name("task", ".zip")
+                file_type = "." + args.type
+                file_name = create_file_name("school", file_type)
                 path_file = path_dir + file_name
                 create_package(path_file, args.file)
 
@@ -1365,7 +1375,8 @@ class CoursesExamAnswers(Resource):
                 if args.file is not None:
                     path_dir = "/static/tasks/"
                     # Create file
-                    file_name = create_file_name("task", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name
@@ -1379,7 +1390,8 @@ class CoursesExamAnswers(Resource):
                 route = ""
                 if args.file is not None:
                     # Create file
-                    file_name = create_file_name("task", ".zip")
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
                     create_package(path_file, args.file)
                     route = file_name

@@ -5,11 +5,12 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   $scope.hw = {};
   $scope.tasks = [];
   $scope.edition = undefined;
-  $scope.student = 1000;
+  $scope.student = $("#userId").val();
   $scope.attachmentsArray = [];
 
   $scope.package = {
-    file: ''
+    file: '',
+    type: ''
   };
 
   $scope.cancel = function() {
@@ -21,7 +22,8 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     $scope.tasks = [];
     $scope.edition = undefined;
     $scope.package = {
-      file: ''
+      file: '',
+      type: ''
     };
     $scope.attachmentsArray = [];
     $scope.getTasks();
@@ -60,6 +62,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
 
     if ($scope.package.file !== undefined && $scope.package.file != "") {
       updated['file'] = $scope.package.file;
+      updated['type'] = $scope.package.type;
     } else {
       addFeedback("Es necesario cargar un archivo", 'error');
       return;

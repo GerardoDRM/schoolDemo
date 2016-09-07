@@ -104,18 +104,15 @@
             reader.onload = function(loadEvent) {
               scope.$apply(function() {
                 var data = loadEvent.target.result;
-                var secureFile = data.match(/^data:application\/(zip|rar)/) != null ? true : false;
-                if (secureFile) {
-                  // Check file size
-                  if (changeEvent.target.files[0].size < 10000000) {
-                    var fd = {};
-                    fd['file'] = data.replace(/^data:application\/(zip|rar);base64,/, "");
-                    scope.package.file = fd['file'];
-                  } else {
-                    addFeedback("El tamaño del archivo tiene que ser menor 10MB");
-                  }
+                // Check file size
+                if (changeEvent.target.files[0].size < 10000000) {
+                  var fd = {};
+                  fd['file'] = data.replace(/^data:.*\/(.*);base64,/, "");
+                  fd['type'] = data.match(/^data:.*\/(.*);base64/)[1];
+                  scope.package.type = fd['type'];
+                  scope.package.file = fd['file'];
                 } else {
-                  addFeedback("Debes de adjuntar un archivo zip o rar");
+                  addFeedback("El tamaño del archivo tiene que ser menor 10MB");
                 }
               });
             };
