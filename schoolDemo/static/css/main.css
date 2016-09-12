@@ -79,7 +79,10 @@ p {
   font-weight: 300; }
 
 .title {
-  font-size: 8em;
+  font-size: 5em;
+  text-align: center; }
+
+.center-card {
   text-align: center; }
 
 /**
@@ -90,13 +93,14 @@ p {
 footer {
   width: 100%;
   background: #263238;
-  height: 100px;
+  height: 60px;
   justify-content: center;
   display: flex;
   font-family: "Open Sans", sans-serif;
   color: #FFF;
   position: fixed;
-  bottom: 0; }
+  bottom: 0;
+  font-size: 0.75em; }
 
 /**
   * Header Partial SASS
@@ -106,14 +110,15 @@ footer {
 /* Tab container*/
 .cd-tabs-content {
   background: #FFF;
-  height: auto;
+  height: 100%;
   padding: 0;
   width: 100%; }
   .cd-tabs-content .tab {
     display: none;
-    padding: 1.4em;
     height: auto;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-bottom: 150px; }
     .cd-tabs-content .tab.selected {
       display: block;
       -webkit-animation: cd-fade-in 0.5s;
@@ -135,10 +140,10 @@ footer {
   background: #F5F5F5; }
 
 .head-img {
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(14, 14, 14, 0.62) 70%), linear-gradient(45deg, #ffffff, transparent), url("http://www.nekeran.com/i/books-desktop-background-wallpaper.jpg") no-repeat center;
+  background-color: #0e0b50;
   position: relative;
   width: 100%;
-  height: 0;
+  height: 150px;
   /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
   padding-bottom: 18.25%;
   overflow: hidden;
@@ -149,8 +154,6 @@ footer {
   .head-img h1 {
     text-align: center;
     margin-top: 5%; }
-  .head-img img {
-    width: 140px; }
 
 /*
   ANIMATION
@@ -256,6 +259,21 @@ footer {
     position: absolute;
     top: 0; }
 
+.profile-btn {
+  position: relative;
+  width: 188px;
+  height: 60px;
+  margin: 10px auto; }
+  .profile-btn input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; }
+
+.btn-photo--teacher {
+  margin: 10px auto; }
+
 .profile-preview {
   height: 550px;
   width: 100%;
@@ -315,8 +333,10 @@ footer {
 .link-home {
   color: #FFF;
   text-align: center;
-  height: 50px; }
-  .link-home:hover {
+  font-size: 0.75em;
+  height: 50px;
+  text-decoration: none; }
+  .link-home:hover, .link-home:active, .link-home:focus {
     color: #FFF;
     text-decoration: none; }
 
@@ -336,18 +356,20 @@ footer {
     margin: 5% auto;
     width: 80%; }
     .card-container .form_reg .profile_photo {
-      width: 200px;
-      height: 200px;
-      -webkit-border-radius: 100px;
-      -moz-border-radius: 100px;
-      -ms-border-radius: 100px;
-      border-radius: 100px;
+      width: 120px;
+      height: 120px;
+      -webkit-border-radius: 60px;
+      -moz-border-radius: 60px;
+      -ms-border-radius: 60px;
+      border-radius: 60px;
       margin: -130px auto 0;
       border: 5px solid #e9eaed;
       background-size: cover; }
 
 .login-info {
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.875em;
+  word-break: break-all; }
   .login-info .icon {
     width: 50px;
     height: 50px; }
@@ -399,6 +421,15 @@ footer {
     width: 150px;
     display: table; }
 
+.margin-time {
+  margin-top: 200px; }
+  .margin-time label {
+    text-align: center;
+    width: 100%; }
+
+.short-margin {
+  margin-top: 50px; }
+
 /**
   * Wrappers Partial SASS
   * This SASS has all the wrappers used on the app
@@ -412,7 +443,7 @@ footer {
 
 .card-announ {
   background-color: white;
-  width: 55%;
+  width: 65%;
   margin: 10px auto; }
 
 .button-eliminate {
@@ -426,7 +457,7 @@ footer {
 
 .general-card {
   margin: 10px 0;
-  height: 250px; }
+  height: 285px; }
 
 .margin-block {
   margin-top: 100px; }
@@ -490,6 +521,18 @@ md-list-item ._md-secondary-container {
 md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
   background-color: white;
   border-color: rgba(0, 0, 0, 0.12); }
+
+.header-card {
+  text-align: center;
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  background-color: #ccc; }
+
+.building {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%; }
 
 /*Media Queries*/
 @media (min-width: 768px) {

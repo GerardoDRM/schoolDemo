@@ -14,13 +14,13 @@
     Your HTML content here
   -->
   <md-content>
-    <md-toolbar class="md-tall">
+    <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>
           <span>Minds Keeper</span>
         </h2>
         <span flex></span> {% if current_user.is_authenticated %}
-        <md-button class="md-warn"><a href="/logout">Cerrar sesion</a></md-button>
+        <a class="md-warn" href="/logout">Cerrar sesion</a>
         <input type="hidden" value="{{current_user.id}}" id="userId" /> {% endif %}
       </div>
     </md-toolbar>
@@ -152,6 +152,43 @@
                       'display': 'block'
                     });
 
+                  } else {
+                    addFeedback("El tamaño de la imagen tiene que ser menor a 6MB");
+                  }
+                } else {
+                  addFeedback("Debes de adjuntar una imagen con formato jpg, jpeg ó png");
+                }
+              });
+            };
+            reader.readAsDataURL(changeEvent.target.files[0]);
+          });
+        }
+      }
+    }]);
+
+    angular.module('SchoolApp').directive("filereadprofile", ['$http', function($http) {
+      return {
+        scope: true,
+        restrict: 'EA',
+        link: function(scope, element, attributes, controller) {
+          element.bind("change", function(changeEvent) {
+            var reader = new FileReader();
+            reader.onload = function(loadEvent) {
+              scope.$apply(function() {
+                var data = loadEvent.target.result;
+                var secureFile = data.match(/^data:image\/(png|jpg|jpeg)/) != null ? true : false;
+                if (secureFile) {
+                  // Check file size
+                  if (changeEvent.target.files[0].size < 6000000) {
+                    // Check image model
+                    var identifier = $(element).parent().prev();
+                    var fd = {};
+                    fd['file'] = data.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                    scope.photo.file = fd['file'];
+                    scope.storePhoto();
+                    $("#teacher_photo").css({
+                      "background": "url(" + data + ") 50% 50% / cover no-repeat"
+                    });
                   } else {
                     addFeedback("El tamaño de la imagen tiene que ser menor a 6MB");
                   }

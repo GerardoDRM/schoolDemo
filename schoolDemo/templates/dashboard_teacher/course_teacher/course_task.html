@@ -4,7 +4,7 @@
       <div>
         <md-button md-no-ink class="md-primary" ng-click="showAdvanced($event)">+Agregar tarea</md-button>
       </div>
-      <div id="hw-content" style="width:50%;">
+      <div id="hw-content" style="width:80%;">
 
       </div>
 
@@ -30,9 +30,20 @@
                   </md-input-container>
                   <md-input-container class="md-block input-margin" flex>
                     <label>Descripción de la actividad</label>
-                    <textarea ng-model="hw.content" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+                    <textarea ng-model="hw.content" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
                   </md-input-container>
-                  <div class="row margin-block">
+                  <div class="row margin-time">
+                    <div class="col-sm-6">
+                      <label>Fecha Entrega</label>
+                      <md-datepicker class="input-margin time" ng-model="hw.end_date" md-placeholder="MM/DD/YYYY">
+                      </md-datepicker>
+                    </div>
+                    <div class="col-sm-6">
+                      <label>Hora de entrega</label>
+                      <mdp-time-picker class="input-margin time" ng-model="hw.end_hour" mdp-placeholder="HH:MM"></mdp-time-picker>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-sm-6">
                       <md-input-container class="md-block input-margin" flex>
                         <label>Tipo</label>
@@ -44,7 +55,7 @@
                             Proyecto
                           </md-option>
                           <md-option value="participation">
-                            Participacion
+                            Participación
                           </md-option>
                           <md-option value="extras">
                             Extras

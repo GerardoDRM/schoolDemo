@@ -140,33 +140,21 @@ angular.module('SchoolApp').controller('ProfessorController', ['$scope', '$http'
    * @params - professor object
    */
   function _addProfessor(prof) {
-    var levels = "";
-    var courses = "";
-    for (var i in prof.levelList) {
-      levels += $scope.levelRef[prof.levelList[i]] + " ";
-    }
-    for (var j in prof.courses) {
-      courses += prof.courses[j] + " ";
-    }
-
     // Compile to DOM
     angular.element(document.getElementById('ProfessorCards')).append($compile(
-      '<div class="col-sm-4">' +
+      '<div class="col-sm-3">' +
       '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + prof._id + '>' +
-      '<md-card-title>' +
+      '<div class="header-card">' +
+      '<img src="/static/images/design/teacher.svg" width="50px" height="50px" />' +
+      '</div>' +
       '<md-card-title-text>' +
-      '<div class="row">' +
-      '<div class="col-sm-6">' +
+      '<div class="center-card">' +
       '<h1 class="md-headline no-margin"> ' + prof.name + ' </h1>' +
       '<p class="md-subhead"> ID:' + prof._id + '</p>' +
-      '<p class="md-subhead"> ' + courses + '</p>' +
-      '<p class="md-subhead"> ' + levels + '</p>' +
+      '<p class="md-subhead"> Contraseña: ' + prof.password + '</p>' +
       '</div>' +
-      '<div class="col-sm-6"> ' +
-      '<md-button class="md-raised button-eliminate" ng-click="editProfessor(' + prof._id + ', $event)">Editar</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteProfessor(' + prof._id + ')">Eliminar</md-button>' +
-      '</div>' +
-      '</div>' +
+      '<md-button class="md-raised button-eliminate  md-primary" ng-click="editProfessor(' + prof._id + ', $event)">Editar</md-button>' +
+      '<md-button class="md-raised button-eliminate  md-warn" ng-click="deleteProfessor(' + prof._id + ')">Eliminar</md-button>' +
       '</md-card-title-text> ' +
       '</md-card></div>'
     )($scope));

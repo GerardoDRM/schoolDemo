@@ -7,6 +7,12 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   $scope.edition = undefined;
   $scope.student = $("#userId").val();
   $scope.attachmentsArray = [];
+  var modelDict = {
+    "homework": "Tarea",
+    "project": "Proyecto",
+    "participation": "Participación",
+    "extras": "Extras"
+  }
 
   $scope.package = {
     file: '',
@@ -120,6 +126,17 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   var _addHw = function(hw, pos) {
     var pDate = moment.unix(hw.published_date).format("DD/MM/YYYY");
 
+    var completeDueDate = "";
+
+    if (hw.end_date !== undefined && hw.end_date != "") {
+      var eDate = moment.unix(hw.end_date).format("DD/MM/YYYY");
+      var eHour = moment.unix(hw.end_hour).format("hh:mm");
+      completeDueDate = eDate + " " + eHour;
+    } else {
+      completeDueDate = "No hay limite";
+    }
+
+
     var updateTemplate = '<md-button class="md-raised md-primary" ng-click="uploadFile(' + pos + ')" id="uploadFileBtn">' +
       'Subir Archivo' +
       '</md-button>';
@@ -148,7 +165,9 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<div class="row">' +
       '<div class="col-sm-8">' +
       '<h1 class="md-headline no-margin"> ' + hw.title + ' </h1>' +
-      '<p  class="md-subhead">' + hw.model + '</p>' +
+      '<p  class="md-subhead">' + modelDict[hw.model] + '</p>' +
+      '<p  class="md-subhead"> Fecha de publicacion: ' + pDate + '</p>' +
+      '<p  class="md-subhead"> Fecha de entrega: ' + completeDueDate + '</p>' +
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +

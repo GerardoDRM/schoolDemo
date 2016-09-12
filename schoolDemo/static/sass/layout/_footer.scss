@@ -7,11 +7,12 @@
 footer {
   width: 100%;
   background: $gray-900;
-  height: 100px;
+  height: 60px;
   justify-content: center;
   display: flex;
   font-family: $font-family--primary;
   color: $white;
   position: fixed;
   bottom: 0;
+  font-size: em(12px);
 }

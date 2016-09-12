@@ -11,7 +11,7 @@
 }
 .card-announ {
   background-color: white;
-  width: 55%;
+  width: 65%;
   margin: 10px auto;
 }
 .button-eliminate {
@@ -26,7 +26,7 @@
 }
 .general-card {
   margin: 10px 0;
-  height: 250px;
+  height: 285px;
 }
 .margin-block {
   margin-top: 100px;
@@ -91,4 +91,19 @@ md-list-item ._md-secondary-container {
 md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
     background-color: white;
     border-color: rgba(0,0,0,0.12);
+}
+
+// Card admin attributes
+.header-card {
+  text-align: center;
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  background-color: #ccc;
+}
+
+.building {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
 }

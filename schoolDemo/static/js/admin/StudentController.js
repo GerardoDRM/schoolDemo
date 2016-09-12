@@ -138,21 +138,19 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
 
     // Compile to DOM
     angular.element(document.getElementById('StudentCards')).append($compile(
-      '<div class="col-sm-4">' +
+      '<div class="col-sm-3">' +
       '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + stu._id + '>' +
-      '<md-card-title>' +
+      '<div class="header-card">' +
+      '<img src="/static/images/design/student.svg" width="50px" height="50px" />' +
+      '</div>' +
       '<md-card-title-text>' +
-      '<div class="row">' +
-      '<div class="col-sm-6">' +
+      '<div class="center-card">' +
       '<h1 class="md-headline no-margin"> ' + stu.name + ' </h1>' +
       '<p class="md-subhead"> ID:' + stu._id + '</p>' +
-      '<p class="md-subhead"> ' + level + '</p>' +
+      '<p class="md-subhead"> Contraseña: ' + stu.password + '</p>' +
       '</div>' +
-      '<div class="col-sm-6"> ' +
-      '<md-button class="md-raised button-eliminate" ng-click="editStudent(' + stu._id + ', $event)">Editar</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteStudent(' + stu._id + ')">Eliminar</md-button>' +
-      '</div>' +
-      '</div>' +
+      '<md-button class="md-raised button-eliminate  md-primary" ng-click="editStudent(' + stu._id + ', $event)">Editar</md-button>' +
+      '<md-button class="md-raised button-eliminate  md-warn" ng-click="deleteStudent(' + stu._id + ')">Eliminar</md-button>' +
       '</md-card-title-text> ' +
       '</md-card></div>'
     )($scope));

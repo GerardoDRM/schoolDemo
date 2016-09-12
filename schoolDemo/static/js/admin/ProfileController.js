@@ -4,6 +4,7 @@ angular.module('SchoolApp').controller('ProfileController', ['$scope', '$http', 
   $scope.photo = {
     file: ''
   };
+  
   $scope.p_activate = false;
 
   $scope.getData = function() {

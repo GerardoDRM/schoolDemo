@@ -37,25 +37,19 @@ angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', 
 
     // Compile to DOM
     angular.element(document.getElementById('courseCards')).append($compile(
-      '<md-card class="card-prof md-whiteframe-8dp col-sm-4" id=' + cou._id + '>' +
-      '<md-card-title>' +
+      '<div class="col-sm-3">' +
+      '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + cou._id + '>' +
+      '<div class="header-card">' +
+      '<img src="/static/images/design/blackboard.svg" width="50px" height="50px" />' +
+      '</div>' +
       '<md-card-title-text>' +
-      '<div class="row">' +
-      '<div class="col-sm-12">' +
-      '<h1 class="md-headline no-margin"> ' + cou.name + ' </h1>' +
-      '<md-card-content>' +
+      '<div class="center-card">' +
       '<p class="no-padding"> ' + cou._id + '</p>' +
       '<p class="no-padding"> ' + level + '</p>' +
-      '<p class="no-padding">' +
-      cou.description +
-      '</p>' +
-      '</md-card-content>' +
-      '<div class="blackboard"><img src="/static/images/design/blackboard.svg"></div>' +
-      '<md-button class="md-raised button-eliminate" style="margin:0;" ng-click="goToCourse(\'' + cou._id + '\', $event)">Ir al curso</md-button>' +
       '</div>' +
-      '</div>' +
+      '<md-button class="md-raised button-eliminate" ng-click="goToCourse(\'' + cou._id + '\', $event)">Ir al curso</md-button>' +
       '</md-card-title-text> ' +
-      '</md-card>'
+      '</md-card></div>'
     )($scope));
   }
 

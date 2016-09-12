@@ -14,8 +14,8 @@
     margin: 5% auto;
     width: 80%;
     .profile_photo {
-      @include box(200px, 200px);
-      @include border-radius(100px);
+      @include box(120px, 120px);
+      @include border-radius(60px);
       margin: -130px auto 0;
       border: 5px solid $gray-material;
       background-size: cover;
@@ -26,6 +26,8 @@
 
 .login-info {
   font-family: $font-family--primary;
+  font-size: em(14px);
+  word-break: break-all;
   .icon {
     width: 50px;
     height: 50px;

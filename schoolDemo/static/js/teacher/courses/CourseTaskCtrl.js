@@ -1,10 +1,16 @@
-angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', function($scope, $compile, $http, $mdDialog, $mdMedia) {
+angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', '$http', '$mdDialog', '$mdMedia', '$mdpTimePicker', function($scope, $compile, $http, $mdDialog, $mdMedia, $mdpTimePicker) {
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
   $scope.id = $("#courseId").val();
   $scope.section = 1;
   $scope.hw = {};
   $scope.tasks = [];
   $scope.position = undefined;
+  var modelDict = {
+    "homework": "Tarea",
+    "project": "Proyecto",
+    "participation": "Participación",
+    "extras": "Extras"
+  }
 
   $scope.cancel = function() {
     $mdDialog.cancel();
@@ -26,8 +32,12 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       var dataList = response.data['tasks'];
       for (var task in dataList) {
         var draw = dataList[task];
-        $scope.tasks.push(draw);
         _addHw(draw, task);
+        if (draw.end_date !== undefined && draw.end_date != "") {
+          draw.end_date = new Date(draw.end_date * 1000);
+          draw.end_hour = new Date(draw.end_hour * 1000);
+        } 
+        $scope.tasks.push(draw);
       }
     }, function errorCallback(response) {});
   }
@@ -37,9 +47,19 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   }
 
   var _addHw = function(hw, task) {
-    var button = '<md-button class="md-raised md-primary" ng-click="goToTask('+ hw.published_date + ',' + task + ')">Ver Tareas</md-button>';
+    var button = '<md-button class="md-raised md-primary button-eliminate" ng-click="goToTask(' + hw.published_date + ',' + task + ')">Ver Tareas</md-button>';
     var attach = hw.attachments.length > 0 ? button : "";
     var pDate = moment.unix(hw.published_date).format("DD/MM/YYYY");
+
+    var completeDueDate = "";
+
+    if (hw.end_date !== undefined && hw.end_date != "") {
+      var eDate = moment.unix(hw.end_date).format("DD/MM/YYYY");
+      var eHour = moment.unix(hw.end_hour).format("hh:mm");
+      completeDueDate = eDate + " " + eHour;
+    } else {
+      completeDueDate = "No hay limite";
+    }
 
     angular.element(document.getElementById('hw-content')).append($compile(
       '<md-card style="background:#E0E0E0">' +
@@ -48,15 +68,15 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<div class="row">' +
       '<div class="col-sm-8">' +
       '<h1 class="md-headline no-margin"> ' + hw.title + ' </h1>' +
-      '<p  class="md-subhead">' + hw.model + '</p>' +
+      '<p  class="md-subhead">' + modelDict[hw.model] + '</p>' +
+      '<p  class="md-subhead"> Fecha de publicacion: ' + pDate + '</p>' +
+      '<p  class="md-subhead"> Fecha de entrega: ' + completeDueDate + '</p>' +
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +
-      '<div class="col-sm-4" style="height:25px;"><img  width="25px" alt="." src="/static/images/calendar.svg" width="25px"></div>' +
-      '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
       attach +
       '<md-button class="md-raised button-eliminate" ng-click="editTask(' + task + ', $ev)">Editar Tarea</md-button>' +
-      '<md-button class="md-raised button-eliminate warn" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
+      '<md-button class="md-raised button-eliminate md-warn" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
@@ -93,6 +113,11 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       "published_date": $scope.hw.published_date,
       "model": $scope.hw.model,
       "attachment": $scope.hw.attachment == true ? 1 : 0
+    }
+
+    if ($scope.hw.end_date !== undefined && $scope.hw.end_hour !== undefined) {
+      updated["end_date"] = moment($scope.hw.end_date).unix();
+      updated["end_hour"] = moment($scope.hw.end_hour).unix();
     }
 
     // Check if is an update

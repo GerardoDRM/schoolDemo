@@ -93,22 +93,18 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
 
     // Compile to DOM
     angular.element(document.getElementById('CourseCards')).append($compile(
-      '<div class="col-sm-4">' +
+      '<div class="col-sm-3">' +
       '<md-card class="general-card md-whiteframe-8dp no-padding" id=' + cou._id + '>' +
-      '<md-card-title>' +
+      '<div class="header-card">' +
+      '<img src="/static/images/design/blackboard.svg" width="50px" height="50px" />' +
+      '</div>' +
       '<md-card-title-text>' +
-      '<div class="row">' +
-      '<div class="col-sm-6">' +
+      '<div class="center-card">' +
       '<h1 class="md-headline no-margin"> ' + cou._id + ' </h1>' +
-      '<p class="md-subhead"> ' + cou.name + '</p>' +
-      '<p class="md-subhead"> ' + level + '</p>' +
+      '<p class="md-subhead"> ID:' + cou.name + '</p>' +
       '</div>' +
-      '<div class="col-sm-6"> ' +
-      '<md-button class="md-raised button-eliminate" ng-click="editCourse(\'' + cou._id + '\', $event)">Editar</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteCourse(\'' + cou._id + '\')">Eliminar</md-button>' +
-      '</div>' +
-      '</div>' +
-      '<div class="blackboard"><img src="/static/images/design/blackboard.svg"></div>' +
+      '<md-button class="md-raised button-eliminate md-primary" ng-click="editCourse(\'' + cou._id + '\', $event)">Editar</md-button>' +
+      '<md-button class="md-raised button-eliminate md-warn" ng-click="deleteCourse(\'' + cou._id + '\')">Eliminar</md-button>' +
       '</md-card-title-text> ' +
       '</md-card></div>'
     )($scope));
