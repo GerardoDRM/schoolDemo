@@ -85,6 +85,7 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
       '<td>' + mt.content + '</td>' +
       '<td>' + "<img src='/static/images/design/travel.svg' width='50px'/>" + '</td>' +
       '<td>' +
+      '<md-button class="md-raised button-eliminate md-primary" ng-click="downloadMaterial(\'' + mt.route + '\')">Descargar Material</md-button>' +
       '<md-button class="md-raised button-eliminate" ng-click="editMaterial(' + material + ', $ev)">Editar Recurso</md-button>' +
       '<md-button class="md-raised button-eliminate" ng-click="deleteMaterial(' + mt.published_date + ', \''+ mt.route +'\')">Eliminar Recurso</md-button>' +
       '</td>' +
@@ -180,6 +181,10 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
+  }
+
+  $scope.downloadMaterial = function(route) {
+    window.location.href = "/static/material/" + route;
   }
 
 
