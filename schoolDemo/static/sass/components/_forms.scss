@@ -23,6 +23,14 @@
   }
 }
 
+.profile_photo {
+  @include box(120px, 120px);
+  @include border-radius(60px);
+  margin: 20px auto 0;
+  border: 5px solid $gray-material;
+  background-size: cover;
+}
+
 
 .login-info {
   font-family: $font-family--primary;

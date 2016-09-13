@@ -730,16 +730,16 @@ class TeacherPhotoAPI(Resource):
     def delete(self, id):
         parser = reqparse.RequestParser()
         parser.add_argument('image', type=str,
-                            location = 'json', required = True)
-        args=parser.parse_args()
+                            location='json', required=True)
+        args = parser.parse_args()
 
-        path="/static/teachers/" + args.image
+        path = "/static/teachers/" + args.image
         delete_file(path)
-        result=mongo.db.professors.update_one(
+        result = mongo.db.professors.update_one(
             {"_id": id}, {"$set": {"image": ""}})
 
         if result.modified_count == 1:
-            message={
+            message = {
                 "status": 200,
                 "code": 1
             }
@@ -768,16 +768,16 @@ class TeacherProfile(Resource):
 
     # Update teacher profile
     def put(self, id):
-        parser=reqparse.RequestParser()
-        parser.add_argument('description', type = unicode,
-                            location = 'json')
-        parser.add_argument('email', type = unicode, location = 'json')
-        parser.add_argument('phone', type = str, location = 'json')
-        parser.add_argument('password', type = unicode,
-                            location = 'json', required = True)
-        args=parser.parse_args()
+        parser = reqparse.RequestParser()
+        parser.add_argument('description', type=unicode,
+                            location='json')
+        parser.add_argument('email', type=unicode, location='json')
+        parser.add_argument('phone', type=str, location='json')
+        parser.add_argument('password', type=unicode,
+                            location='json', required=True)
+        args = parser.parse_args()
 
-        data={
+        data = {
             "description": args.description,
             "email": args.email,
             "phone": args.phone,
@@ -790,7 +790,7 @@ class TeacherProfile(Resource):
             {"_id": id}, {"$set": data})
 
         if result.modified_count == 1:
-            message={
+            message = {
                 "status": 200,
                 "code": 1
             }
@@ -819,15 +819,15 @@ class StudentProfile(Resource):
 
     # Update teacher profile
     def put(self, id):
-        parser=reqparse.RequestParser()
-        parser.add_argument('description', type = unicode,
-                            location = 'json')
-        parser.add_argument('email', type = unicode, location = 'json')
-        parser.add_argument('password', type = unicode,
-                            location = 'json', required = True)
-        args=parser.parse_args()
+        parser = reqparse.RequestParser()
+        parser.add_argument('description', type=unicode,
+                            location='json')
+        parser.add_argument('email', type=unicode, location='json')
+        parser.add_argument('password', type=unicode,
+                            location='json', required=True)
+        args = parser.parse_args()
 
-        data={
+        data = {
             "email": args.email,
             "password": args.password
         }
@@ -838,7 +838,7 @@ class StudentProfile(Resource):
             {"_id": id}, {"$set": data})
 
         if result.modified_count == 1:
-            message={
+            message = {
                 "status": 200,
                 "code": 1
             }
@@ -887,15 +887,15 @@ class CoursesAnnoun(Resource):
     def post(self, id, num):
         parser = reqparse.RequestParser()
         parser.add_argument('description', type=unicode,
-                            location = 'json', required = True)
-        parser.add_argument('date', type = int,
-                            location = 'json', required = True)
-        parser.add_argument('role', type = unicode,
-                            location = 'json', required = True)
-        parser.add_argument('author', type = unicode,
-                            location = 'json', required = True)
-        parser.add_argument('position', type = int, location = 'json')
-        args=parser.parse_args()
+                            location='json', required=True)
+        parser.add_argument('date', type=int,
+                            location='json', required=True)
+        parser.add_argument('role', type=unicode,
+                            location='json', required=True)
+        parser.add_argument('author', type=unicode,
+                            location='json', required=True)
+        parser.add_argument('position', type=int, location='json')
+        args = parser.parse_args()
 
         # Update existing data else create new document
         if args.position is None:
@@ -907,7 +907,7 @@ class CoursesAnnoun(Resource):
                     "role": args.role
                 }
             }})
-            message={
+            message = {
                 "status": 201,
                 "code": 1
             }
@@ -1015,10 +1015,11 @@ class CoursesTasks(Resource):
                 "section.$.hw." + pos + ".attachment": args.attachment
             }
             if args.end_date is not None and args.end_hour is not None:
-                data["section.$.hw."+pos+".end_date"] = args.end_date
-                data["section.$.hw."+pos+".end_hour"] = args.end_hour
+                data["section.$.hw." + pos + ".end_date"] = args.end_date
+                data["section.$.hw." + pos + ".end_hour"] = args.end_hour
 
-            mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$set": data})
+            mongo.db.courses.update_one(
+                {"_id": id, "section.sec": num}, {"$set": data})
             message = {
                 "status": 200,
                 "code": 2
@@ -1191,7 +1192,11 @@ class CoursesMaterial(Resource):
                 file_type = "." + args.type
                 file_name = create_file_name("school", file_type)
                 path_file = path_dir + file_name
-                create_package(path_file, args.file)
+                # Create image
+                if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                    create_image(path_file, args.file)
+                else:
+                    create_package(path_file, args.file)
 
             mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$push": {
                 "section.$.material": {
@@ -1214,7 +1219,11 @@ class CoursesMaterial(Resource):
                     file_type = "." + args.type
                     file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
-                    create_package(path_file, args.file)
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
                     route = file_name
                 else:
                     route = args.file_name
@@ -1229,7 +1238,11 @@ class CoursesMaterial(Resource):
                     file_type = "." + args.type
                     file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
-                    create_package(path_file, args.file)
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
                     route = file_name
 
             pos = args.position
@@ -1334,7 +1347,11 @@ class CoursesTasksAttach(Resource):
                 file_type = "." + args.type
                 file_name = create_file_name("school", file_type)
                 path_file = path_dir + file_name
-                create_package(path_file, args.file)
+                # Create image
+                if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                    create_image(path_file, args.file)
+                else:
+                    create_package(path_file, args.file)
 
             print args.student
             student = mongo.db.students.find_one(
@@ -1356,7 +1373,11 @@ class CoursesTasksAttach(Resource):
                     file_type = "." + args.type
                     file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
-                    create_package(path_file, args.file)
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
                     route = file_name
                 else:
                     route = args.file_name
@@ -1371,7 +1392,11 @@ class CoursesTasksAttach(Resource):
                     file_type = "." + args.type
                     file_name = create_file_name("school", file_type)
                     path_file = path_dir + file_name
-                    create_package(path_file, args.file)
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
                     route = file_name
 
             pos = args.position_attach
@@ -1515,6 +1540,18 @@ class CoursesSimpleQuiz(Resource):
         return jsonify(quiz)
 
 # This class has CRUD operatios in order to
+# manage a attendance and students groups
+# @Path <id> - curse id
+# @Path <num> - section number
+# return JSON
+class CoursesStudents(Resource):
+
+    def get(self, id, num):
+        students = mongo.db.students.find({"courses":id},{"name":1, "_id":1})
+        s = create_dic(students)
+        return jsonify(students=s)
+
+# This class has CRUD operatios in order to
 # manage a course tasks attachments
 # @Path <id> - curse id
 # @Path <num> - section number
@@ -1568,7 +1605,14 @@ class CourseCriteria(Resource):
         criteria = mongo.db.courses.find_one(
             {"_id": id, "section.sec": num}, {"_id": 0, "section.$": 1})
         c = criteria['section'][0]
-        return jsonify(c['criteria'])
+        teacher = mongo.db.professors.find_one(
+            {"courses": id}, {"_id": 0, "image": 1})
+        dict_criteria = {
+            "criteria": c['criteria'],
+            "photo": teacher['image'] if teacher is not None else "",
+            "description": c['description'] if c['description'] is not None else ""
+        }
+        return jsonify(dict_criteria)
 
     def post(self, id, num):
         parser = reqparse.RequestParser()
@@ -1584,6 +1628,8 @@ class CourseCriteria(Resource):
                             location="json", required=True)
         parser.add_argument('attendance', type=int,
                             location="json", required=True)
+        parser.add_argument('description', type=unicode,
+                            location="json", required=True)
 
         args = parser.parse_args()
 
@@ -1594,7 +1640,8 @@ class CourseCriteria(Resource):
                                                  "section.$.criteria.extras": args.extras,
                                                  "section.$.criteria.hw": args.hw,
                                                  "section.$.criteria.exams": args.exams,
-                                                 "section.$.criteria.attendance": args.attendance
+                                                 "section.$.criteria.attendance": args.attendance,
+                                                 "section.$.description": args.description
                                              }})
         message = {}
         if result.modified_count == 1:
@@ -1703,4 +1750,6 @@ api.add_resource(TaskGrade, '/api/v0/courses/task/grade/<id>/<int:num>',
                  endpoint='taskGrade')
 api.add_resource(CourseCriteria, '/api/v0/courses/criteria/<id>/<int:num>',
                  endpoint='courseCriteria')
-api.add_resource(TeacherPhotoAPI, '/api/v0/teacher/profile/photo/<int:id>', endpoint='teacherPhoto')
+api.add_resource(
+    TeacherPhotoAPI, '/api/v0/teacher/profile/photo/<int:id>', endpoint='teacherPhoto')
+api.add_resource(CoursesStudents, '/api/v0/courses/students/<id>/<int:num>', endpoint='studentsOnCourse')

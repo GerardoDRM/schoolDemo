@@ -13,7 +13,15 @@ angular.module('SchoolApp').controller('CourseCriteriaCtrl', ['$scope', '$compil
       method: 'GET',
       url: '/api/v0/courses/criteria/' + $scope.id + "/" + $scope.section
     }).then(function successCallback(response) {
-      $scope.criteria = response.data;
+      $scope.criteria = response.data["criteria"];
+      $scope.description = response.data["description"];
+
+      // Add teacher image
+      if (response.data["photo"] != "") {
+        $("#teacher_photo").css({
+          "background": "url(/static/teachers/" + response.data["photo"] + ") 50% 50% / cover no-repeat"
+        });
+      }
     }, function errorCallback(response) {});
   }
 
@@ -25,7 +33,8 @@ angular.module('SchoolApp').controller('CourseCriteriaCtrl', ['$scope', '$compil
       "exams": criteria.exams !== undefined ? criteria.exams : 0,
       "participation": criteria.participation !== undefined ? criteria.participation : 0,
       "extras": criteria.extras !== undefined ? criteria.extras : 0,
-      "project": criteria.project !== undefined ? criteria.project : 0
+      "project": criteria.project !== undefined ? criteria.project : 0,
+      "description": $scope.description
     }
     $http({
       method: 'POST',

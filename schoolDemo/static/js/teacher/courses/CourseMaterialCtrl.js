@@ -87,7 +87,7 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
       '<td>' +
       '<md-button class="md-raised button-eliminate md-primary" ng-click="downloadMaterial(\'' + mt.route + '\')">Descargar Material</md-button>' +
       '<md-button class="md-raised button-eliminate" ng-click="editMaterial(' + material + ', $ev)">Editar Recurso</md-button>' +
-      '<md-button class="md-raised button-eliminate" ng-click="deleteMaterial(' + mt.published_date + ', \''+ mt.route +'\')">Eliminar Recurso</md-button>' +
+      '<md-button class="md-raised button-eliminate" ng-click="deleteMaterial(' + mt.published_date + ', \'' + mt.route + '\')">Eliminar Recurso</md-button>' +
       '</td>' +
       '</tr>'
     )($scope));
@@ -112,7 +112,7 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
     if ($scope.package.file !== undefined && $scope.package.file != "") {
       updated['file'] = $scope.package.file;
       updated['type'] = $scope.package.type;
-     }
+    }
 
     if ($scope.edition !== undefined) {
       updated['edition'] = $scope.edition;
@@ -184,7 +184,8 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
   }
 
   $scope.downloadMaterial = function(route) {
-    window.location.href = "/static/material/" + route;
+    if (route !== undefined && route != "")
+      window.open("/static/material/" + route, "_blank");
   }
 
 

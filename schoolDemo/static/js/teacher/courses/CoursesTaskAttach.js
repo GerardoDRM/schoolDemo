@@ -48,7 +48,7 @@ angular.module('SchoolApp').controller('CoursesTaskAttach', ['$scope', '$compile
   }
 
   $scope.downloadZip = function(url) {
-    window.location.href = "/static/tasks/" + url;
+    window.open("/static/tasks/" + url, "_blank");
   }
 
   $scope.updateGrade = function(pos) {

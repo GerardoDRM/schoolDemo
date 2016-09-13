@@ -58,6 +58,7 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
   }
 
   $scope.downloadMaterial = function(route) {
-    window.location.href = "/static/material/" + route;
+    if (route !== undefined && route != "")
+      window.open("/static/material/" + route, "_blank");
   }
 }]);

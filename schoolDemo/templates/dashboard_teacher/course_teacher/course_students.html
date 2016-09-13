@@ -1,0 +1,18 @@
+<div ng-controller="StudentOnCourseCtrl" ng-cloak>
+  <div class="container">
+    <form>
+      <h2>Alumnos en este curso</h2>
+      <table md-table md-row-select="options.rowSelection">
+        <thead md-head>
+          <tr md-row class="table-head">
+            <th><span></span></th>
+            <th><span>Id Estudiante</span></th>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody md-body id="students-content" class="table-body">
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

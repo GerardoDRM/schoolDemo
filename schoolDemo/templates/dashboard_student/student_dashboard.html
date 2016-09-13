@@ -40,6 +40,9 @@
         <md-tab label="Avisos" id="annuncesBtn">
           {% include "dashboard_student/course_student/course_announ.html" %}
         </md-tab>
+        <md-tab label="Acerca de la Clase" id="criteriaBtn">
+          {% include "dashboard_student/course_student/course_criteria.html" %}
+        </md-tab>
         <md-tab label="Material de Clase" id="materialBtn">
           {% include "dashboard_student/course_student/course_material.html" %}
         </md-tab>
@@ -52,13 +55,6 @@
             <h2>Esta sección se encuentra bajo remodelación</h2>
           </div>
           {# {% include "dashboard_student/course_student/course_quiz.html" %} #}
-        </md-tab>
-        <md-tab label="Criterio" id="criteriaBtn">
-          <div class="building">
-            <img src="/static/images/design/blueprint.svg" width="80px" height="80px">
-            <h2>Esta sección se encuentra bajo remodelación</h2>
-          </div>
-          {# {% include "dashboard_student/course_student/course_criteria.html" %} #}
         </md-tab>
       </md-tabs>
     </md-content>
@@ -114,8 +110,8 @@
                 // Check file size
                 if (changeEvent.target.files[0].size < 10000000) {
                   var fd = {};
-                  fd['file'] = data.replace(/^data:.*\/(.*);base64,/, "");
-                  fd['type'] = data.match(/^data:.*\/(.*);base64/)[1];
+                  fd['file'] = data.replace(/^data:[^;]+;base64,/, "");
+                  fd['type'] = changeEvent.target.files[0]["name"].split('.').pop();
                   scope.package.type = fd['type'];
                   scope.package.file = fd['file'];
                 } else {

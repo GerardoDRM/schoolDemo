@@ -1,6 +1,19 @@
 <div ng-controller="CourseCriteriaCtrl" ng-cloak>
   <div class="container">
-    <h1 style="text-align:center;">Criterios de Evaluación</h1>
+    <form class="form_reg">
+      <div>
+        <h2>Acerca del curso</h2>
+        <div class="profile_photo" id="teacher_photo" style="background: url(/static/images/design/user.svg) 50% 50% / cover no-repeat;"></div>
+        <md-input-container class="md-block" flex>
+          <label>Descripción del curso</label>
+          <textarea ng-model="description" maxlength="500" rows="5"></textarea>
+        </md-input-container>
+      </div>
+      <md-button class="md-raised md-primary" ng-click="storeCriteria()">Guardar!</button>
+    </form>
+
+    <!-- Criteria -->
+    <!--<h1 style="text-align:center;">Criterios de Evaluación</h1>
     <div class="row">
       <div class="col-md-12">
         <md-card class="card-container md-whiteframe-16dp">
@@ -36,6 +49,6 @@
         </md-card>
       </div>
 
-    </div>
+    </div>-->
   </div>
 </div>
