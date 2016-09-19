@@ -1,0 +1,4 @@
+#Ignore Folders
+./schoolDemo/static/material/
+./schoolDemo/static/teachers/
+./schoolDemo/static/tasks/

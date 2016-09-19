@@ -101,7 +101,7 @@ angular.module('SchoolApp').controller('CourseController', ['$scope', '$http', '
       '<md-card-title-text>' +
       '<div class="center-card">' +
       '<h1 class="md-headline no-margin"> ' + cou._id + ' </h1>' +
-      '<p class="md-subhead"> ID:' + cou.name + '</p>' +
+      '<p class="md-subhead"> Nombre:' + cou.name + '</p>' +
       '</div>' +
       '<md-button class="md-raised button-eliminate md-primary" ng-click="editCourse(\'' + cou._id + '\', $event)">Editar</md-button>' +
       '<md-button class="md-raised button-eliminate md-warn" ng-click="deleteCourse(\'' + cou._id + '\')">Eliminar</md-button>' +

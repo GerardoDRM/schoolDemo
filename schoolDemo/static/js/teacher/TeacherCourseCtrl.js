@@ -44,7 +44,7 @@ angular.module('SchoolApp').controller('TeacherCourseCtrl', ['$scope', '$http', 
       '</div>' +
       '<md-card-title-text>' +
       '<div class="center-card">' +
-      '<p class="no-padding"> ' + cou._id + '</p>' +
+      '<p class="no-padding"> ' + cou.name + '</p>' +
       '<p class="no-padding"> ' + level + '</p>' +
       '</div>' +
       '<md-button class="md-raised button-eliminate" ng-click="goToCourse(\'' + cou._id + '\', $event)">Ir al curso</md-button>' +
