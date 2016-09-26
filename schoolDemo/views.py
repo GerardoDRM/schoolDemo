@@ -76,7 +76,9 @@ def dashboard():
 @app.route('/teacher')
 @login_required
 def teacher():
-    return render_template("teacher_home.html")
+    principal = mongo.db.professors.find_one({"_id": int(current_user.id)}, {"principal":1, "_id": 0})
+    val = bool(principal)
+    return render_template("teacher_home.html", principal={"validate": val})
 
 
 @app.route('/student')
@@ -750,6 +752,32 @@ class TeacherPhotoAPI(Resource):
             }
 
         return jsonify(message)
+
+# This class has CRUD operatios in order to
+# manage a short cut teachers activity
+# return JSON
+class TeachersActivity(Resource):
+    def get(self):
+        courses = create_dic(mongo.db.courses.find({}, {"_id": 1, "section.hw": 1, "name":1, "section.material": 1, "section.quiz":1}))
+        teachers = create_dic(mongo.db.professors.find({},{"name":1, "_id":1, 'courses':1, 'image':1}))
+        teachers_analysis = []
+        for course in courses:
+            for teacher in teachers:
+                if course['_id'] in teacher['courses']:
+                    register = {
+                        "image": teacher['image'],
+                        "teacher_name": teacher['name'],
+                        "teacher_id": teacher['_id'],
+                        "course_id": course["_id"],
+                        "course_name": course["name"],
+                        "hw": len(course['section'][0]['hw']),
+                        "material": len(course['section'][0]['material']),
+                        "quiz": len(course['section'][0]['quiz'])
+                    }
+                    teachers_analysis.append(register)
+
+        return jsonify(activity=teachers_analysis)
+
 
 # This class has CRUD operatios in order to
 # manage teacher profile
@@ -1658,6 +1686,7 @@ class CourseCriteria(Resource):
         return jsonify(message)
 
 
+
 def create_dic(cursor):
     k = []
     for doc in cursor:
@@ -1753,3 +1782,4 @@ api.add_resource(CourseCriteria, '/api/v0/courses/criteria/<id>/<int:num>',
 api.add_resource(
     TeacherPhotoAPI, '/api/v0/teacher/profile/photo/<int:id>', endpoint='teacherPhoto')
 api.add_resource(CoursesStudents, '/api/v0/courses/students/<id>/<int:num>', endpoint='studentsOnCourse')
+api.add_resource(TeachersActivity, '/api/v0/principal/views', endpoint="teachersActivity")

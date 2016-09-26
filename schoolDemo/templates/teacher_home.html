@@ -21,6 +21,14 @@
             Avisos Administrativos
             </md-buton>
         </md-list-item>
+        {% if principal.validate %}
+        <md-list-item style="height:50px">
+          <md-button class="menu-click" id="activitiesBtn" data-content="activity">
+            <md-icon md-svg-src="/static/images/announce.svg"></md-icon>
+            Analisis de Profesores
+            </md-buton>
+        </md-list-item>
+        {% endif %}
       </md-list>
     </md-sidenav>
     <md-content id="content" class="md-padding cd-tabs-content dots-back">
@@ -36,6 +44,11 @@
       <div class="tab" data-content="announces" id="announces">
         {% include "dashboard_teacher/announces.html" %}
       </div>
+      {% if principal.validate %}
+      <div class="tab" data-content="activity" id="activity">
+        {% include "dashboard_teacher/principal_special.html" %}
+      </div>
+      {% endif %}
     </md-content>
   </div>
 </div>
