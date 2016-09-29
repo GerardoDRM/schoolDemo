@@ -8,6 +8,7 @@
           <div class="col-sm-12 margin-level">
             <md-radio-button value="c3" class="">Bachillerato</md-radio-button>
             <md-radio-button value="c4" class=""> Licenciatura </md-radio-button>
+            <md-radio-button value="c5" class=""> Maestría </md-radio-button>
           </div>
         </md-radio-group>
         <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="search()">
@@ -77,6 +78,9 @@
                     </md-input-container>
                     <div>
                       <h3>Nivel</h3>
+                      <md-checkbox ng-model="prof.level.c5" aria-label="Master">
+                        Maestría
+                      </md-checkbox>
                       <md-checkbox ng-model="prof.level.c4" aria-label="Bachelor">
                         Licenciatura
                       </md-checkbox>

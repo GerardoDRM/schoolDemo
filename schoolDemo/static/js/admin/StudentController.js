@@ -16,7 +16,8 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
     "c1": "Primaria",
     "c2": "Secundaria",
     "c3": "Bachillerato",
-    "c4": "Licenciatura"
+    "c4": "Licenciatura",
+    "c5": "Maestría"
   }
 
   $('#student-tab').click(function() {

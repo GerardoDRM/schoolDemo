@@ -4,7 +4,8 @@ angular.module('SchoolApp').controller('StudentCourseCtrl', ['$scope', '$http', 
     "c1": "Primaria",
     "c2": "Secundaria",
     "c3": "Bachillerato",
-    "c4": "Licenciatura"
+    "c4": "Licenciatura",
+    "c5": "Maestría"
   }
 
   $('#classesBtn').click(function() {
