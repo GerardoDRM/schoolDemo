@@ -9,7 +9,8 @@ angular.module('SchoolApp').controller('TeachersActivityCtrl', ['$scope', '$http
   $scope.getTeacherAnalytics = function() {
     $http({
       method: 'GET',
-      url: '/api/v0/principal/views'
+      url: '/api/v0/principal/views',
+      params: {"id": $scope.id}
     }).then(function successCallback(response) {
       var activity = response.data["activity"];
       for (var i in activity) {

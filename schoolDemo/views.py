@@ -758,7 +758,12 @@ class TeacherPhotoAPI(Resource):
 # return JSON
 class TeachersActivity(Resource):
     def get(self):
-        courses = create_dic(mongo.db.courses.find({}, {"_id": 1, "section.hw": 1, "name":1, "section.material": 1, "section.quiz":1}))
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', type=int, required=True)
+        args = parser.parse_args()
+        # First get principal level
+        principal = mongo.db.professors.find_one({"_id": args.id}, {"principal_level": 1, "_id": 0})
+        courses = create_dic(mongo.db.courses.find({"level":{"$in": principal["principal_level"]}}, {"_id": 1, "section.hw": 1, "name":1, "section.material": 1, "section.quiz":1}))
         teachers = create_dic(mongo.db.professors.find({},{"name":1, "_id":1, 'courses':1, 'image':1}))
         teachers_analysis = []
         for course in courses:
