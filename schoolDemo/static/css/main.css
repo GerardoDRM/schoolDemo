@@ -385,6 +385,9 @@ footer {
     width: 50px;
     height: 50px; }
 
+.assistance-form {
+  overflow: auto; }
+
 /**
   * Icons Partial SASS
   * This SASS file has most of the icons
@@ -544,6 +547,19 @@ md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
   margin: 0 auto;
   text-align: center;
   width: 100%; }
+
+.table-attendance .medium-box {
+  width: 30px; }
+.table-attendance .dates {
+  display: flex; }
+  .table-attendance .dates .date-box {
+    width: 25px;
+    border: 1px solid #ccc; }
+.table-attendance .dates-inputs {
+  display: flex;
+  padding: 12px; }
+  .table-attendance .dates-inputs .date-box {
+    width: 20px; }
 
 /*Media Queries*/
 @media (min-width: 768px) {

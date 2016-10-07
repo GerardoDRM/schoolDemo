@@ -1,8 +1,22 @@
 <div ng-controller="StudentOnCourseCtrl" ng-cloak>
   <div class="container">
-    <form>
-      <h2>Alumnos en este curso</h2>
-      <table md-table md-row-select="options.rowSelection">
+    <form class="assistance-form">
+      <h2>Asistencia de alumnos</h2>
+      <table md-table md-row-select="options.rowSelection" class="table-attendance">
+        <!-- <thead md-head>
+          <tr md-row class="table-head">
+            <th class="medium-box"><span>Id Estudiante</span></th>
+            <th class="medium-box">Nombre</th>
+            <th>
+              <p>{{current_month|angular}}</p>
+              <div class="dates" id="month-dates">
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody md-body class="table-body" id="students-content">
+
+        </tbody> -->
         <thead md-head>
           <tr md-row class="table-head">
             <th><span></span></th>

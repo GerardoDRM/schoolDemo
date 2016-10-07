@@ -107,3 +107,23 @@ md-tabs.md-default-theme md-tabs-wrapper, md-tabs md-tabs-wrapper {
   text-align: center;
   width: 100%;
 }
+
+.table-attendance {
+  .medium-box {
+    width: 30px;
+  }
+  .dates {
+    display: flex;
+    .date-box {
+      width: 25px;
+      border: 1px solid #ccc;
+    }
+  }
+  .dates-inputs {
+    display: flex;
+    padding: 12px;
+    .date-box {
+      width: 20px;
+    }
+  }
+}
