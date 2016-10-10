@@ -136,27 +136,37 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       completeDueDate = "No hay limite";
     }
 
+    // Check if student still on time
+    var attachment = "";
+    if (completeDueDate != "No hay limite" && moment(completeDueDate, "DD/MM/YYYY hh:mm").isBefore(moment())) {
+      attachment = "";
+    } else {
+      var updateTemplate = '<md-button class="md-raised md-primary" ng-click="uploadFile(' + pos + ')" id="uploadFileBtn">' +
+        'Subir Archivo' +
+        '</md-button>';
 
-    var updateTemplate = '<md-button class="md-raised md-primary" ng-click="uploadFile(' + pos + ')" id="uploadFileBtn">' +
-      'Subir Archivo' +
-      '</md-button>';
+      var deleteTemplate = '<md-button class="md-raised md-warn" ng-click="deleteFile(' + pos + ')" id="updateFileBtn">' +
+        'Eliminar Archivo' +
+        '</md-button>';
 
-    var deleteTemplate = '<md-button class="md-raised md-warn" ng-click="deleteFile(' + pos + ')" id="updateFileBtn">' +
-      'Eliminar Archivo' +
-      '</md-button>';
+      var btnTemplate = _checkAttach(pos) ? deleteTemplate : updateTemplate;
+      // Check if student can attach a hw
+      var template = '<md-input-container class="md-icon-float md-block">' +
+        'Agregar archivo' +
+        '<md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">' +
+        '</md-icon>' +
+        '<input type="file" fileread ng-model="route" id="file">' +
+        '</md-input-container>' +
+        btnTemplate;
 
-    var btnTemplate = _checkAttach(pos) ? deleteTemplate : updateTemplate;
-    // Check if student can attach a hw
-    var template = '<md-input-container class="md-icon-float md-block">' +
-      'Agregar archivo' +
-      '<md-icon md-svg-src="/static/images/ic_attachment.svg" class="material-icons step" aria-label="attachment">' +
-      '</md-icon>' +
-      '<input type="file" fileread ng-model="route" id="file">' +
-      '</md-input-container>' +
-      btnTemplate;
+      attachment = hw.attachment == 1 ? template : "";
+    }
 
-
-    var attachment = hw.attachment == 1 ? template : "";
+    // Check homework
+    var downLoad = "";
+    if (hw.route !== undefined && hw.route != "" && hw.route != null) {
+      downLoad = '<md-button class="md-raised button-eliminate md-primary" style="width:100%;" ng-click="downloadTask(\'' + hw.route + '\')">Descargar Tarea</md-button>';
+    }
 
     angular.element(document.getElementById('hw-content')).append($compile(
       '<md-card style="background:#E0E0E0">' +
@@ -171,8 +181,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '<p class="md-subhead"> ' + hw.content + '</p>' +
       '</div>' +
       '<div class="col-sm-4"> ' +
-      '<div class="col-sm-4" style="height:25px;"><img  width="25px"  alt="." src="/static/images/calendar.svg" width="25px"></div>' +
-      '<div class="col-sm-8"><p>' + pDate + '</p></div>' +
+      downLoad +
       attachment +
       '</div>' +
       '</div>' +
@@ -206,6 +215,12 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       }
     }
 
+  }
+
+
+  $scope.downloadTask = function(route) {
+    if (route !== undefined && route != "")
+      window.open("/static/tasks/" + route, "_blank");
   }
 
 }]);

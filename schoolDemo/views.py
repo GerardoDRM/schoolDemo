@@ -412,6 +412,7 @@ class SchoolStudents(Resource):
                             location='json', required=True)
         parser.add_argument('email', type=unicode, location='json')
         parser.add_argument('level', type=str, location='json', required=True)
+        parser.add_argument('semester', type=str, location='json', required=True)
         parser.add_argument('courses', type=list, location='json')
         args = parser.parse_args()
 
@@ -431,6 +432,7 @@ class SchoolStudents(Resource):
             "password": args.password,
             "email": args.email if args.email is not None else '',
             "level": args.level,
+            "semester": args.semester,
             "courses": args.courses if args.courses is not None else []
         }}, upsert=True)
 
@@ -1016,10 +1018,16 @@ class CoursesTasks(Resource):
         parser.add_argument('attachment', type=int,
                             location='json', required=True)
         parser.add_argument('position', type=str, location='json')
+        parser.add_argument('file', type=str,
+                            location='json')
+        parser.add_argument('edition', type=int, location='json')
+        parser.add_argument('file_name', type=str, location='json')
+        parser.add_argument('type', type=str, location='json')
         args = parser.parse_args()
 
         # Update existing data else create new document
         if args.position is None:
+            file_name = ""
             data = {
                 "content": args.content,
                 "title": args.title,
@@ -1028,6 +1036,18 @@ class CoursesTasks(Resource):
                 "attachment": args.attachment,
                 "attachments": []
             }
+            if args.file is not None:
+                path_dir = "/static/tasks/"
+                file_type = "." + args.type
+                file_name = create_file_name("school", file_type)
+                path_file = path_dir + file_name
+                # Create image
+                if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                    create_image(path_file, args.file)
+                else:
+                    create_package(path_file, args.file)
+            data["route"] = file_name
+
             if args.end_date is not None and args.end_hour is not None:
                 data["end_date"] = args.end_date
                 data["end_hour"] = args.end_hour
@@ -1040,12 +1060,47 @@ class CoursesTasks(Resource):
                 "code": 1
             }
         else:
+            route = None
+            if args.edition == 0:
+                if args.file is not None:
+                    path_dir = "/static/tasks/"
+                    # Create file
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
+                    path_file = path_dir + file_name
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
+                    route = file_name
+                else:
+                    route = args.file_name
+            elif args.edition == 1:
+                path_dir = "/static/tasks/"
+                # Remove file
+                remove_file = path_dir + args.file_name
+                delete_file(remove_file)
+                route = ""
+                if args.file is not None:
+                    # Create file
+                    file_type = "." + args.type
+                    file_name = create_file_name("school", file_type)
+                    path_file = path_dir + file_name
+                    # Create image
+                    if args.type == "jpg" or args.type == "png" or args.type == "JPEG":
+                        create_image(path_file, args.file)
+                    else:
+                        create_package(path_file, args.file)
+                    route = file_name
+
             pos = args.position
             data = {
                 "section.$.hw." + pos + ".content": args.content,
                 "section.$.hw." + pos + ".title": args.title,
                 "section.$.hw." + pos + ".model": args.model,
-                "section.$.hw." + pos + ".attachment": args.attachment
+                "section.$.hw." + pos + ".attachment": args.attachment,
+                "section.$.hw." + pos + ".route": route
             }
             if args.end_date is not None and args.end_hour is not None:
                 data["section.$.hw." + pos + ".end_date"] = args.end_date
@@ -1065,6 +1120,8 @@ class CoursesTasks(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('published_date', type=int,
                             location='json', required=True)
+        parser.add_argument('file_name', type=str, location='json')
+
         args = parser.parse_args()
 
         result = mongo.db.courses.update_one({"_id": id, "section.sec": num}, {"$pull": {
@@ -1077,6 +1134,11 @@ class CoursesTasks(Resource):
                 "status": 200,
                 "code": 1
             }
+            if args.file_name is not None:
+                path_dir = "/static/tasks/"
+                file_name = args.file_name
+                path_file = path_dir + file_name
+                delete_file(path_file)
         else:
             message = {
                 "status": 201,

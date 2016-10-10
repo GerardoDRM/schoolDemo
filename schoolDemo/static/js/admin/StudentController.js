@@ -88,7 +88,8 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       "password": $scope.stu.password,
       "email": $scope.stu.email,
       "courses": courses_key,
-      "level": $scope.stu.level
+      "level": $scope.stu.level,
+      "semester": $scope.stu.semester
     }
 
     var flag = false;
@@ -149,6 +150,7 @@ angular.module('SchoolApp').controller('StudentController', ['$scope', '$http', 
       '<h1 class="md-headline no-margin"> ' + stu.name + ' </h1>' +
       '<p class="md-subhead"> ID:' + stu._id + '</p>' +
       '<p class="md-subhead"> Contraseña: ' + stu.password + '</p>' +
+      '<p class="md-subhead"> Semestre: ' + stu.semester + '</p>' +
       '</div>' +
       '<md-button class="md-raised button-eliminate  md-primary" ng-click="editStudent(' + stu._id + ', $event)">Editar</md-button>' +
       '<md-button class="md-raised button-eliminate  md-warn" ng-click="deleteStudent(' + stu._id + ')">Eliminar</md-button>' +

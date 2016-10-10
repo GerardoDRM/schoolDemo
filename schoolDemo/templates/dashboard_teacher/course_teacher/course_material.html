@@ -26,7 +26,7 @@
   <div style="visibility: hidden">
     <div class="md-dialog-container" id="CourseDialogMaterial">
       <md-dialog aria-label="Crear una nueva actividad o tarea" ng-cloak class="card-dialog">
-        <form>
+        <form name="materialForm" novalidate>
           <md-toolbar>
             <div class="md-toolbar-tools">
               <h2>Crear recursos para clase</h2>
@@ -36,15 +36,22 @@
           <md-dialog-content layout="column">
             <div class="md-dialog-content">
               <div layout="column">
-                <md-input-container class="md-block input-margin" flex>
+                <p>*Nota: Si se desea insertar un video, agregue el link en la descripción, ya que el paquete actual de la plataforma no cuenta con la capacidad de almacenamiento para videos</p>
+                <md-input-container class="md-block input-margin">
                   <label>Título del recurso</label>
-                  <input ng-model="material.title">
+                  <input ng-model="material.title" type="text" name="title" required>
+                  <div ng-show="materialForm.$submitted || materialForm.title.$touched" class="error-msg">
+                    <span ng-show="materialForm.title.$error.required">Campo obligatorio.</span>
+                  </div>
                 </md-input-container>
-                <md-input-container class="md-block input-margin" flex>
+                <md-input-container class="md-block input-margin">
                   <label>Descripción del recurso</label>
-                  <textarea ng-model="material.content" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                  <textarea ng-model="material.content" md-maxlength="200" rows="4" md-select-on-focus name="content" required></textarea>
+                  <div ng-show="materialForm.$submitted || materialForm.content.$touched" class="error-msg">
+                    <span ng-show="materialForm.content.$error.required">Campo obligatorio.</span>
+                  </div>
                 </md-input-container>
-                <div class="row margin-block">
+                <div class="row">
                   <div class="col-sm-6">
                     <md-input-container class="md-icon-float md-block">
                       <label>Agregar archivo</label>
@@ -68,7 +75,7 @@
             <md-button ng-click="cancel()">
               Cancelar
             </md-button>
-            <md-button ng-click="createMaterial()" style="margin-right:20px;">
+            <md-button ng-click="createMaterial(materialForm.$valid)" style="margin-right:20px;">
               Crear
             </md-button>
           </md-dialog-actions>

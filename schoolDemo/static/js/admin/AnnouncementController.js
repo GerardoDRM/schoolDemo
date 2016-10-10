@@ -4,7 +4,8 @@ angular.module('SchoolApp').controller('AnnouncementController', ['$scope', '$ht
     "c1": "Primaria",
     "c2": "Secundaria",
     "c3": "Bachillerato",
-    "c4": "Licenciatura"
+    "c4": "Licenciatura",
+    "c5": "Maestría"
   }
 
   $('#announ-tab').click(function() {

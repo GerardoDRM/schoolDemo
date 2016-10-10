@@ -93,43 +93,44 @@ angular.module('SchoolApp').controller('CourseMaterialCtrl', ['$scope', '$compil
     )($scope));
   }
 
-  $scope.createMaterial = function() {
+  $scope.createMaterial = function(form) {
+    if (form) {
+      // Create Announcement
+      $scope.material.published_date = moment().unix();
 
-    // Create Announcement
-    $scope.material.published_date = moment().unix();
+      var updated = {
+        "content": $scope.material.content,
+        "title": $scope.material.title,
+        "published_date": $scope.material.published_date
+      }
 
-    var updated = {
-      "content": $scope.material.content,
-      "title": $scope.material.title,
-      "published_date": $scope.material.published_date
+      // Check if is an update
+      if ($scope.position !== undefined) {
+        updated['position'] = $scope.position;
+      }
+
+      if ($scope.package.file !== undefined && $scope.package.file != "") {
+        updated['file'] = $scope.package.file;
+        updated['type'] = $scope.package.type;
+      }
+
+      if ($scope.edition !== undefined) {
+        updated['edition'] = $scope.edition;
+        updated['file_name'] = $scope.route;
+      }
+
+      $http({
+        method: 'POST',
+        url: '/api/v0/courses/material/' + $scope.id + "/" + $scope.section,
+        data: updated
+      }).then(function successCallback(response) {
+        $('#materialBtn').click();
+        addFeedback("Se ha creado el material de clase", 'success');
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
+      $mdDialog.cancel();  
     }
-
-    // Check if is an update
-    if ($scope.position !== undefined) {
-      updated['position'] = $scope.position;
-    }
-
-    if ($scope.package.file !== undefined && $scope.package.file != "") {
-      updated['file'] = $scope.package.file;
-      updated['type'] = $scope.package.type;
-    }
-
-    if ($scope.edition !== undefined) {
-      updated['edition'] = $scope.edition;
-      updated['file_name'] = $scope.route;
-    }
-
-    $http({
-      method: 'POST',
-      url: '/api/v0/courses/material/' + $scope.id + "/" + $scope.section,
-      data: updated
-    }).then(function successCallback(response) {
-      $('#materialBtn').click();
-      addFeedback("Se ha creado el material de clase", 'success');
-    }, function errorCallback(response) {
-      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-    });
-    $mdDialog.cancel();
   }
 
   // This method search on task array

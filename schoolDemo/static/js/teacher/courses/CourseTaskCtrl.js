@@ -5,6 +5,14 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   $scope.hw = {};
   $scope.tasks = [];
   $scope.position = undefined;
+  $scope.route = undefined;
+  $scope.edition = undefined;
+
+  $scope.package = {
+    file: '',
+    type: ''
+  };
+
   var modelDict = {
     "homework": "Tarea",
     "project": "Proyecto",
@@ -20,15 +28,25 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     $scope.hw = {};
     $scope.tasks = [];
     $scope.positon = undefined;
+    $scope.route = undefined;
+    $scope.edition = undefined;
+    $scope.package = {
+      file: '',
+      type: ''
+    };
     $scope.getTasks();
   });
 
   $scope.getTasks = function() {
+    console.log($scope.hw);
     $('#hw-content').empty();
     $http({
       method: 'GET',
       url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section
     }).then(function successCallback(response) {
+      $("#fileBtnTask").css({
+        "display": "none"
+      });
       var dataList = response.data['tasks'];
       for (var task in dataList) {
         var draw = dataList[task];
@@ -36,7 +54,7 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
         if (draw.end_date !== undefined && draw.end_date != "") {
           draw.end_date = new Date(draw.end_date * 1000);
           draw.end_hour = new Date(draw.end_hour * 1000);
-        } 
+        }
         $scope.tasks.push(draw);
       }
     }, function errorCallback(response) {});
@@ -75,8 +93,9 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
       '</div>' +
       '<div class="col-sm-4"> ' +
       attach +
+      '<md-button class="md-raised button-eliminate md-primary" ng-click="downloadTask(\'' + hw.route + '\')">Descargar Tarea</md-button>' +
       '<md-button class="md-raised button-eliminate" ng-click="editTask(' + task + ', $ev)">Editar Tarea</md-button>' +
-      '<md-button class="md-raised button-eliminate md-warn" ng-click="deleteTask(' + hw.published_date + ')">Eliminar Tarea</md-button>' +
+      '<md-button class="md-raised button-eliminate md-warn" ng-click="deleteTask(' + hw.published_date + ', \'' + hw.route + '\')">Eliminar Tarea</md-button>' +
       '</div>' +
       '</div>' +
       '</md-card-title-text> ' +
@@ -104,38 +123,50 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
   };
 
 
-  $scope.createHw = function() {
-    // Create Task
-    $scope.hw.published_date = moment().unix();
-    var updated = {
-      "content": $scope.hw.content,
-      "title": $scope.hw.title,
-      "published_date": $scope.hw.published_date,
-      "model": $scope.hw.model,
-      "attachment": $scope.hw.attachment == true ? 1 : 0
-    }
+  $scope.createHw = function(form) {
+    if (form) {
+      // Create Task
+      $scope.hw.published_date = moment().unix();
+      var updated = {
+        "content": $scope.hw.content,
+        "title": $scope.hw.title,
+        "published_date": $scope.hw.published_date,
+        "model": $scope.hw.model,
+        "attachment": $scope.hw.attachment == true ? 1 : 0
+      }
 
-    if ($scope.hw.end_date !== undefined && $scope.hw.end_hour !== undefined) {
-      updated["end_date"] = moment($scope.hw.end_date).unix();
-      updated["end_hour"] = moment($scope.hw.end_hour).unix();
-    }
+      if ($scope.hw.end_date !== undefined && $scope.hw.end_hour !== undefined) {
+        updated["end_date"] = moment($scope.hw.end_date).unix();
+        updated["end_hour"] = moment($scope.hw.end_hour).unix();
+      }
 
-    // Check if is an update
-    if ($scope.position !== undefined) {
-      updated['position'] = $scope.position;
-    }
+      // Check if is an update
+      if ($scope.position !== undefined) {
+        updated['position'] = $scope.position;
+      }
 
-    $http({
-      method: 'POST',
-      url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section,
-      data: updated
-    }).then(function successCallback(response) {
-      $('#taskBtn').click();
-      addFeedback("Se ha creado la tarea", 'success');
-    }, function errorCallback(response) {
-      addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
-    });
-    $mdDialog.cancel();
+      if ($scope.package.file !== undefined && $scope.package.file != "") {
+        updated['file'] = $scope.package.file;
+        updated['type'] = $scope.package.type;
+      }
+
+      if ($scope.edition !== undefined) {
+        updated['edition'] = $scope.edition;
+        updated['file_name'] = $scope.route;
+      }
+
+      $http({
+        method: 'POST',
+        url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section,
+        data: updated
+      }).then(function successCallback(response) {
+        $('#taskBtn').click();
+        addFeedback("Se ha creado la tarea", 'success');
+      }, function errorCallback(response) {
+        addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
+      });
+      $mdDialog.cancel();
+    }
   }
 
   // This method search on task array
@@ -144,7 +175,15 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     var dataList = $scope.tasks;
     $scope.hw = dataList[pos]
     $scope.position = pos;
+    $scope.route = $scope.hw.route;
     $scope.hw.attachment = $scope.hw.attachment == 1 ? true : false;
+    if ($scope.route !== undefined && $scope.route != "") {
+      $("#fileTask").attr("disabled", true);
+      $("#fileBtnTask").css({
+        "display": "block"
+      });
+    }
+    $scope.edition = 0;
     $mdDialog.show({
       contentElement: '#CourseDialogTask',
       parent: angular.element(document.body),
@@ -153,13 +192,26 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     });
   }
 
-  $scope.deleteTask = function(date) {
+  $scope.updateFile = function() {
+    $("#fileTask").attr("disabled", false);
+    $scope.edition = 1;
+    $("#fileBtnTask").css({
+      "display": "none"
+    });
+  }
+
+  $scope.deleteTask = function(date, name) {
+    var data = {
+      "published_date": parseInt(date)
+    };
+    if (name !== undefined && name != "undefined" && name != "null" &&  name != "") {
+      data['file_name'] = name;
+    }
+
     $http({
       method: 'DELETE',
       url: '/api/v0/courses/task/' + $scope.id + "/" + $scope.section,
-      data: {
-        "published_date": parseInt(date)
-      },
+      data: data,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -169,6 +221,11 @@ angular.module('SchoolApp').controller('CourseTaskCtrl', ['$scope', '$compile', 
     }, function errorCallback(response) {
       addFeedback("Se ha presentado un error, por favor vuelva a intentarlo", 'error');
     });
+  }
+
+  $scope.downloadTask = function(route) {
+    if (route !== undefined && route != "")
+      window.open("/static/tasks/" + route, "_blank");
   }
 
 }]);
