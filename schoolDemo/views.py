@@ -58,13 +58,12 @@ def logout():
 
 @app.route('/')
 def home():
-    return render_template("no_payment.html")
+    return render_template("login.html")
 
 
 @app.route('/dash')
 @login_required
 def dashboard():
-    return render_template("no_payment.html")
     if current_user.type == "student":
         route = 'student'
     elif current_user.type == "teacher":
