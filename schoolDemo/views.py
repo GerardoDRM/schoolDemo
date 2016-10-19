@@ -58,12 +58,13 @@ def logout():
 
 @app.route('/')
 def home():
-    return render_template("login.html")
+    return render_template("no_payment.html")
 
 
 @app.route('/dash')
 @login_required
 def dashboard():
+    return render_template("no_payment.html")
     if current_user.type == "student":
         route = 'student'
     elif current_user.type == "teacher":
@@ -76,6 +77,7 @@ def dashboard():
 @app.route('/teacher')
 @login_required
 def teacher():
+    return render_template("no_payment.html")
     principal = mongo.db.professors.find_one({"_id": int(current_user.id)}, {"principal":1, "_id": 0})
     val = bool(principal)
     return render_template("teacher_home.html", principal={"validate": val})
