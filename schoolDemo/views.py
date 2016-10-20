@@ -76,7 +76,6 @@ def dashboard():
 @app.route('/teacher')
 @login_required
 def teacher():
-    return render_template("no_payment.html")
     principal = mongo.db.professors.find_one({"_id": int(current_user.id)}, {"principal":1, "_id": 0})
     val = bool(principal)
     return render_template("teacher_home.html", principal={"validate": val})
